@@ -30,6 +30,7 @@ connection.connect((err) => {
 
 // POST-Route zum Verarbeiten des Formulars
 app.post('/submit', (req, res) => {
+    
     const namet = req.body.name;
 
     // SQL-Query, um den Namen in die Tabelle einzufügen
