@@ -34,38 +34,53 @@ app.use(session({
     cookie: { maxAge: 600000 }
 }));
 
-// Route zum Registrieren mit Rang-Logik
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
 
-    // Zuerst prüfen, ob bereits Benutzer existieren
-    const checkUserCountSql = 'SELECT COUNT(*) AS count FROM namen';
-    db.query(checkUserCountSql, (err, results) => {
+    // Überprüfen, ob der Benutzername bereits existiert
+    const checkUsernameSql = 'SELECT * FROM namen WHERE username = ?';
+    db.query(checkUsernameSql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
             res.status(500).send('Fehler bei der Registrierung.');
             return;
         }
 
-        const userCount = results[0].count;
-        let rank;
-
-        // Wenn keine Benutzer existieren, erhalte den Rang 3, sonst 1
-        if (userCount === 0) {
-            rank = 3;
-        } else {
-            rank = 1;
+        // Falls Benutzername bereits existiert, Fehlermeldung zurückgeben
+        if (results.length > 0) {
+            res.status(400).send('Benutzername ist bereits vergeben. Bitte wähle einen anderen.');
+            return;
         }
 
-        // Benutzer mit entsprechendem Rang in die Datenbank einfügen
-        const sql = 'INSERT INTO namen (username, password, rank) VALUES (?, ?, ?)';
-        db.query(sql, [username, password, rank], (err, result) => {
+        // Zuerst prüfen, ob bereits Benutzer existieren
+        const checkUserCountSql = 'SELECT COUNT(*) AS count FROM namen';
+        db.query(checkUserCountSql, (err, results) => {
             if (err) {
                 console.error('Datenbankfehler:', err);
                 res.status(500).send('Fehler bei der Registrierung.');
                 return;
             }
-            res.send('Registrierung erfolgreich! Dein Rang ist ' + rank);
+
+            const userCount = results[0].count;
+            let rank;
+
+            // Wenn keine Benutzer existieren, erhalte den Rang 3, sonst 1
+            if (userCount === 0) {
+                rank = 3;
+            } else {
+                rank = 1;
+            }
+
+            // Benutzer mit entsprechendem Rang in die Datenbank einfügen
+            const insertUserSql = 'INSERT INTO namen (username, password, rank) VALUES (?, ?, ?)';
+            db.query(insertUserSql, [username, password, rank], (err, result) => {
+                if (err) {
+                    console.error('Datenbankfehler:', err);
+                    res.status(500).send('Fehler bei der Registrierung.');
+                    return;
+                }
+                res.send('Registrierung erfolgreich! Dein Rang ist ' + rank);
+            });
         });
     });
 });
