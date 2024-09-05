@@ -36,10 +36,10 @@ app.use(session({
 
 // Route zum Registrieren
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, rank } = req.body; // Rank wird auch erfasst
 
-    const sql = 'INSERT INTO namen (username, password) VALUES (?, ?)';
-    db.query(sql, [username, password], (err, result) => {
+    const sql = 'INSERT INTO namen (username, password, rank) VALUES (?, ?, ?)';
+    db.query(sql, [username, password, rank], (err, result) => {
         if (err) {
             console.error('Datenbankfehler:', err);
             res.status(500).send('Fehler bei der Registrierung.');
@@ -53,7 +53,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    const sql = 'SELECT password FROM namen WHERE username = ?';
+    const sql = 'SELECT password, rank FROM namen WHERE username = ?';
     db.query(sql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
@@ -67,13 +67,25 @@ app.post('/login', (req, res) => {
         }
 
         const storedPassword = results[0].password;
+        const rank = results[0].rank; // Hole den Rank aus der Datenbank
 
         // Passwort vergleichen
         if (password === storedPassword) {
             // Benutzer ist eingeloggt, Session setzen
             req.session.loggedIn = true;
             req.session.username = username;
-            res.json({ success: true });
+            req.session.rank = rank; // Rank in der Session speichern
+
+            // Weiterleitung basierend auf dem Rank
+            if (rank === 1) {
+                res.redirect('/dashboard1');
+            } else if (rank === 2) {
+                res.redirect('/dashboard2');
+            } else if (rank === 3) {
+                res.redirect('/dashboard3');
+            } else {
+                res.status(403).send('Unbekannter Rang.');
+            }
         } else {
             res.json({ success: false, message: 'Falsches Passwort.' });
         }
@@ -89,9 +101,19 @@ function isAuthenticated(req, res, next) {
     }
 }
 
-// Route zum Dashboard (geschützt)
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+// Dashboard-Route für Rank 1
+app.get('/dashboard1', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboardUser.html'));
+});
+
+// Dashboard-Route für Rank 2
+app.get('/dashboard2', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboardManager.html'));
+});
+
+// Dashboard-Route für Rank 3
+app.get('/dashboard3', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboardAdmin.html'));
 });
 
 // Route zum Abmelden
