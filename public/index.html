@@ -6,27 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benutzer Registrierung und Anmeldung</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 
 <body>
-    
-    <h1>Benutzer Registrierung und Anmeldung</h1>
 
-    <!-- Registrierung -->
-    <form id="registerForm">
-        <h2>Registrierung</h2>
-        <div class="form-group">
-            <label for="registerUsername">Benutzername:</label>
-            <input type="text" id="registerUsername" name="username" required>
-        </div>
-        <div class="form-group">
-            <label for="registerPassword">Passwort:</label>
-            <input type="password" id="registerPassword" name="password" required>
-        </div>
-        <div class="form-group">
-            <button type="submit">Registrieren</button>
-        </div>
-    </form>
+    <h1>Benutzer Anmeldung</h1>
+
 
     <!-- Anmeldung -->
     <form id="loginForm">
@@ -42,54 +28,13 @@
         <div class="form-group">
             <button type="submit">Anmelden</button>
         </div>
+        <div class="new-registeration">
+            <a href="register.html">Noch keine Konto ?</a>
+        </div>
     </form>
 
     <div class="result" id="result"></div>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const formData = new URLSearchParams(new FormData(this)).toString();
-
-            fetch('/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData
-            })
-                .then(response => response.text())
-                .then(result => {
-                    document.getElementById('result').textContent = result;
-                })
-                .catch(error => {
-                    document.getElementById('result').textContent = 'Fehler bei der Registrierung.';
-                    console.error('Fehler:', error);
-                });
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const formData = new URLSearchParams(new FormData(this)).toString();
-
-            fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        // Bei erfolgreicher Anmeldung weiterleiten
-                        window.location.href = '/dashboard'; // Ersetze '/dashboard' durch den Pfad zur neuen Seite
-                    } else {
-                        document.getElementById('result').textContent = result.message;
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('result').textContent = 'Fehler bei der Anmeldung.';
-                    console.error('Fehler:', error);
-                });
-        });
-    </script>
 </body>
 
 </html>
