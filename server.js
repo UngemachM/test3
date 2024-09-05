@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const mysql = require('mysql2'); // Importiere mysql2
+const mysql = require('mysql2');
+const session = require('express-session'); // Session Middleware
 
 const app = express();
 const port = 3000;
@@ -11,56 +12,99 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Statische Dateien (HTML, CSS, JS) aus dem aktuellen Verzeichnis bedienen
 app.use(express.static(path.join(__dirname, 'public')));
+
 // MySQL-Datenbankverbindung konfigurieren
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'name_db'
 });
 
-// Verbindung zur Datenbank herstellen
-connection.connect((err) => {
-    if (err) {
-        console.error('Fehler beim Verbinden zur Datenbank:', err);
-        return;
+db.connect(err => {
+    if (err) throw err;
+    console.log('Datenbank verbunden.');
+});
+
+// Session-Konfiguration
+app.use(session({
+    secret: 'geheimnisvollerSchlüssel', // Ersetze durch einen echten geheimen Schlüssel
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 600000 } // Sitzung läuft nach 10 Minuten ab
+}));
+
+// Route zum Registrieren
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+
+    const sql = 'INSERT INTO namen (username, password) VALUES (?, ?)';
+    db.query(sql, [username, password], (err, result) => {
+        if (err) {
+            console.error('Datenbankfehler:', err);
+            res.status(500).send('Fehler bei der Registrierung.');
+            return;
+        }
+        res.send('Registrierung erfolgreich!');
+    });
+});
+
+// Route zum Anmelden
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    const sql = 'SELECT password FROM namen WHERE username = ?';
+    db.query(sql, [username], (err, results) => {
+        if (err) {
+            console.error('Datenbankfehler:', err);
+            res.status(500).send('Fehler bei der Anmeldung.');
+            return;
+        }
+
+        if (results.length === 0) {
+            res.json({ success: false, message: 'Benutzername nicht gefunden.' });
+            return;
+        }
+
+        const storedPassword = results[0].password;
+
+        // Passwort vergleichen
+        if (password === storedPassword) {
+            // Benutzer ist eingeloggt, Session setzen
+            req.session.loggedIn = true;
+            req.session.username = username;
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'Falsches Passwort.' });
+        }
+    });
+});
+
+// Middleware zum Überprüfen, ob der Benutzer eingeloggt ist
+function isAuthenticated(req, res, next) {
+    if (req.session.loggedIn) {
+        return next();
+    } else {
+        res.redirect('/'); // Leite zurück zur Startseite oder Login-Seite, wenn nicht eingeloggt
     }
-    console.log('Erfolgreich mit der Datenbank verbunden.');
+}
+
+// Route zum Dashboard (geschützt)
+app.get('/dashboard', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-// POST-Route zum Verarbeiten des Formulars
-app.post('/submit', (req, res) => {
-    
-    const namet = req.body.name;
-
-    // SQL-Query, um den Namen in die Tabelle einzufügen
-    const query = 'INSERT INTO namen (name) VALUES (?)';
-
-    // Führe die Datenbankabfrage aus
-    console.log(namet)
-    connection.query(query, [namet], (error, results) => {
-        if (error) {
-            console.error('2222Fehler beim Einfügen in die Datenbank:', error);
-            return res.status(500).send('Fehler beim Einfügen in die Datenbank.');
+// Route zum Abmelden
+app.post('/logout', (req, res) => {
+    // Session zerstören
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('Fehler beim Abmelden.');
         }
-        // Erfolgreiche Einfügung, sende Bestätigungsnachricht
-        res.send(`Hallo, ${namet}! Dein Name wurde erfolgreich in die Datenbank eingetragen.`);
+        res.redirect('/'); // Zurück zur Startseite nach Abmeldung
     });
 });
 
-
-// GET-Route zum Auslesen der Daten
-app.get('/benutzer', (req, res) => {
-    connection.query('SELECT * FROM namen', (error, results) => {
-        if (error) {
-            console.error('Fehler beim Auslesen der Daten:', error);
-            return res.status(500).send('Fehler beim Auslesen der Daten.');
-        }
-        res.json(results); // Sende die Daten als JSON zurück
-    });
-});
-
-// Starte den Server
 app.listen(port, () => {
     console.log(`Server läuft auf http://localhost:${port}`);
 });

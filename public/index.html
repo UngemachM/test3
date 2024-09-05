@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formular senden</title>
+    <title>Benutzer Registrierung und Anmeldung</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,41 +42,82 @@
     </style>
 </head>
 <body>
-    <h1>Formular zur Dateneingabe</h1>
-    <form id="myForm">
+    <h1>Benutzer Registrierung und Anmeldung</h1>
+
+    <!-- Registrierung -->
+    <form id="registerForm">
+        <h2>Registrierung</h2>
         <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="registerUsername">Benutzername:</label>
+            <input type="text" id="registerUsername" name="username" required>
         </div>
         <div class="form-group">
-            <button type="submit">Absenden</button>
+            <label for="registerPassword">Passwort:</label>
+            <input type="password" id="registerPassword" name="password" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Registrieren</button>
         </div>
     </form>
+
+    <!-- Anmeldung -->
+    <form id="loginForm">
+        <h2>Anmeldung</h2>
+        <div class="form-group">
+            <label for="loginUsername">Benutzername:</label>
+            <input type="text" id="loginUsername" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Passwort:</label>
+            <input type="password" id="loginPassword" name="password" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Anmelden</button>
+        </div>
+    </form>
+
     <div class="result" id="result"></div>
 
     <script>
-        document.getElementById('myForm').addEventListener('submit', function(event) {
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            const formData = new URLSearchParams(new FormData(this)).toString();
 
-            // Die Formulardaten abrufen
-            const formData = new FormData(this);
-           
-            // Die Fetch-API verwenden, um die Daten zu senden
-            fetch('/submit', {
+            fetch('/register', {
                 method: 'POST',
-                body: formData,
-                
-                
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
             })
-            
             .then(response => response.text())
             .then(result => {
-                // Die Antwort des Servers anzeigen
                 document.getElementById('result').textContent = result;
             })
             .catch(error => {
-                // Fehlerbehandlung
-                document.getElementById('result').textContent = 'Es ist ein Fehler aufgetreten.';
+                document.getElementById('result').textContent = 'Fehler bei der Registrierung.';
+                console.error('Fehler:', error);
+            });
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new URLSearchParams(new FormData(this)).toString();
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Bei erfolgreicher Anmeldung weiterleiten
+                    window.location.href = '/dashboard'; // Ersetze '/dashboard' durch den Pfad zur neuen Seite
+                } else {
+                    document.getElementById('result').textContent = result.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = 'Fehler bei der Anmeldung.';
                 console.error('Fehler:', error);
             });
         });
