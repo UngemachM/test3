@@ -64,11 +64,11 @@
             // Die Fetch-API verwenden, um die Daten zu senden
             fetch('/submit', {
                 method: 'POST',
-                body: getElementById(name),
+                body: formData,
                 
                 
             })
-            console.log(formData)
+            
             .then(response => response.text())
             .then(result => {
                 // Die Antwort des Servers anzeigen
