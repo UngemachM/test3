@@ -60,6 +60,8 @@
 
             // Die Formulardaten abrufen
             const formData = new FormData(this);
+            const name = formData.get('name');
+            console.log(name)
 
             // Die Fetch-API verwenden, um die Daten zu senden
             fetch('/submit', {
