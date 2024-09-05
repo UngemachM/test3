@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formular senden</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formular zur Dateneingabe</h1>
+    <form id="myForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Absenden</button>
+        </div>
+    </form>
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Die Formulardaten abrufen
+            const formData = new FormData(this);
+
+            // Die Fetch-API verwenden, um die Daten zu senden
+            fetch('/submit', {
+                method: 'POST',
+                body: getElementById(name),
+                
+                
+            })
+            console.log(formData)
+            .then(response => response.text())
+            .then(result => {
+                // Die Antwort des Servers anzeigen
+                document.getElementById('result').textContent = result;
+            })
+            .catch(error => {
+                // Fehlerbehandlung
+                document.getElementById('result').textContent = 'Es ist ein Fehler aufgetreten.';
+                console.error('Fehler:', error);
+            });
+        });
+    </script>
+</body>
+</html>
