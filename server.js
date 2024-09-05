@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mysql = require('mysql2');
-const session = require('express-session'); // Session Middleware
+const session = require('express-session');
 
 const app = express();
 const port = 3000;
@@ -28,24 +28,45 @@ db.connect(err => {
 
 // Session-Konfiguration
 app.use(session({
-    secret: 'geheimnisvollerSchlüssel', // Ersetze durch einen echten geheimen Schlüssel
+    secret: 'geheimnisvollerSchlüssel',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 600000 } // Sitzung läuft nach 10 Minuten ab
+    cookie: { maxAge: 600000 }
 }));
 
-// Route zum Registrieren
+// Route zum Registrieren mit Rang-Logik
 app.post('/register', (req, res) => {
-    const { username, password, rank } = req.body; // Rank wird auch erfasst
+    const { username, password } = req.body;
 
-    const sql = 'INSERT INTO namen (username, password, rank) VALUES (?, ?, ?)';
-    db.query(sql, [username, password, rank], (err, result) => {
+    // Zuerst prüfen, ob bereits Benutzer existieren
+    const checkUserCountSql = 'SELECT COUNT(*) AS count FROM namen';
+    db.query(checkUserCountSql, (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
             res.status(500).send('Fehler bei der Registrierung.');
             return;
         }
-        res.send('Registrierung erfolgreich!');
+
+        const userCount = results[0].count;
+        let rank;
+
+        // Wenn keine Benutzer existieren, erhalte den Rang 3, sonst 1
+        if (userCount === 0) {
+            rank = 3;
+        } else {
+            rank = 1;
+        }
+
+        // Benutzer mit entsprechendem Rang in die Datenbank einfügen
+        const sql = 'INSERT INTO namen (username, password, rank) VALUES (?, ?, ?)';
+        db.query(sql, [username, password, rank], (err, result) => {
+            if (err) {
+                console.error('Datenbankfehler:', err);
+                res.status(500).send('Fehler bei der Registrierung.');
+                return;
+            }
+            res.send('Registrierung erfolgreich! Dein Rang ist ' + rank);
+        });
     });
 });
 
@@ -97,33 +118,30 @@ function isAuthenticated(req, res, next) {
     if (req.session.loggedIn) {
         return next();
     } else {
-        res.redirect('/'); // Leite zurück zur Startseite oder Login-Seite, wenn nicht eingeloggt
+        res.redirect('/');
     }
 }
 
-// Dashboard-Route für Rank 1
+// Dashboard-Routen für verschiedene Ränge
 app.get('/dashboard1', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboardUser.html'));
 });
 
-// Dashboard-Route für Rank 2
 app.get('/dashboard2', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboardManager.html'));
 });
 
-// Dashboard-Route für Rank 3
 app.get('/dashboard3', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboardAdmin.html'));
 });
 
 // Route zum Abmelden
 app.post('/logout', (req, res) => {
-    // Session zerstören
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).send('Fehler beim Abmelden.');
         }
-        res.redirect('/'); // Zurück zur Startseite nach Abmeldung
+        res.redirect('/');
     });
 });
 
