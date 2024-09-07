@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mysql = require('mysql2');
+const fs = require('fs'); 
 const session = require('express-session');
 
 const app = express();
@@ -89,6 +90,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
+
     const sql = 'SELECT password, rank FROM namen WHERE username = ?';
     db.query(sql, [username], (err, results) => {
         if (err) {
@@ -149,6 +151,52 @@ app.post('/logout', (req, res) => {
             return res.status(500).send('Fehler beim Abmelden.');
         }
         res.redirect('/');
+    });
+});
+// Serve static files from the "commentFiles" directory
+app.use('/commentFiles', express.static(path.join(__dirname, 'commentFiles')));
+
+// Sicherstellen, dass das Verzeichnis für Kommentar-Dateien existiert
+const commentFilesDir = path.join(__dirname, 'commentFiles');
+if (!fs.existsSync(commentFilesDir)) {
+    fs.mkdirSync(commentFilesDir, { recursive: true });
+}
+
+app.post('/addTask', (req, res) => {
+    const { taskname, prio, owner, assigned, description } = req.body;
+
+    // Generieren des Dateinamens
+    const filename = `${taskname.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${Date.now()}.txt`;
+    const filePath = path.join(commentFilesDir, filename);
+
+    // Schreiben in die Datei
+    fs.writeFile(filePath, description, (err) => {
+        if (err) {
+            console.error('Fehler beim Schreiben der Datei:', err);
+            return res.status(500).send('Fehler beim Speichern der Datei.');
+        }
+
+        // Füge die Aufgabe in die Datenbank ein, einschließlich des relativen Dateipfads
+        const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned, commentfilepath, description) VALUES (?, ?, ?, ?, ?, ?)';
+        db.query(insertTaskSql, [taskname, prio, owner, assigned, `commentFiles/${filename}`, description], (err, result) => {
+            if (err) {
+                console.error('Datenbankfehler:', err);
+                return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
+            }
+            res.send('Aufgabe erfolgreich hinzugefügt.');
+        });
+    });
+});
+
+// Route to retrieve tasks from the database and send to frontend
+app.get('/getTasks', (req, res) => {
+    const sql = 'SELECT * FROM tasks';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Error fetching tasks.');
+        }
+        res.json(results);  // Send tasks as JSON
     });
 });
 
