@@ -112,18 +112,10 @@ app.post('/login', (req, res) => {
             req.session.username = username;
             req.session.rank = rank; // Rank in der Session speichern
 
-            // Weiterleitung basierend auf dem Rank
-            if (rank === 1) {
-                res.redirect('/dashboard1');
-            } else if (rank === 2) {
-                res.redirect('/dashboard2');
-            } else if (rank === 3) {
-                res.redirect('/dashboard3');
-            } else {
-                res.status(403).send('Unbekannter Rang.');
-            }
+            // Erfolg und Rank zurückgeben
+            res.json({ success: true, rank });
         } else {
-            res.json({ success: false, message: 'Falsches Passwort.' });
+            res.status(401).json({ success: false, message: 'Falsches Passwort.' });
         }
     });
 });

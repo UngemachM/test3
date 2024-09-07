@@ -50,11 +50,17 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                // Bei erfolgreicher Anmeldung weiterleiten
-                window.location.href = '/dashboard'; // Ersetze '/dashboard' durch den Pfad zur neuen Seite
-            } else {
-                document.getElementById('result').textContent = result.message;
-            }
+                if (result.rank === 1) {
+                        window.location.href = '/dashboard1';
+                    } else if (result.rank === 2) {
+                        window.location.href = '/dashboard2';
+                    } else if (result.rank === 3) {
+                        window.location.href = '/dashboard3';
+                    }
+                } else {
+                    // Zeige Fehlermeldung an
+                    document.getElementById('result').textContent = result.message;
+                }
         })
         .catch(error => {
             document.getElementById('result').textContent = 'Fehler bei der Anmeldung.';
