@@ -1,4 +1,4 @@
-document.getElementById('registerForm').addEventListener('submit', function (event) {
+ document.getElementById('registerForm').addEventListener('submit', function (event) {
     event.preventDefault();
     const formData = new URLSearchParams(new FormData(this)).toString();
 
