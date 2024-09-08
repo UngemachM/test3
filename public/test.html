@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+        }
+
+        .progress {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+        }
+
+        .btn-details {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-details:hover {
+            background-color: #45a049;
+        }
+
+        .developer-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .developer-profile img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .project-details {
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Project Management Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <table>
+            <tr>
+                <th>Project Name</th>
+                <th>Progress</th>
+                <th>Developers</th>
+                <th>Project Details</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Project Alpha</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%;"></div>
+                    </div>
+                    75%
+                </td>
+                <td>
+                    <div class="developer-profile">
+                        <img src="profile1.jpg" alt="John">
+                        John
+                    </div>
+                    <div class="developer-profile">
+                        <img src="profile2.jpg" alt="Sarah">
+                        Sarah
+                    </div>
+                    <div class="developer-profile">
+                        <img src="profile3.jpg" alt="Mike">
+                        Mike
+                    </div>
+                </td>
+                <td class="project-details">
+                    This project is about developing a new web application with real-time analytics and user-friendly
+                    dashboards.
+                </td>
+                <td><a href="#" class="btn-details">View Details</a></td>
+            </tr>
+            <tr>
+                <td>Project Beta</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 50%;"></div>
+                    </div>
+                    50%
+                </td>
+                <td>
+                    <div class="developer-profile">
+                        <img src="profile4.jpg" alt="Anna">
+                        Anna
+                    </div>
+                    <div class="developer-profile">
+                        <img src="profile5.jpg" alt="Kevin">
+                        Kevin
+                    </div>
+                    <div class="developer-profile">
+                        <img src="profile6.jpg" alt="Lisa">
+                        Lisa
+                    </div>
+                </td>
+                <td class="project-details">
+                    A mobile application for e-commerce businesses, with integrated payment solutions and user profile
+                    management.
+                </td>
+                <td><a href="#" class="btn-details">View Details</a></td>
+            </tr>
+            <tr>
+                <td>Project Gamma</td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%;"></div>
+                    </div>
+                    90%
+                </td>
+                <td>
+                    <div class="developer-profile">
+                        <img src="profile7.jpg" alt="David">
+                        David
+                    </div>
+                    <div class="developer-profile">
+                        <img src="profile8.jpg" alt="Emma">
+                        Emma
+                    </div>
+                </td>
+                <td class="project-details">
+                    A cloud-based platform for managing large-scale data analysis and providing real-time business
+                    insights.
+                </td>
+                <td><a href="#" class="btn-details">View Details</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Project Management Dashboard. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
