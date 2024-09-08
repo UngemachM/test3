@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Management Dashboard</title>
+    <title>Task Management Board</title>
     <style>
+       yle>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            padding-bottom: 60px; /* Add bottom padding equal to or more than the footer height */
+            padding-bottom: 60px;
         }
         header {
             background-color: #4CAF50;
@@ -20,16 +21,18 @@
         }
         .container {
             display: flex;
-            justify-content: space-between;
+            overflow-x: auto;
             padding: 20px;
         }
         .column {
-            flex: 1;
+            flex: 0 0 auto; /* Prevent columns from shrinking or growing */
+            width: 18%; /* Adjust width as needed */
             margin: 10px;
             padding: 10px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-width: 200px; /* Ensure columns have a minimum width */
         }
         .column h2 {
             text-align: center;
@@ -55,116 +58,90 @@
             bottom: 0;
             left: 0;
         }
-        .add-task-form {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .add-task-button {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
         }
-        .add-task-form input, .add-task-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+        .add-task-button button {
+            padding: 15px 30px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .add-task-button button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Task Management Dashboard</h1>
+    <h1>Task Management Board</h1>
 </header>
 
-<!-- Task Form -->
-<div class="add-task-form">
-    <h2>Add Task</h2>
-    <form id="taskForm">
-        <div class="form-group">
-            <label for="taskname">Task Name:</label>
-            <input type="text" id="taskname" name="taskname" required />
-        </div>
-        <div class="form-group">
-            <label for="prio">Priority (1-5):</label>
-            <input type="number" id="prio" name="prio" required />
-        </div>
-        <div class="form-group">
-            <label for="owner">Owner:</label>
-            <input type="text" id="owner" name="owner" required />
-        </div>
-        <div class="form-group">
-            <label for="assigned">Assigned:</label>
-            <input type="text" id="assigned" name="assigned" required />
-        </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
-        </div>
-        <div class="form-group">
-            <button type="submit">Add Task</button>
-        </div>
-    </form>
+<div class="add-task-button">
+    <button onclick="window.location.href='/taskCreator'">Create New Task</button>
 </div>
 
-<!-- Task Display -->
-<div class="container" id="taskContainer">
-    <!-- Tasks will be dynamically populated here -->
+<div class="container">
+    <div class="column" id="progress1">
+        <h2>Progress 1</h2>
+    </div>
+    <div class="column" id="progress2">
+        <h2>Progress 2</h2>
+    </div>
+    <div class="column" id="progress3">
+        <h2>Progress 3</h2>
+    </div>
+    <div class="column" id="progress4">
+        <h2>Progress 4</h2>
+    </div>
+    <div class="column" id="progress5">
+        <h2>Progress 5</h2>
+    </div>
 </div>
 
 <footer>
-    <p>Task Management Dashboard - 2024</p>
+    <p>Task Management Board - 2024</p>
 </footer>
 
 <script>
-    // Function to load tasks from the server and display them
     function loadTasks() {
         fetch('/getTasks')
             .then(response => response.json())
             .then(tasks => {
-                const taskContainer = document.getElementById('taskContainer');
-                taskContainer.innerHTML = '';  // Clear existing tasks
+                for (let i = 1; i <= 5; i++) {
+                    const column = document.getElementById('progress' + i);
+                    if (column) {
+                        column.innerHTML = `<h2>Progress ${i}</h2>`;
+                    }
+                }
 
                 tasks.forEach(task => {
                     const taskCard = document.createElement('div');
                     taskCard.classList.add('task-card');
                     taskCard.innerHTML = `
-                        <h3>${task.taskname}</h3>
-                        <p>Priority: ${task.prio}</p>
-                        <p>Owner: ${task.owner}</p>
-                        <p>Assigned: ${task.assigned}</p>
-                        <p>Description: ${task.description}</p>
-                        <p>Comments File: <a href="${task.commentfilepath}" target="_blank">View Comments</a></p>
+                        <a href="/taskDetail?id=${task.id}" style="text-decoration: none; color: inherit;">
+                            <h3>${task.taskname}</h3>
+                            <p>Priority: ${task.prio}</p>
+                            <p>Owner: ${task.owner}</p>
+                            <p>Assigned: ${task.assigned}</p>
+                            <p>Description: ${task.description}</p>
+                        </a>
                     `;
-                    taskContainer.appendChild(taskCard);
+                    const progressColumn = document.getElementById('progress' + task.status);
+                    if (progressColumn) {
+                        progressColumn.appendChild(taskCard);
+                    }
                 });
             })
             .catch(error => console.error('Error fetching tasks:', error));
     }
 
-    // Handle task form submission
-    document.getElementById('taskForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevent default form submission behavior
-        const formData = new URLSearchParams(new FormData(this)).toString();
-
-        fetch('/addTask', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData
-        })
-        .then(response => response.text())
-        .then(message => {
-            document.querySelector('.add-task-form').insertAdjacentHTML('beforeend', `<p>${message}</p>`);
-            loadTasks();   // Reload tasks list
-            this.reset();  // Reset the form fields
-        })
-        .catch(error => {
-            document.querySelector('.add-task-form').insertAdjacentHTML('beforeend', `<p>Fehler beim Hinzufügen der Aufgabe.</p>`);
-            console.error('Error adding task:', error);
-        });
-    });
-
-    // Initial load of tasks when the page loads
     window.onload = loadTasks;
 </script>
 
