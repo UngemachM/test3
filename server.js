@@ -132,15 +132,15 @@ function isAuthenticated(req, res, next) {
 }
 
 // Dashboard-Routen für verschiedene Ränge
-app.get('/dashboard1', isAuthenticated, (req, res) => {
+app.get('/dashboardUser', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboardUser.html'));
 });
 
-app.get('/dashboard2', isAuthenticated, (req, res) => {
+app.get('/dashboardManager', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboardManager.html'));
 });
 
-app.get('/dashboard3', isAuthenticated, (req, res) => {
+app.get('/dashboardAdmin', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboardAdmin.html'));
 });
 
@@ -177,8 +177,8 @@ app.post('/addTask', (req, res) => {
         }
 
         // Füge die Aufgabe in die Datenbank ein, einschließlich des relativen Dateipfads
-        const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned, commentfilepath, description) VALUES (?, ?, ?, ?, ?, ?)';
-        db.query(insertTaskSql, [taskname, prio, owner, assigned, `commentFiles/${filename}`, description], (err, result) => {
+        const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned, commentfilepath, description, status) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        db.query(insertTaskSql, [taskname, prio, owner, assigned, `commentFiles/${filename}`, description,"1"], (err, result) => {
             if (err) {
                 console.error('Datenbankfehler:', err);
                 return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
@@ -199,6 +199,44 @@ app.get('/getTasks', (req, res) => {
         res.json(results);  // Send tasks as JSON
     });
 });
+
+app.get('/taskCreator', (req, res) => {
+    res.sendFile(__dirname + '/public/taskCreator.html');  // Serve your task creation page here
+});
+
+// Route to retrieve tasks from the database and send to frontend
+app.get('/getTasks', (req, res) => {
+    // SQL query to select all tasks from the database
+    const sql = 'SELECT * FROM tasks';
+
+    // Execute the query
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            // Send an error response if the query fails
+            return res.status(500).send('Error fetching tasks.');
+        }
+
+        // Send the retrieved tasks as JSON
+        res.json(results);
+    });
+});
+app.get('/taskDetail', (req, res) => {
+    const taskId = req.query.id;
+    const sql = 'SELECT * FROM tasks WHERE id = ?';
+    db.query(sql, [taskId], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Error fetching task details.');
+        }
+        if (results.length > 0) {
+            res.json(results[0]);  // Send the task details as JSON
+        } else {
+            res.status(404).send('Task not found.');
+        }
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Server läuft auf http://localhost:${port}`);

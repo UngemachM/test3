@@ -51,11 +51,11 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         .then(result => {
             if (result.success) {
                 if (result.rank === 1) {
-                        window.location.href = '/dashboard1';
+                        window.location.href = '/dashboardUser';
                     } else if (result.rank === 2) {
-                        window.location.href = '/dashboard2';
+                        window.location.href = '/dashboardManager';
                     } else if (result.rank === 3) {
-                        window.location.href = '/dashboard3';
+                        window.location.href = '/dashboardAdmin';
                     }
                 } else {
                     // Zeige Fehlermeldung an

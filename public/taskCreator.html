@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            padding-bottom: 60px; /* Add bottom padding equal to or more than the footer height */
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .column {
+            flex: 1;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .column h2 {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin: 0 -10px 20px;
+        }
+        .task-card {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+        .add-task-form {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .add-task-form input, .add-task-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Task Management Dashboard</h1>
+</header>
+
+<!-- Task Form -->
+<div class="add-task-form">
+    <h2>Add Task</h2>
+    <form id="taskForm">
+        <div class="form-group">
+            <label for="taskname">Task Name:</label>
+            <input type="text" id="taskname" name="taskname" required />
+        </div>
+        <div class="form-group">
+            <label for="prio">Priority (1-5):</label>
+            <input type="number" id="prio" name="prio" required />
+        </div>
+        <div class="form-group">
+            <label for="owner">Owner:</label>
+            <input type="text" id="owner" name="owner" required />
+        </div>
+        <div class="form-group">
+            <label for="assigned">Assigned:</label>
+            <input type="text" id="assigned" name="assigned" required />
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">Add Task</button>
+        </div>
+    </form>
+</div>
+
+<footer>
+    <p>Task Management Dashboard - 2024</p>
+</footer>
+
+<script>
+    // Handle task form submission
+    document.getElementById('taskForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent default form submission behavior
+        const formData = new URLSearchParams(new FormData(this)).toString();
+
+        fetch('/addTask', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);  // Show a success message
+
+            // Redirect to the task board after successful creation
+            window.location.href = '/dashboardUser';  // Replace with your actual taskboard URL
+        })
+        .catch(error => {
+            document.querySelector('.add-task-form').insertAdjacentHTML('beforeend', `<p>Fehler beim Hinzufügen der Aufgabe.</p>`);
+            console.error('Error adding task:', error);
+        });
+    });
+</script>
+
+</body>
+</html>
