@@ -222,9 +222,10 @@ app.get('/getTasks', (req, res) => {
     });
 });
 app.get('/taskDetail', (req, res) => {
-    const taskId = req.query.id;
-    const sql = 'SELECT * FROM tasks WHERE id = ?';
-    db.query(sql, [taskId], (err, results) => {
+    const taskname = req.query.taskname;
+    const sql = 'SELECT * FROM tasks WHERE taskname = ?';
+    console.log(sql)
+    db.query(sql, [taskname], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Error fetching task details.');

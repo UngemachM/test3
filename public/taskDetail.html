@@ -55,9 +55,9 @@
 <script>
     function getTaskDetail() {
         const urlParams = new URLSearchParams(window.location.search);
-        const taskId = urlParams.get('id');
+        const taskname = urlParams.get('taskname');
 
-        fetch(`/getTaskDetail?id=${taskId}`)
+        fetch(`/getTaskDetail?name=${taskname}`)
             .then(response => response.json())
             .then(task => {
                 const taskDetailDiv = document.getElementById('taskDetail');
