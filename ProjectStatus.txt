@@ -1,0 +1,55 @@
+
+
+    Benutzerverwaltung:
+        Registrieren und Anmelden von Benutzern.
+            Fertig und funktional
+
+
+        Rollenbasierte Zugriffskontrolle (z.B. Administrator, Projektmanager, Mitarbeiter).
+            Unterscheidung zwischen Admin Manager und User
+            Fertig und funktioniren
+
+
+
+        Möglichkeit zur Zuweisung von Aufgaben an spezifische Benutzer.
+            Fertig aber unschön
+
+
+
+
+
+
+    Projekt- und Aufgabenmanagement:
+
+
+
+        Erstellen und Verwalten von Projekten.
+            Seite existiert aber nich funktional
+
+
+
+        Definieren und Zuweisen von Aufgaben innerhalb eines Projekts.
+            erstellung fertig und funktionirt, zuweisen noch unschön
+
+
+        Setzen von Prioritäten und Deadlines für Aufgaben.
+            Priorität fertig unf funktionnirt
+            Deadline missing
+
+
+        Fortschrittsverfolgung und Statusanzeigen (z.B. „In Bearbeitung“, „Erledigt“).
+            Funktion fertig 
+            Statusbenennung wip
+
+
+        Möglichkeit zur Kommentierung von Aufgaben durch Benutzer.
+            Done and worikng
+
+
+    (+) Dashboard und Berichte:
+        Übersicht über aktuelle Projekte und deren Fortschritt.
+        Anzeige von bevorstehenden Deadlines und überfälligen Aufgaben.
+
+    (+) Benachrichtigungen:
+        E-Mail-Benachrichtigungen für neue Aufgaben, Statusänderungen und Kommentare.
+        Benachrichtigungen über bevorstehende Deadlines.

@@ -52,34 +52,6 @@
     <p>Task Management Board - 2024</p>
 </footer>
 
-<script>
-    function getTaskDetail() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const taskname = urlParams.get('taskname');
-
-        fetch(`/getTaskDetail?name=${taskname}`)
-            .then(response => response.json())
-            .then(task => {
-                const taskDetailDiv = document.getElementById('taskDetail');
-                if (task) {
-                    taskDetailDiv.innerHTML = `
-                        <h2>${task.taskname}</h2>
-                        <p><strong>Priority:</strong> ${task.prio}</p>
-                        <p><strong>Owner:</strong> ${task.owner}</p>
-                        <p><strong>Assigned:</strong> ${task.assigned}</p>
-                        <p><strong>Description:</strong> ${task.description}</p>
-                        <p><strong>Status:</strong> Progress ${task.status}</p>
-                        <p><a href="/dashboardUser" style="text-decoration: none; color: #4CAF50;">Back to Dashboard</a></p>
-                    `;
-                } else {
-                    taskDetailDiv.innerHTML = '<p>Task not found.</p>';
-                }
-            })
-            .catch(error => console.error('Error fetching task details:', error));
-    }
-
-    window.onload = getTaskDetail;
-</script>
 
 </body>
 </html>

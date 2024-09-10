@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            padding-bottom: 60px;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+        .comments-section {
+            margin-top: 20px;
+        }
+        .comment {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .comment-author {
+            font-weight: bold;
+        }
+        .comment-text {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Task Details</h1>
+</header>
+
+<div class="container">
+    <h1>Task: <%= task.taskname %></h1>
+
+    <form id="taskForm">
+        <label for="taskname">Task Name:</label>
+        <input type="text" id="taskname" name="taskname" value="<%= task.taskname %>" readonly>
+
+        <label for="prio">Priority (0-9):</label>
+        <input type="number" id="prio" name="prio" min="0" max="9" value="<%= task.prio %>">
+
+        <label for="owner">Owner:</label>
+        <input type="text" id="owner" name="owner" value="<%= task.owner %>">
+
+        <label for="assigned">Assigned To:</label>
+        <input type="text" id="assigned" name="assigned" value="<%= task.assigned %>">
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4"><%= task.description %></textarea>
+
+        <label for="comments">Comments:</label>
+        <textarea id="comments" name="comments" rows="4" placeholder="Leave a comment..."></textarea>
+
+        <button type="button" onclick="saveTask()">Save Task</button>
+    </form>
+
+    <div class="comments-section" id="commentsSection">
+        <h2>Comments</h2>
+        <!-- Kommentare werden hier dynamisch eingefügt -->
+    </div>
+</div>
+
+<footer>
+    <p>Task Management Board - 2024</p>
+</footer>
+
+<script>
+    function loadComments(taskname) {
+        const form = document.getElementById('taskForm');
+        const formData = new FormData(form);
+
+        fetch('/getComments', {
+            method: 'POST',
+            body: new URLSearchParams(formData)
+        })
+        .then(response => response.text())
+        .then(commentsHtml => {
+            const commentsSection = document.getElementById('commentsSection');
+            commentsSection.innerHTML = commentsHtml; // HTML-Inhalt einfügen
+        })
+        .catch(error => {
+            console.error('Error fetching comments:', error);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const taskname = document.getElementById('taskname').value;
+        loadComments(taskname);
+    });
+</script>
+
+</body>
+</html>

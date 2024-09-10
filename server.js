@@ -34,6 +34,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 600000 }
 }));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
@@ -206,37 +208,110 @@ app.get('/taskCreator', (req, res) => {
 
 // Route to retrieve tasks from the database and send to frontend
 app.get('/getTasks', (req, res) => {
-    // SQL query to select all tasks from the database
     const sql = 'SELECT * FROM tasks';
-
-    // Execute the query
+    
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Database error:', err);
-            // Send an error response if the query fails
             return res.status(500).send('Error fetching tasks.');
         }
-
-        // Send the retrieved tasks as JSON
-        res.json(results);
+        console.log('Tasks fetched:', results); // Debug-Ausgabe
+        res.json(results); // JSON-Antwort senden
     });
 });
 app.get('/taskDetail', (req, res) => {
     const taskname = req.query.taskname;
-    const sql = 'SELECT * FROM tasks WHERE taskname = ?';
-    console.log(sql)
-    db.query(sql, [taskname], (err, results) => {
+    if (!taskname) {
+        return res.status(400).send('Taskname is required.');
+    }
+
+    // Hole den Task aus der Datenbank basierend auf dem taskname
+    db.query('SELECT * FROM tasks WHERE taskname = ?', [taskname], (err, results) => {
         if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Error fetching task details.');
+            return res.status(500).json({ error: err.message });
         }
-        if (results.length > 0) {
-            res.json(results[0]);  // Send the task details as JSON
+        if (results.length === 0) {
+            return res.status(404).send('Task not found.');
+        }
+
+        // Task-Daten erfolgreich abgerufen, jetzt rendern wir die EJS-Seite
+        res.render('taskDetail', { task: results[0] });
+    });
+});
+
+
+// Route zum Aktualisieren der Task-Details
+app.post('/updateTask', (req, res) => {
+    const { taskname, prio, owner, assigned, description, comments } = req.body;
+
+    if (!taskname || prio === undefined || owner === undefined || assigned === undefined || description === undefined) {
+        return res.status(400).send('All fields are required.');
+    }
+
+    // Update der Task in der Datenbank
+    db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ? WHERE taskname = ?', 
+    [prio, owner, assigned, description, taskname], 
+    (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        // Speichern des Kommentars
+        if (comments) {
+            db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)', 
+            [comments, 'defaultUser', taskname], 
+            (err, results) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+                res.send('Task updated and comment saved.');
+            });
         } else {
-            res.status(404).send('Task not found.');
+            res.send('Task updated.');
         }
     });
 });
+app.post('/getComments', (req, res) => {
+    const taskname = req.body.taskname;
+    console.log(req) // Taskname aus dem POST-Body erhalten
+
+    if (!taskname) {
+        return res.status(400).send('No task name provided.');
+    }
+
+    const query = `
+        SELECT * FROM comments WHERE taskname = ?
+        ORDER BY time DESC
+    `;
+    
+    db.query(query, [taskname], (err, results) => {
+        if (err) {
+            console.error('Error fetching comments:', err);
+            return res.status(500).send('Database query error.');
+        }
+
+        let commentsHtml = '';
+        results.forEach(comment => {
+            commentsHtml += `
+                <div class="comment">
+                    <div class="comment-author">${comment.user}</div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
+                </div>
+            `;
+        });
+
+        if (results.length === 0) {
+            commentsHtml = '<p>No comments available.</p>';
+        }
+
+        res.send(commentsHtml); // HTML-Antwort senden
+    });
+});
+
+
+
+
 
 
 app.listen(port, () => {
