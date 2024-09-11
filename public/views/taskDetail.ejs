@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Details</title>
-    <link href="style.css" rel="stylesheet">
+    <link href="../styles/details.css" rel="stylesheet">
 </head>
 <body>
 
@@ -47,30 +47,7 @@
     <p>Task Management Board - 2024</p>
 </footer>
 
-<script>
-    function loadComments(taskname) {
-        const form = document.getElementById('taskForm');
-        const formData = new FormData(form);
-
-        fetch('/getComments', {
-            method: 'POST',
-            body: new URLSearchParams(formData)
-        })
-        .then(response => response.text())
-        .then(commentsHtml => {
-            const commentsSection = document.getElementById('commentsSection');
-            commentsSection.innerHTML = commentsHtml; // HTML-Inhalt einfügen
-        })
-        .catch(error => {
-            console.error('Error fetching comments:', error);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const taskname = document.getElementById('taskname').value;
-        loadComments(taskname);
-    });
-</script>
+<script src="../scripts/taskDetailScript.js"></script>
 
 </body>
 </html>

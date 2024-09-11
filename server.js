@@ -35,7 +35,7 @@ app.use(session({
     cookie: { maxAge: 600000 }
 }));
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public/views'));
 
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
@@ -155,14 +155,6 @@ app.post('/logout', (req, res) => {
         res.redirect('/');
     });
 });
-// Serve static files from the "commentFiles" directory
-app.use('/commentFiles', express.static(path.join(__dirname, 'commentFiles')));
-
-// Sicherstellen, dass das Verzeichnis für Kommentar-Dateien existiert
-const commentFilesDir = path.join(__dirname, 'commentFiles');
-if (!fs.existsSync(commentFilesDir)) {
-    fs.mkdirSync(commentFilesDir, { recursive: true });
-}
 
 app.post('/addTask', (req, res) => {
     const { taskname, prio, owner, assigned, description } = req.body;
@@ -273,7 +265,7 @@ app.post('/updateTask', (req, res) => {
 });
 app.post('/getComments', (req, res) => {
     const taskname = req.body.taskname;
-    console.log(req) // Taskname aus dem POST-Body erhalten
+   // Taskname aus dem POST-Body erhalten
 
     if (!taskname) {
         return res.status(400).send('No task name provided.');

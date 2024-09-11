@@ -1,180 +1,71 @@
-/* General styles */
+/* Allgemeine Stile */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f7fc;
-    color: #333;
+    background-color: #f4f4f4;
+    padding-bottom: 60px;
 }
 
-/* Header */
-#header {
-    background-color: #2b3a67;
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+footer {
+    background-color: #4CAF50;
     color: white;
     text-align: center;
-    padding: 20px 0;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-#header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    letter-spacing: 1.2px;
-}
-
-/* Container for the form and table */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-}
-
-/* New Project Form */
-#new-project-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
-#new-project-container h2 {
-    margin-bottom: 20px;
-    color: #2b3a67;
-}
-
-#new-project-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-}
-
-#new-project-form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-#new-project-form input,
-#new-project-form textarea {
-    width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-}
-
-#new-project-form textarea {
-    grid-column: span 2;
-    height: 80px;
-}
-
-#new-project-form button {
-    grid-column: span 2;
-    padding: 12px;
-    background-color: #2b3a67;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#new-project-form button:hover {
-    background-color: #415e9c;
-}
-
-/* Table styling */
-#project-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-#project-table th,
-#project-table td {
-    padding: 15px 10px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-#project-table th {
-    background-color: #2b3a67;
-    color: white;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-}
-
-#project-table td {
-    font-size: 0.9rem;
-    color: #555;
-}
-
-#project-table #project-progress .progress-bar {
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    height: 20px;
-    width: 100%;
-    margin-top: 5px;
-    overflow: hidden;
-}
-
-#project-table #project-progress .progress {
-    height: 100%;
-    background-color: #2b3a67;
-    border-radius: 5px 0 0 5px;
-}
-
-#project-table #project-developers .developer-profile {
-    display: inline-block;
-    text-align: center;
-    margin-right: 10px;
-    font-size: 0.85rem;
-    color: #333;
-}
-
-#project-table #project-developers img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 5px;
-    border: 2px solid #2b3a67;
-}
-
-#project-table a.btn-details {
-    background-color: #2b3a67;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 0.85rem;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-    margin-right: 10px;
-}
-
-#project-table a.btn-details:hover {
-    background-color: #415e9c;
-}
-
-/* Footer */
-#footer {
-    background-color: #2b3a67;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
     position: fixed;
     width: 100%;
     bottom: 0;
+    left: 0;
 }
 
-#footer p {
-    margin: 0;
-    font-size: 0.85rem;
+/* Container und Spalten für die Task Board Seite */
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.column {
+    flex: 1;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.column h2 {
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin: 0 -10px 20px;
+}
+
+/* Button zum Erstellen einer neuen Aufgabe */
+.add-task-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.add-task-button button {
+    padding: 15px 30px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-task-button button:hover {
+    background-color: #45a049;
 }
