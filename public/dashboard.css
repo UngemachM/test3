@@ -1,115 +1,180 @@
+/* General styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #eaeef3;
     margin: 0;
     padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
 }
 
-header {
-    background-color: #2e8b57;
+/* Header */
+#header {
+    background-color: #2b3a67;
     color: white;
-    padding: 20px;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+#header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 1.2px;
+}
+
+/* Container for the form and table */
 .container {
-    width: 85%;
-    margin: 30px auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+/* New Project Form */
+#new-project-container {
     background-color: white;
     padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+#new-project-container h2 {
+    margin-bottom: 20px;
+    color: #2b3a67;
 }
 
-table,
-th,
-td {
-    border: 1px solid #ddd;
+#new-project-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
 }
 
-th,
-td {
-    padding: 15px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-th {
-    background-color: #2e8b57;
-    color: white;
+#new-project-form label {
     font-weight: bold;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.progress-bar {
-    width: 100%;
-    background-color: #eaeef3;
-    border-radius: 5px;
-}
-
-.progress {
-    height: 20px;
-    background-color: #2e8b57;
-    border-radius: 5px;
-}
-
-.btn-details {
-    background-color: #2e8b57;
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-.btn-details:hover {
-    background-color: #1f6b43;
-}
-
-.developer-profile {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.developer-profile img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    border: 2px solid #ddd;
-}
-
-footer {
-    margin-top: 30px;
-    text-align: center;
-    padding: 15px;
-    background-color: #2e8b57;
-    color: white;
-    font-size: 0.9em;
-}
-
-.project-details {
-    font-size: 0.95em;
+    margin-bottom: 5px;
     color: #555;
 }
 
-/* ID specific styles */
-#header h1 {
-    margin: 0;
-    font-size: 2em;
+#new-project-form input,
+#new-project-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+#new-project-form textarea {
+    grid-column: span 2;
+    height: 80px;
+}
+
+#new-project-form button {
+    grid-column: span 2;
+    padding: 12px;
+    background-color: #2b3a67;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#new-project-form button:hover {
+    background-color: #415e9c;
+}
+
+/* Table styling */
+#project-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#project-table th,
+#project-table td {
+    padding: 15px 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+#project-table th {
+    background-color: #2b3a67;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+#project-table td {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#project-table #project-progress .progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    height: 20px;
+    width: 100%;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+#project-table #project-progress .progress {
+    height: 100%;
+    background-color: #2b3a67;
+    border-radius: 5px 0 0 5px;
+}
+
+#project-table #project-developers .developer-profile {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 0.85rem;
+    color: #333;
+}
+
+#project-table #project-developers img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 5px;
+    border: 2px solid #2b3a67;
+}
+
+#project-table a.btn-details {
+    background-color: #2b3a67;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+#project-table a.btn-details:hover {
+    background-color: #415e9c;
+}
+
+/* Footer */
+#footer {
+    background-color: #2b3a67;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
 #footer p {
     margin: 0;
+    font-size: 0.85rem;
 }
