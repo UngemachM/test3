@@ -1,3 +1,4 @@
+/* Allgemeine Stile für beide Seiten */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -13,24 +14,62 @@ header {
     text-align: center;
 }
 
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+/* Container und Spalten für die Task Board Seite */
 .container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
     padding: 20px;
+}
+
+.column {
+    flex: 1;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.container h1 {
+.column h2 {
     text-align: center;
     background-color: #4CAF50;
     color: white;
     padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    margin: 0 -10px 20px;
 }
 
+.add-task-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.add-task-button button {
+    padding: 15px 30px;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-task-button button:hover {
+    background-color: #45a049;
+}
+
+/* Formular- und Kommentarstile für die Task Details Seite */
 form {
     max-width: 600px;
     margin: 0 auto;
@@ -85,17 +124,7 @@ button:hover {
     padding: 10px 0;
 }
 
-footer {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-}
-
+/* Zusatzstile für die Ergebnisdarstellung */
 .result {
     margin-top: 20px;
     font-size: 1.2em;
