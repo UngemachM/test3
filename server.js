@@ -92,7 +92,6 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-
     const sql = 'SELECT password, rank FROM namen WHERE username = ?';
     db.query(sql, [username], (err, results) => {
         if (err) {
@@ -107,22 +106,23 @@ app.post('/login', (req, res) => {
         }
 
         const storedPassword = results[0].password;
-        const rank = results[0].rank; // Hole den Rank aus der Datenbank
+        const rank = results[0].rank;
 
         // Passwort vergleichen
         if (password === storedPassword) {
-            // Benutzer ist eingeloggt, Session setzen
             req.session.loggedIn = true;
             req.session.username = username;
-            req.session.rank = rank; // Rank in der Session speichern
+            console.log(req.session.username)
+            req.session.rank = rank;
 
-            // Erfolg und Rank zurückgeben
             res.json({ success: true, rank });
         } else {
             res.status(401).json({ success: false, message: 'Falsches Passwort.' });
         }
     });
 });
+
+
 
 // Middleware zum Überprüfen, ob der Benutzer eingeloggt ist
 function isAuthenticated(req, res, next) {
@@ -235,9 +235,10 @@ app.get('/taskDetail', (req, res) => {
 // Route zum Aktualisieren der Task-Details
 app.post('/updateTask', (req, res) => {
     const { taskname, prio, owner, assigned, description, comments } = req.body;
+    console.log(req)
 
     if (!taskname || prio === undefined || owner === undefined || assigned === undefined || description === undefined) {
-        return res.status(400).send('All fields are required.');
+        return res.status(400).send('All fields are required1.'+taskname+prio+owner+assigned+description);
     }
 
     // Update der Task in der Datenbank
@@ -248,10 +249,12 @@ app.post('/updateTask', (req, res) => {
                 return res.status(500).json({ error: err.message });
             }
 
-            // Speichern des Kommentars
+            // Speichern des Kommentars, falls vorhanden
             if (comments) {
+                const currentUser = req.session.username;
+                console.log(currentUser) // Benutzername aus der Session
                 db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)',
-                    [comments, 'defaultUser', taskname],
+                    [comments, currentUser, taskname],
                     (err, results) => {
                         if (err) {
                             return res.status(500).json({ error: err.message });
@@ -263,6 +266,7 @@ app.post('/updateTask', (req, res) => {
             }
         });
 });
+
 app.post('/getComments', (req, res) => {
     const taskname = req.body.taskname;
    // Taskname aus dem POST-Body erhalten
