@@ -79,10 +79,32 @@
                         analytics and user-friendly dashboards.</p>
                 </td>
                 <td id="project-edit">
-                    <a hhref="#" class="btn-details" id="project-details-btn">Edit This Project</a>
+                    <a hhref="#" class="btn-details" id="project-details-btn-edit">Edit This Project</a>
                 </td>
             </tr>
         </table>
+    </div>
+
+    <!-- Edit Project Form (Initially hidden) -->
+    <div class="container" id="edit-input-project-container" style="display: none;">
+        <div id="edit-project-form-container">
+            <h2>Edit Project</h2>
+            <form id="edit-project-form">
+                <label for="edit-project-name">Project Name:</label>
+                <input type="text" id="edit-project-name" name="project-name" required>
+
+                <label for="edit-project-progress">Progress (%):</label>
+                <input type="number" id="edit-project-progress" name="project-progress" min="0" max="100" required>
+
+                <label for="edit-project-developers">Developers (comma separated):</label>
+                <input type="text" id="edit-project-developers" name="project-developers" required>
+
+                <label for="edit-project-details">Project Details:</label>
+                <textarea id="edit-project-details" name="project-details" required></textarea>
+
+                <button type="submit">Update Project</button>
+            </form>
+        </div>
     </div>
 
     <!-- Main Project Table -->

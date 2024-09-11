@@ -34,4 +34,17 @@ function restoreDetailsButtons() {
         document.getElementById('main-container').style.display = 'none'; // hide main project section
         document.getElementById('edit-project-container').style.display = 'none'; // show edit project section
     });
+
+
+    // JavaScript to show "Edit Project" form and hide "New Project" and hide "Edit project"
+    document.getElementById('project-details-btn-edit').addEventListener('click', function () {
+        document.getElementById('new-project-container').style.display = 'none'; // hide new project section
+        document.getElementById('main-container').style.display = 'none'; // hide main project section
+        document.getElementById('edit-input-project-container').style.display = 'block'; // show edit project section
+        document.getElementById('edit-project-container').style.display = 'none'; // hide edit project sectio
+    });
+
+
+
 }
+
