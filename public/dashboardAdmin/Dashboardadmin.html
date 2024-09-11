@@ -46,7 +46,7 @@
     </div>
 
     <!-- Edit Project Form (Initially hidden) -->
-    <div class="container" id="edit-project-container">
+    <div class="container" id="edit-project-container" style="display: none;">
         <table id="project-table">
             <tr id="table-header">
                 <th id="th-project-name">Project Name</th>
@@ -65,13 +65,13 @@
                 </td>
                 <td id="project-developers">
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/1.png" alt=""> John
+                        <img src="../images/1.png" alt=""> John
                     </div>
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/2.png" alt=""> Sarah
+                        <img src="../images/2.png" alt=""> Sarah
                     </div>
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/3.png" alt=""> Mike
+                        <img src="../images/3.png" alt=""> Mike
                     </div>
                 </td>
                 <td class="project-details" id="project-details-id">
@@ -105,13 +105,13 @@
                 </td>
                 <td id="project-developers">
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/1.png" alt=""> John
+                        <img src="../images/1.png" alt=""> John
                     </div>
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/2.png" alt=""> Sarah
+                        <img src="../images/2.png" alt=""> Sarah
                     </div>
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/3.png" alt=""> Mike
+                        <img src="../images/3.png" alt=""> Mike
                     </div>
                 </td>
                 <td class="project-details" id="project-details-id">
@@ -129,37 +129,7 @@
         <p>&copy; 2024 Project Management Dashboard. All rights reserved.</p>
     </footer>
 
-    <script>
-        // JavaScript to toggle the "New Project" form
-        document.getElementById('new-project-link').addEventListener('click', function () {
-            document.getElementById('new-project-container').style.display = 'block';
-            document.getElementById('main-container').style.display = 'none';
-            document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-        });
-
-        // JavaScript to go back to "Projects Overview"
-        document.getElementById('overview-link').addEventListener('click', function () {
-            document.getElementById('new-project-container').style.display = 'none';
-            document.getElementById('main-container').style.display = 'block';
-            document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-            restoreDetailsButtons();
-        });
-
-        // JavaScript to show "Edit Project" form and hide "New Project" form
-        document.getElementById('edit-project-link').addEventListener('click', function () {
-            document.getElementById('new-project-container').style.display = 'none'; // hide new project section
-            document.getElementById('main-container').style.display = 'none'; // hide main project section
-            document.getElementById('edit-project-container').style.display = 'block'; // show edit project section
-        });
-
-        // Restore "View Details" buttons when switching back to Projects Overview
-        function restoreDetailsButtons() {
-            var detailsButtons = document.querySelectorAll('#project-view a.btn-details');
-            detailsButtons.forEach(function (button) {
-                button.textContent = 'View Details';
-            });
-        }
-    </script>
+    <script src="Dashboardadmin.js">  </script>
 
 </body>
 
