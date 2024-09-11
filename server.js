@@ -143,7 +143,7 @@ app.get('/dashboardManager', isAuthenticated, (req, res) => {
 });
 
 app.get('/dashboardAdmin', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboardAdmin.html'));
+    res.sendFile(path.join(__dirname, 'public', 'projectboard.html'));
 });
 
 // Route zum Abmelden
