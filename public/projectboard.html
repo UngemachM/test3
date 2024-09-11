@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Dashboard</title>
+    <link rel="stylesheet" href="projectboard.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+
+    <header id="header">
+        <h1>Project Management Dashboard</h1>
+    </header>
+
+    <!-- New Project Form -->
+    <div class="container" id="new-project-container">
+        <h2>Create New Project</h2>
+        <form id="new-project-form">
+            <label for="new-project-name">Project Name:</label>
+            <input type="text" id="new-project-name" name="project-name" required>
+
+            <label for="new-project-progress">Progress (%):</label>
+            <input type="number" id="new-project-progress" name="project-progress" min="0" max="100" required>
+
+            <label for="new-project-developers">Developers (comma separated):</label>
+            <input type="text" id="new-project-developers" name="project-developers" required>
+
+            <label for="new-project-details">Project Details:</label>
+            <textarea id="new-project-details" name="project-details" required></textarea>
+
+            <button type="submit">Add Project</button>
+        </form>
+    </div>
+
+    <div class="container" id="main-container">
+        <table id="project-table">
+            <tr id="table-header">
+                <th id="th-project-name">Project Name</th>
+                <th id="th-progress">Progress</th>
+                <th id="th-developers">Developers</th>
+                <th id="th-details">Project Details</th>
+                <th id="th-view-details">Details</th>
+            </tr>
+
+            <!-- Example project row -->
+            <tr id="project-container">
+                <td id="project-name">Project Alpha</td>
+                <td id="project-progress">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress" style="width: 75%;" id="progress-fill"></div>
+                    </div>
+                    75%
+                </td>
+                <td id="project-developers">
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/1.png" alt="">
+                        John
+                    </div>
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/2.png" alt="">
+                        Sarah
+                    </div>
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/3.png" alt="">
+                        Mike
+                    </div>
+                </td>
+                <td class="project-details" id="project-details-id">
+                    <p id="project-details-text">This project is about developing a new web application with real-time
+                        analytics and user-friendly dashboards.</p>
+                </td>
+                <td id="project-view">
+                    <a href="#" class="btn-details" id="project-details-btn">View Details</a>
+                    <a href="#" class="btn-details" id="project-editing-btn">Edit the project</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <footer id="footer">
+        <p>&copy; 2024 Project Management Dashboard. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
