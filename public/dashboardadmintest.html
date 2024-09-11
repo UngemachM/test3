@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            padding-bottom: 60px;
+            /* Add space for footer */
+        }
+
+        /* Header */
+        #header {
+            background-color: #2b3a67;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 1.2px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #575757;
+            transition: 0.3s;
+        }
+
+        /* Container for the form and table */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        /* New Project Form */
+        #new-project-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        #new-project-container h2 {
+            margin-bottom: 20px;
+            color: #2b3a67;
+        }
+
+        #new-project-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        #new-project-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        #new-project-form input,
+        #new-project-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        #new-project-form textarea {
+            grid-column: span 2;
+            height: 80px;
+        }
+
+        #new-project-form button {
+            grid-column: span 2;
+            padding: 12px;
+            background-color: #2b3a67;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #new-project-form button:hover {
+            background-color: #415e9c;
+        }
+
+        /* Edit Project Form */
+        #edit-project-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        #main-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        #edit-project-container h2 {
+            margin-bottom: 20px;
+            color: #2b3a67;
+        }
+
+        #edit-project-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        #edit-project-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        #edit-project-form input,
+        #edit-project-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        #edit-project-form textarea {
+            grid-column: span 2;
+            height: 80px;
+        }
+
+        #edit-project-form button {
+            grid-column: span 2;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #edit-project-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table styling */
+        #project-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        #project-table th,
+        #project-table td {
+            padding: 15px 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        #project-table th {
+            background-color: #2b3a67;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        #project-table td {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        #project-table #project-progress .progress-bar {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            height: 20px;
+            width: 100%;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        #project-table #project-progress .progress {
+            height: 100%;
+            background-color: #2b3a67;
+            border-radius: 5px 0 0 5px;
+        }
+
+        #project-table #project-developers .developer-profile {
+            display: inline-block;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        #project-table #project-developers img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-right: 5px;
+            border: 2px solid #2b3a67;
+        }
+
+        #project-table a.btn-details {
+            background-color: #2b3a67;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        #project-table a.btn-details:hover {
+            background-color: #415e9c;
+        }
+
+        #footer {
+            background-color: #2b3a67;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            /* Change from relative to absolute */
+            bottom: 0;
+            width: 100%;
+        }
+
+        body {
+            position: relative;
+            /* Ensure the footer is positioned relative to the body */
+            min-height: 100vh;
+            /* Ensure the body takes up at least the viewport height */
+        }
+
+        #footer p {
+            margin: 0;
+            font-size: 0.85rem;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header id="header">
+        <h1>Project Management Dashboard</h1>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#" id="overview-link">Projects Overview</a></li>
+            <li><a href="#" id="new-project-link">New Project</a></li>
+            <li><a href="#" id="edit-project-link">Edit Project</a></li>
+        </ul>
+    </nav>
+
+    <!-- New Project Form (Initially hidden) -->
+    <div class="container" id="new-project-container" style="display: none;">
+        <h2>Create New Project</h2>
+        <form id="new-project-form">
+            <label for="new-project-name">Project Name:</label>
+            <input type="text" id="new-project-name" name="project-name" required>
+
+            <label for="new-project-progress">Progress (%):</label>
+            <input type="number" id="new-project-progress" name="project-progress" min="0" max="100" required>
+
+            <label for="new-project-developers">Developers (comma separated):</label>
+            <input type="text" id="new-project-developers" name="project-developers" required>
+
+            <label for="new-project-details">Project Details:</label>
+            <textarea id="new-project-details" name="project-details" required></textarea>
+
+            <button type="submit">Add Project</button>
+        </form>
+    </div>
+
+    <!-- Edit Project Form (Initially hidden) -->
+    <div class="container" id="edit-project-container">
+        <table id="project-table">
+            <tr id="table-header">
+                <th id="th-project-name">Project Name</th>
+                <th id="th-progress">Progress</th>
+                <th id="th-developers">Developers</th>
+                <th id="th-details">Project Details</th>
+                <th id="th-edit">Edit</th>
+            </tr>
+            <tr id="project-container">
+                <td id="project-name">Project Alpha</td>
+                <td id="project-progress">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress" style="width: 75%;" id="progress-fill"></div>
+                    </div>
+                    75%
+                </td>
+                <td id="project-developers">
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/1.png" alt=""> John
+                    </div>
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/2.png" alt=""> Sarah
+                    </div>
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/3.png" alt=""> Mike
+                    </div>
+                </td>
+                <td class="project-details" id="project-details-id">
+                    <p id="project-details-text">This project is about developing a new web application with real-time
+                        analytics and user-friendly dashboards.</p>
+                </td>
+                <td id="project-edit">
+                    <a hhref="#" class="btn-details" id="project-details-btn">Edit This Project</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Main Project Table -->
+    <div class="container" id="main-container">
+        <table id="project-table">
+            <tr id="table-header">
+                <th id="th-project-name">Project Name</th>
+                <th id="th-progress">Progress</th>
+                <th id="th-developers">Developers</th>
+                <th id="th-details">Project Details</th>
+                <th id="th-view-details">Details</th>
+            </tr>
+            <tr id="project-container">
+                <td id="project-name">Project Alpha</td>
+                <td id="project-progress">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress" style="width: 75%;" id="progress-fill"></div>
+                    </div>
+                    75%
+                </td>
+                <td id="project-developers">
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/1.png" alt=""> John
+                    </div>
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/2.png" alt=""> Sarah
+                    </div>
+                    <div class="developer-profile" id="developer-profile-id">
+                        <img src="images/3.png" alt=""> Mike
+                    </div>
+                </td>
+                <td class="project-details" id="project-details-id">
+                    <p id="project-details-text">This project is about developing a new web application with real-time
+                        analytics and user-friendly dashboards.</p>
+                </td>
+                <td id="project-view">
+                    <a href="#" class="btn-details" id="project-details-btn">View Details</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <footer id="footer">
+        <p>&copy; 2024 Project Management Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript to toggle the "New Project" form
+        document.getElementById('new-project-link').addEventListener('click', function () {
+            document.getElementById('new-project-container').style.display = 'block';
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
+        });
+
+        // JavaScript to go back to "Projects Overview"
+        document.getElementById('overview-link').addEventListener('click', function () {
+            document.getElementById('new-project-container').style.display = 'none';
+            document.getElementById('main-container').style.display = 'block';
+            document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
+            restoreDetailsButtons();
+        });
+
+        // JavaScript to show "Edit Project" form and hide "New Project" form
+        document.getElementById('edit-project-link').addEventListener('click', function () {
+            document.getElementById('new-project-container').style.display = 'none'; // hide new project section
+            document.getElementById('main-container').style.display = 'none'; // hide main project section
+            document.getElementById('edit-project-container').style.display = 'block'; // show edit project section
+        });
+
+        // Restore "View Details" buttons when switching back to Projects Overview
+        function restoreDetailsButtons() {
+            var detailsButtons = document.querySelectorAll('#project-view a.btn-details');
+            detailsButtons.forEach(function (button) {
+                button.textContent = 'View Details';
+            });
+        }
+    </script>
+
+</body>
+
+</html>
