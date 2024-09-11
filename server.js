@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mysql = require('mysql2');
-const fs = require('fs'); 
+const fs = require('fs');
 const session = require('express-session');
 
 const app = express();
@@ -180,7 +180,7 @@ app.post('/addTask', (req, res) => {
 
         // Füge die Aufgabe in die Datenbank ein, einschließlich des relativen Dateipfads
         const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned, commentfilepath, description, status) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        db.query(insertTaskSql, [taskname, prio, owner, assigned, `commentFiles/${filename}`, description,"1"], (err, result) => {
+        db.query(insertTaskSql, [taskname, prio, owner, assigned, `commentFiles/${filename}`, description, "1"], (err, result) => {
             if (err) {
                 console.error('Datenbankfehler:', err);
                 return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
@@ -209,7 +209,7 @@ app.get('/taskCreator', (req, res) => {
 // Route to retrieve tasks from the database and send to frontend
 app.get('/getTasks', (req, res) => {
     const sql = 'SELECT * FROM tasks';
-    
+
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Database error:', err);
@@ -249,27 +249,27 @@ app.post('/updateTask', (req, res) => {
     }
 
     // Update der Task in der Datenbank
-    db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ? WHERE taskname = ?', 
-    [prio, owner, assigned, description, taskname], 
-    (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
+    db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ? WHERE taskname = ?',
+        [prio, owner, assigned, description, taskname],
+        (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
 
-        // Speichern des Kommentars
-        if (comments) {
-            db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)', 
-            [comments, 'defaultUser', taskname], 
-            (err, results) => {
-                if (err) {
-                    return res.status(500).json({ error: err.message });
-                }
-                res.send('Task updated and comment saved.');
-            });
-        } else {
-            res.send('Task updated.');
-        }
-    });
+            // Speichern des Kommentars
+            if (comments) {
+                db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)',
+                    [comments, 'defaultUser', taskname],
+                    (err, results) => {
+                        if (err) {
+                            return res.status(500).json({ error: err.message });
+                        }
+                        res.send('Task updated and comment saved.');
+                    });
+            } else {
+                res.send('Task updated.');
+            }
+        });
 });
 app.post('/getComments', (req, res) => {
     const taskname = req.body.taskname;
@@ -283,7 +283,7 @@ app.post('/getComments', (req, res) => {
         SELECT * FROM comments WHERE taskname = ?
         ORDER BY time DESC
     `;
-    
+
     db.query(query, [taskname], (err, results) => {
         if (err) {
             console.error('Error fetching comments:', err);
