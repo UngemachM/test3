@@ -3,8 +3,10 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f7fc;
+    background-color: #f4f4f4;
     color: #333;
+    padding-bottom: 60px;
+    /* Add space for footer */
 }
 
 /* Header */
@@ -20,6 +22,36 @@ body {
     margin: 0;
     font-size: 2.5rem;
     letter-spacing: 1.2px;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #02003bdd;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: block;
+}
+
+nav ul li a:hover {
+    background-color: #575757;
+    transition: 0.3s;
 }
 
 /* Container for the form and table */
@@ -55,9 +87,8 @@ body {
     color: #555;
 }
 
-#new-project-form input,
-#new-project-form textarea {
-    width: 100%;
+#new-project-form input {
+    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -66,7 +97,13 @@ body {
 }
 
 #new-project-form textarea {
-    grid-column: span 2;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+
     height: 80px;
 }
 
@@ -86,6 +123,62 @@ body {
     background-color: #415e9c;
 }
 
+/* Edit Project Form */
+#edit-input-project-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+#edit-input-project-container h2 {
+    margin-bottom: 20px;
+    color: #2b3a67;
+}
+
+#edit-project-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+#edit-project-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#edit-project-form input,
+#edit-project-form textarea {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+#edit-project-form textarea {
+    height: 80px;
+}
+
+#edit-project-form button {
+    grid-column: span 2;
+    padding: 12px;
+    background-color: #2b3a67;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#edit-project-form button:hover {
+    background-color: #415e9c;
+}
+
 /* Table styling */
 #project-table {
     width: 100%;
@@ -94,6 +187,7 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
+    margin-top: 20px;
 }
 
 #project-table th,
@@ -163,15 +257,22 @@ body {
     background-color: #415e9c;
 }
 
-/* Footer */
 #footer {
     background-color: #2b3a67;
     color: white;
     text-align: center;
     padding: 20px 0;
-    position: fixed;
-    width: 100%;
+    position: absolute;
+    /* Change from relative to absolute */
     bottom: 0;
+    width: 100%;
+}
+
+body {
+    position: relative;
+    /* Ensure the footer is positioned relative to the body */
+    min-height: 100vh;
+    /* Ensure the body takes up at least the viewport height */
 }
 
 #footer p {
