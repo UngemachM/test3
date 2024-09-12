@@ -4,7 +4,9 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    padding-bottom: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -12,6 +14,11 @@ header {
     color: white;
     padding: 10px 20px;
     text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 footer {
@@ -19,95 +26,80 @@ footer {
     color: white;
     text-align: center;
     padding: 10px;
-    position: fixed;
     width: 100%;
+    position: fixed;
     bottom: 0;
     left: 0;
 }
 
-/* Container und Spalten für die Task Board Seite */
-.container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-}
-
-.column {
+/* Hauptbereich unter dem Header */
+main {
     flex: 1;
-    margin: 10px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.column h2 {
-    text-align: center;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    margin: 0 -10px 20px;
-}
-
-.add-task-button {
     display: flex;
     justify-content: center;
-    margin: 20px;
+    align-items: center;
+    padding-top: 70px; /* Platz für den fixierten Header */
+    padding-bottom: 60px; /* Platz für den fixierten Footer */
+    width: 100%;
 }
 
-.add-task-button button {
-    padding: 15px 30px;
-    color: white;
+/* Container für das Formular */
+.add-task-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.add-task-form h2 {
+    margin-bottom: 20px;
+}
+
+/* Formular-Stile */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
     background-color: #4CAF50;
+    color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.add-task-button button:hover {
+button[type="submit"]:hover {
     background-color: #45a049;
 }
 
-/* Formular- und Kommentarstile für die Task Details Seite */
-form {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-}
-
-input,
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-input[readonly] {
-    background-color: #f0f0f0;
-}
-
-button {
-    background-color: #45a049;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #3e7941;
-}
-
+/* Kommentarstile */
 .comments-section {
     margin-top: 20px;
 }
@@ -125,7 +117,7 @@ button:hover {
     padding: 10px 0;
 }
 
-/* Zusatzstile für die Ergebnisdarstellung */
+/* Ergebnisdarstellung */
 .result {
     margin-top: 20px;
     font-size: 1.2em;

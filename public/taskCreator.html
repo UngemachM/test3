@@ -12,47 +12,53 @@
 
 <body>
 
-    <header>
-        <h1>Task Management Dashboard</h1>
-    </header>
+<header>
+    <h1>Task Management Dashboard</h1>
+</header>
 
-    <!-- Task Form -->
-    <div class="add-task-form">
-        <h2>Add Task</h2>
-        <form id="taskForm">
-            <div class="form-group">
-                <label for="taskname">Task Name:</label>
-                <input type="text" id="taskname" name="taskname" required />
-            </div>
-            <div class="form-group">
-                <label for="prio">Priority (1-5):</label>
-                <input type="number" id="prio" name="prio" required />
-            </div>
-            <div class="form-group">
-                <label for="owner">Owner:</label>
-                <input type="text" id="owner" name="owner" required />
-            </div>
-            <div class="form-group">
-                <label for="assigned">Assigned:</label>
-                <input type="text" id="assigned" name="assigned" required />
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit">Add Task</button>
-            </div>
-        </form>
-    </div>
+<!-- Task Form -->
+<div class="add-task-form">
+    <h2>Add Task</h2>
+    <form id="taskForm">
+        <div class="form-group">
+            <label for="taskname">Task Name:</label>
+            <input type="text" id="taskname" name="taskname" required />
+        </div>
+        <div class="form-group">
+            <label for="prio">Priority (1-5):</label>
+            <input type="number" id="prio" name="prio" required />
+        </div>
+        <div class="form-group">
+            <label for="owner">Owner:</label>
+            <select id="owner" name="owner" required>
+                <option value="">Select Owner</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="assigned">Assigned:</label>
+            <select id="assigned" name="assigned" required>
+                <option value="">Select Assigned</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">Add Task</button>
+        </div>
+    </form>
+</div>
 
-    <footer>
-        <p>Task Management Dashboard - 2024</p>
-    </footer>
+<footer>
+    <p>Task Management Dashboard - 2024</p>
+</footer>
 
-    <script src="scripts/creatorScript.js">
+<script src="scripts/creatorScript.js">
+   
+</script>
 
-    </script>
 
 </body>
 

@@ -19,3 +19,35 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
         console.error('Error adding task:', error);
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Funktion zum Laden der Benutzer
+    function loadUsers() {
+        fetch('/users') // API-Endpunkt zum Abrufen der Benutzer
+            .then(response => response.json())
+            .then(users => {
+                // Dropdown-Elemente für Owner und Assigned
+                const ownerSelect = document.getElementById('owner');
+                const assignedSelect = document.getElementById('assigned');
+
+                // Benutzer in Dropdown-Menüs einfügen
+                users.forEach(user => {
+                    const optionOwner = document.createElement('option');
+                    optionOwner.value = user.id;
+                    optionOwner.textContent = user.username;
+                    ownerSelect.appendChild(optionOwner);
+
+                    const optionAssigned = document.createElement('option');
+                    optionAssigned.value = user.id;
+                    optionAssigned.textContent = user.username;
+                    assignedSelect.appendChild(optionAssigned);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
+    }
+
+    // Benutzer laden, sobald die Seite vollständig geladen ist
+    loadUsers();
+});
