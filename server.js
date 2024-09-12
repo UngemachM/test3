@@ -305,6 +305,16 @@ app.post('/getComments', (req, res) => {
     });
 });
 
+app.get('/users', (req, res) => {
+    let sql = 'SELECT username FROM namen';
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
+
+
 
 
 
