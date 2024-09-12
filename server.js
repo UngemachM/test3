@@ -238,7 +238,7 @@ app.post('/updateTask', (req, res) => {
     console.log(req)
 
     if (!taskname || prio === undefined || owner === undefined || assigned === undefined || description === undefined) {
-        return res.status(400).send('All fields are required1.'+taskname+prio+owner+assigned+description);
+        return res.status(400).send('All fields are required1.' + taskname + prio + owner + assigned + description);
     }
 
     // Update der Task in der Datenbank
@@ -269,7 +269,7 @@ app.post('/updateTask', (req, res) => {
 
 app.post('/getComments', (req, res) => {
     const taskname = req.body.taskname;
-   // Taskname aus dem POST-Body erhalten
+    // Taskname aus dem POST-Body erhalten
 
     if (!taskname) {
         return res.status(400).send('No task name provided.');
