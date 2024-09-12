@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="icon" href="images/favicon.ico">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         .welcome {
             font-size: 1.5em;
         }
+
         .logout-button {
             padding: 10px 15px;
             background-color: #dc3545;
@@ -19,11 +23,13 @@
             border: none;
             cursor: pointer;
         }
+
         .logout-button:hover {
             background-color: #c82333;
         }
     </style>
 </head>
+
 <body>
     <div class="welcome">
         <h1>Willkommen im Dashboard!</h1>
@@ -38,17 +44,18 @@
             fetch('/logout', {
                 method: 'POST'
             })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '/'; // Weiterleitung zur Startseite oder Anmeldeseite
-                } else {
-                    console.error('Fehler beim Abmelden');
-                }
-            })
-            .catch(error => {
-                console.error('Fehler:', error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/'; // Weiterleitung zur Startseite oder Anmeldeseite
+                    } else {
+                        console.error('Fehler beim Abmelden');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fehler:', error);
+                });
         }
     </script>
 </body>
+
 </html>
