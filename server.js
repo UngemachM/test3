@@ -143,7 +143,7 @@ app.get('/dashboardManager', isAuthenticated, (req, res) => {
 });
 
 app.get('/dashboardAdmin', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'projectboard.html'));
+    res.sendFile(path.join(__dirname, 'public', 'dashboardAdmin.html'));
 });
 
 // Route zum Abmelden
@@ -319,6 +319,23 @@ app.get('/users', (req, res) => {
         res.json(result);
     });
 });
+
+// Route to get all projects
+app.get('/projects', (req, res) => {
+    const sql = 'SELECT * FROM projects';
+    
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching projects:', err);
+            res.status(500).send('Error fetching projects from database');
+            return;
+        }
+        // Send the projects as JSON
+        res.json(results);
+    });
+});
+
+
 
 
 

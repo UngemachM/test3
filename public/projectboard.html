@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management Dashboard</title>
+    <title>111Project Management Dashboard111</title>
     <link rel="icon" href="images/favicon.ico">
-    <link href="styles/projectboard.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="Dashboardadmin.css">
 </head>
 
 <body>
@@ -44,6 +43,7 @@
             <button type="submit">Add Project</button>
         </form>
     </div>
+    
 
     <!-- Edit Project Form (Initially hidden) -->
     <div class="container" id="edit-project-container" style="display: none;">
@@ -65,13 +65,13 @@
                 </td>
                 <td id="project-developers">
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/1.png" alt=""> John
+                        <img src="../images/1.png" alt=""> John
                     </div>
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/2.png" alt=""> Sarah
+                        <img src="../images/2.png" alt=""> Sarah
                     </div>
                     <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/3.png" alt=""> Mike
+                        <img src="../images/3.png" alt=""> Mike
                     </div>
                 </td>
                 <td class="project-details" id="project-details-id">
@@ -112,38 +112,9 @@
         <table id="project-table">
             <tr id="table-header">
                 <th id="th-project-name">Project Name</th>
-                <th id="th-progress">Progress</th>
-                <th id="th-developers">Developers</th>
                 <th id="th-details">Project Details</th>
-                <th id="th-view-details">Details</th>
             </tr>
-            <tr id="project-container">
-                <td id="project-name">Project Alpha</td>
-                <td id="project-progress">
-                    <div class="progress-bar" id="progress-bar">
-                        <div class="progress" style="width: 75%;" id="progress-fill"></div>
-                    </div>
-                    75%
-                </td>
-                <td id="project-developers">
-                    <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/1.png" alt=""> John
-                    </div>
-                    <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/2.png" alt=""> Sarah
-                    </div>
-                    <div class="developer-profile" id="developer-profile-id">
-                        <img src="images/3.png" alt=""> Mike
-                    </div>
-                </td>
-                <td class="project-details" id="project-details-id">
-                    <p id="project-details-text">This project is about developing a new web application with real-time
-                        analytics and user-friendly dashboards.</p>
-                </td>
-                <td id="project-view">
-                    <a href="#" class="btn-details" id="project-details-btn">View Details</a>
-                </td>
-            </tr>
+            <!-- Dynamically filled rows will go here -->
         </table>
     </div>
 
@@ -151,7 +122,7 @@
         <p>&copy; 2024 Project Management Dashboard. All rights reserved.</p>
     </footer>
 
-    <script src="scripts/projectboard.js">  </script>
+    <script src="Dashboardadmin.js"></script>
 
 </body>
 
