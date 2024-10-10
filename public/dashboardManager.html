@@ -4,58 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Task Management Board</title>
     <link rel="icon" href="images/favicon.ico">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+    <link href="styles/dashboard.css" rel="stylesheet">
 
-        .welcome {
-            font-size: 1.5em;
-        }
-
-        .logout-button {
-            padding: 10px 15px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .logout-button:hover {
-            background-color: #c82333;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="welcome">
-        <h1>Willkommen im Dashboard!</h1>
-        <p>Hier kannst du auf verschiedene Funktionen zugreifen.
-            Du Bist Manager
-        </p>
-        <button class="logout-button" onclick="logout()">Abmelden</button>
+
+    <header>
+        <h1>Task Management Board</h1>
+    </header>
+
+    <div class="add-task-button">
+        <button onclick="window.location.href='/taskCreator'">Create New Task</button>
     </div>
 
-    <script>
-        function logout() {
-            fetch('/logout', {
-                method: 'POST'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = '/'; // Weiterleitung zur Startseite oder Anmeldeseite
-                    } else {
-                        console.error('Fehler beim Abmelden');
-                    }
-                })
-                .catch(error => {
-                    console.error('Fehler:', error);
-                });
-        }
+    <div class="container">
+        <div class="column" id="progress1">
+            <h2>Progress 1</h2>
+        </div>
+        <div class="column" id="progress2">
+            <h2>Progress 2</h2>
+        </div>
+        <div class="column" id="progress3">
+            <h2>Progress 3</h2>
+        </div>
+        <div class="column" id="progress4">
+            <h2>Progress 4</h2>
+        </div>
+        <div class="column" id="progress5">
+            <h2>Progress 5</h2>
+        </div>
+    </div>
+
+    <footer>
+        <p>Task Management Board - 2024</p>
+    </footer>
+
+    <script src="scripts/dashboardScript.js">
+
     </script>
+
 </body>
 
 </html>
