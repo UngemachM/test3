@@ -1,3 +1,5 @@
+
+
 // JavaScript to toggle the "New Project" form
 document.getElementById('new-project-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'block';
@@ -49,3 +51,26 @@ document.addEventListener('click', function (event) {
         document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
     }
 });
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Loading projects...");
+
+    fetch('/projects')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Projects fetched:', data);
+
+            // Holt das tbody-Element
+            const tableBody = document.getElementById('project-body');
+            
+            // Setze innerHTML neu
+            tableBody.innerHTML = data.map(project => `
+                <tr>
+                    <td>${project.projectname}</td>
+                    <td>${project.projectDetails}</td>
+                </tr>
+            `).join(''); // join('') fügt alle Zeilen zu einem einzigen HTML-String zusammen
+
+        })
+        .catch(error => console.error('Error fetching projects:', error));
+});
+
