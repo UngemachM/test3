@@ -182,17 +182,6 @@ app.post('/addTask', (req, res) => {
     });
 });
 
-// Route to retrieve tasks from the database and send to frontend
-app.get('/getTasks', (req, res) => {
-    const sql = 'SELECT * FROM tasks';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Error fetching tasks.');
-        }
-        res.json(results);  // Send tasks as JSON
-    });
-});
 
 app.get('/taskCreator', (req, res) => {
     res.sendFile(__dirname + '/public/taskCreator.html');  // Serve your task creation page here
@@ -213,23 +202,41 @@ app.get('/getTasks', (req, res) => {
 });
 app.get('/taskDetail', (req, res) => {
     const taskname = req.query.taskname;
+
+    // Check if taskname is provided
     if (!taskname) {
         return res.status(400).send('Taskname is required.');
     }
 
-    // Hole den Task aus der Datenbank basierend auf dem taskname
-    db.query('SELECT * FROM tasks WHERE taskname = ?', [taskname], (err, results) => {
+    // Fetch the user's rank from the session
+    const userRank = req.session.rank;
+
+    // Sanitize taskname to avoid SQL injection
+    const sanitizedTaskName = taskname.trim();
+
+    // Query the database for the task based on the taskname
+    db.query('SELECT * FROM tasks WHERE taskname = ?', [sanitizedTaskName], (err, results) => {
         if (err) {
-            return res.status(500).json({ error: err.message });
+            console.error('Database query error:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
+
         if (results.length === 0) {
             return res.status(404).send('Task not found.');
         }
 
-        // Task-Daten erfolgreich abgerufen, jetzt rendern wir die EJS-Seite
-        res.render('taskDetail', { task: results[0] });
+        // Task data successfully retrieved; now render the EJS page based on rank
+        const task = results[0];
+        if (userRank === 1) {
+            res.render('taskDetailUser', { task }); // Render for rank 1 users
+        } else if (userRank === 2) {
+            res.render('taskDetailManager', { task }); // Render for rank 2 users
+        } else {
+            return res.status(403).send('Access denied.'); // Handle other ranks if necessary
+        }
     });
 });
+
 
 
 // Route zum Aktualisieren der Task-Details
