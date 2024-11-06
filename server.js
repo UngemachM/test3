@@ -37,6 +37,7 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
 
+// Registrierung eines neuen Benutzers
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
 
@@ -112,7 +113,6 @@ app.post('/login', (req, res) => {
         if (password === storedPassword) {
             req.session.loggedIn = true;
             req.session.username = username;
-            console.log(req.session.username)
             req.session.rank = rank;
 
             res.json({ success: true, rank });
@@ -121,8 +121,6 @@ app.post('/login', (req, res) => {
         }
     });
 });
-
-
 
 // Middleware zum Überprüfen, ob der Benutzer eingeloggt ist
 function isAuthenticated(req, res, next) {
@@ -156,23 +154,12 @@ app.post('/logout', (req, res) => {
     });
 });
 
+// Aufgabe hinzufügen
 app.post('/addTask', (req, res) => {
-    const { taskname, prio, owner, assigned, description } = req.body;
-
-    // Generieren des Dateinamens
-    const filename = `${taskname.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${Date.now()}.txt`;
-    const filePath = path.join(commentFilesDir, filename);
-
-    // Schreiben in die Datei
-    fs.writeFile(filePath, description, (err) => {
-        if (err) {
-            console.error('Fehler beim Schreiben der Datei:', err);
-            return res.status(500).send('Fehler beim Speichern der Datei.');
-        }
-
+    const { taskname, prio, owner, assigned, description,projectName } = req.body;
         // Füge die Aufgabe in die Datenbank ein, einschließlich des relativen Dateipfads
-        const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned, commentfilepath, description, status) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        db.query(insertTaskSql, [taskname, prio, owner, assigned, `commentFiles/${filename}`, description, "1"], (err, result) => {
+        const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned,  description, status, projecName) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        db.query(insertTaskSql, [taskname, prio, owner, assigned, description, "1", projectName], (err, result) => {
             if (err) {
                 console.error('Datenbankfehler:', err);
                 return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
@@ -180,72 +167,77 @@ app.post('/addTask', (req, res) => {
             res.send('Aufgabe erfolgreich hinzugefügt.');
         });
     });
-});
 
 
+// Route zum Abrufen der Aufgabenerstellungsseite
 app.get('/taskCreator', (req, res) => {
-    res.sendFile(__dirname + '/public/taskCreator.html');  // Serve your task creation page here
+    res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  // Serve your task creation page here
 });
 
-// Route to retrieve tasks from the database and send to frontend
-app.get('/getTasks', (req, res) => {
-    const sql = 'SELECT * FROM tasks';
+// Route zum Abrufen aller Aufgaben für ein bestimmtes Projekt
+app.post('/getTasks', (req, res) => {
+    const projectName = req.body.projectName; // Projektname aus den Formulardaten abrufen
+    const sql = 'SELECT * FROM tasks WHERE projectname = ?'; // SQL-Abfrage mit Filter
 
-    db.query(sql, (err, results) => {
+    db.query(sql, [projectName], (err, results) => {
         if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Error fetching tasks.');
+            console.error('Datenbankfehler:', err);
+            return res.status(500).send('Fehler beim Abrufen der Aufgaben.');
         }
-        console.log('Tasks fetched:', results); // Debug-Ausgabe
+        if (results.length === 0) {
+            return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.'); // Keine Aufgaben gefunden
+        }
+        console.log('Aufgaben für Projekt abgerufen:', results); // Debug-Ausgabe
         res.json(results); // JSON-Antwort senden
     });
 });
+
+// Route zum Abrufen der Details zu einer bestimmten Aufgabe
 app.get('/taskDetail', (req, res) => {
     const taskname = req.query.taskname;
 
-    // Check if taskname is provided
+    // Überprüfen, ob der taskname bereitgestellt wurde
     if (!taskname) {
-        return res.status(400).send('Taskname is required.');
+        return res.status(400).send('Taskname ist erforderlich.');
     }
 
-    // Fetch the user's rank from the session
+    // Benutzer-Rang aus der Session abrufen
     const userRank = req.session.rank;
 
-    // Sanitize taskname to avoid SQL injection
+    // Sanitizing taskname to avoid SQL injection
     const sanitizedTaskName = taskname.trim();
 
-    // Query the database for the task based on the taskname
+    // Abfrage der Datenbank für die Aufgabe basierend auf dem taskname
     db.query('SELECT * FROM tasks WHERE taskname = ?', [sanitizedTaskName], (err, results) => {
         if (err) {
-            console.error('Database query error:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Datenbankabfragefehler:', err);
+            return res.status(500).json({ error: 'Interner Serverfehler' });
         }
 
         if (results.length === 0) {
-            return res.status(404).send('Task not found.');
+            return res.status(404).send('Aufgabe nicht gefunden.');
         }
 
-        // Task data successfully retrieved; now render the EJS page based on rank
+        // Aufgabendaten erfolgreich abgerufen; jetzt die EJS-Seite basierend auf dem Rang rendern
         const task = results[0];
         if (userRank === 1) {
-            res.render('taskDetailUser', { task }); // Render for rank 1 users
+            res.render('taskDetailUser', { task }); // Render für Rang 1 Benutzer
         } else if (userRank === 2) {
-            res.render('taskDetailManager', { task }); // Render for rank 2 users
+            res.render('taskDetailManager', { task }); // Render für Rang 2 Benutzer
+            } else if (userRank === 3) {
+            res.render('taskDetailManager', { task }); // Render für Rang 2 Benutzer
         } else {
-            return res.status(403).send('Access denied.'); // Handle other ranks if necessary
+            return res.status(403).send('Zugriff verweigert.'); // Anderen Rängen ggf. behandeln
         }
     });
 });
-
-
 
 // Route zum Aktualisieren der Task-Details
 app.post('/updateTask', (req, res) => {
     const { taskname, prio, owner, assigned, description, comments } = req.body;
-    console.log(req)
 
     if (!taskname || prio === undefined || owner === undefined || assigned === undefined || description === undefined) {
-        return res.status(400).send('All fields are required1.' + taskname + prio + owner + assigned + description);
+        return res.status(400).send('Alle Felder sind erforderlich.' + taskname + prio + owner + assigned + description);
     }
 
     // Update der Task in der Datenbank
@@ -259,27 +251,26 @@ app.post('/updateTask', (req, res) => {
             // Speichern des Kommentars, falls vorhanden
             if (comments) {
                 const currentUser = req.session.username;
-                console.log(currentUser) // Benutzername aus der Session
                 db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)',
                     [comments, currentUser, taskname],
                     (err, results) => {
                         if (err) {
                             return res.status(500).json({ error: err.message });
                         }
-                        res.send('Task updated and comment saved.');
+                        res.send('Task aktualisiert und Kommentar gespeichert.');
                     });
             } else {
-                res.send('Task updated.');
+                res.send('Task aktualisiert.');
             }
         });
 });
 
+// Route zum Abrufen von Kommentaren
 app.post('/getComments', (req, res) => {
     const taskname = req.body.taskname;
-    // Taskname aus dem POST-Body erhalten
 
     if (!taskname) {
-        return res.status(400).send('No task name provided.');
+        return res.status(400).send('Kein Taskname bereitgestellt.');
     }
 
     const query = `
@@ -289,8 +280,8 @@ app.post('/getComments', (req, res) => {
 
     db.query(query, [taskname], (err, results) => {
         if (err) {
-            console.error('Error fetching comments:', err);
-            return res.status(500).send('Database query error.');
+            console.error('Fehler beim Abrufen der Kommentare:', err);
+            return res.status(500).send('Datenbankabfragefehler.');
         }
 
         let commentsHtml = '';
@@ -305,13 +296,14 @@ app.post('/getComments', (req, res) => {
         });
 
         if (results.length === 0) {
-            commentsHtml = '<p>No comments available.</p>';
+            commentsHtml = '<p>Keine Kommentare verfügbar.</p>';
         }
 
         res.send(commentsHtml); // HTML-Antwort senden
     });
 });
 
+// Route zum Abrufen aller Benutzer
 app.get('/users', (req, res) => {
     let sql = 'SELECT username FROM namen';
     db.query(sql, (err, result) => {
@@ -320,30 +312,100 @@ app.get('/users', (req, res) => {
     });
 });
 
-// Route to get all projects
+// Route zum Abrufen aller Projekte
 app.get('/projects', (req, res) => {
     const sql = 'SELECT * FROM projects';
     
     db.query(sql, (err, results) => {
         if (err) {
-            console.error('Error fetching projects:', err);
-            res.status(500).send('Error fetching projects from database');
+            console.error('Fehler beim Abrufen der Projekte:', err);
+            res.status(500).send('Fehler beim Abrufen der Projekte aus der Datenbank');
             return;
         }
-        // Send the projects as JSON
+        // Sende die Projekte als JSON
         res.json(results);
     });
 });
 
 
+app.post('/projects/tasks', (req, res) => {
+    const projectName = req.body.projectName; // Get projectName from URL-encoded form data
+
+    // SQL query to select all required fields
+    const sql = 'SELECT taskname, prio, owner, assigned, description, status FROM tasks WHERE projectname = ?'; 
+    db.query(sql, [projectName], (err, results) => {
+        if (err) {
+            console.error('Datenbankfehler:', err);
+            return res.status(500).send('Fehler beim Abrufen der Aufgaben.'); // Send plain text error message
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.'); // Send plain text for no tasks found
+        }
+
+        // Prepare a response in a format that can be easily processed
+        const tasksByStatus = results.reduce((acc, task) => {
+            const status = task.status; // Get the task status
+            if (!acc[status]) {
+                acc[status] = []; // Initialize array for this status if it doesn't exist
+            }
+            acc[status].push({
+                taskname: task.taskname,
+                prio: task.prio,
+                owner: task.owner,
+                assigned: task.assigned,
+                description: task.description,
+                status: task.status
+            }); // Add task object to the corresponding status
+            return acc;
+        }, {});
+
+        // Format the tasks by status into a response string
+        let responseString = '';
+        for (let i = 1; i <= 5; i++) {
+            if (tasksByStatus[i]) {
+                responseString += `Progress ${i}:\n`;
+                tasksByStatus[i].forEach(task => {
+                    responseString += `Task: ${task.taskname}\n`;
+                    responseString += `Priority: ${task.prio}\n`;
+                    responseString += `Owner: ${task.owner}\n`;
+                    responseString += `Assigned: ${task.assigned}\n`;
+                    responseString += `Description: ${task.description}\n`;
+                    responseString += `Status: ${task.status}\n`;
+                    responseString += `---------------------------------\n`; // Divider for tasks
+                });
+                responseString += `\n`; // Extra newline for spacing
+            } else {
+                responseString += `Progress ${i}:\nKeine Aufgaben gefunden.\n\n`; // Indicate no tasks for this progress
+            }
+        }
+        res.send(responseString); // Send tasks organized by status as plain text
+    });
+});
 
 
+// Respond with plain text for project details
+app.post('/projects/details', isAuthenticated, (req, res) => {
+    const projectName = req.body.projectName; // Get projectName from URL-encoded form data
+
+    const sql = 'SELECT name FROM projects WHERE projectname = ?'; // Adjust as needed
+    db.query(sql, [projectName], (err, results) => {
+        if (err) {
+            console.error('Datenbankfehler:', err);
+            return res.status(500).send('Fehler beim Abrufen der Projektdaten.'); // Send plain text error message
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('Projekt nicht gefunden.'); // Send plain text for project not found
+        }
+
+        // Return project name as plain text
+        res.send(results[0].name); // Send project name as plain text
+    });
+});
 
 
-
-
-
-
+// Server starten
 app.listen(port, () => {
     console.log(`Server läuft auf http://localhost:${port}`);
 });

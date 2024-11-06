@@ -12,7 +12,7 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
         alert(message);  // Show a success message
 
         // Redirect to the task board after successful creation
-        window.location.href = '/dashboardUser';  // Replace with your actual taskboard URL
+        window.location.href = '/dashboard';  // Replace with your actual taskboard URL
     })
     .catch(error => {
         document.querySelector('.add-task-form').insertAdjacentHTML('beforeend', `<p>Fehler beim Hinzufügen der Aufgabe.</p>`);

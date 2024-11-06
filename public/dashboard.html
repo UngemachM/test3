@@ -7,7 +7,6 @@
     <title>Task Management Board</title>
     <link rel="icon" href="images/favicon.ico">
     <link href="styles/dashboard.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -20,21 +19,26 @@
         <button onclick="window.location.href='/taskCreator'">Create New Task</button>
     </div>
 
-    <div class="container">
+    <div class="container" id="task-container">
         <div class="column" id="progress1">
             <h2>Progress 1</h2>
+            <ul class="task-list" id="progress1-tasks"></ul>
         </div>
         <div class="column" id="progress2">
             <h2>Progress 2</h2>
+            <ul class="task-list" id="progress2-tasks"></ul>
         </div>
         <div class="column" id="progress3">
             <h2>Progress 3</h2>
+            <ul class="task-list" id="progress3-tasks"></ul>
         </div>
         <div class="column" id="progress4">
             <h2>Progress 4</h2>
+            <ul class="task-list" id="progress4-tasks"></ul>
         </div>
         <div class="column" id="progress5">
             <h2>Progress 5</h2>
+            <ul class="task-list" id="progress5-tasks"></ul>
         </div>
     </div>
 
@@ -42,10 +46,7 @@
         <p>Task Management Board - 2024</p>
     </footer>
 
-    <script src="scripts/dashboardScript.js">
-
-    </script>
-
+    <script src="scripts/dashboardScript.js"></script>
 </body>
 
 </html>
