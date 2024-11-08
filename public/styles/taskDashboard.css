@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Ensures footer stays at the bottom */
+    align-items: center;
+    /* Centers content horizontally */
+    min-height: 100vh;
+    /* Full viewport height */
+}
+
+header {
+    background-color: #2b3a67;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 1.2px;
+}
+
+
+
+/* Footer */
+footer {
+    background-color: #2b3a67;
+    /* Dark blue */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    font-size: 0.85rem;
+}
+
+/* Button to Create New Task */
+.add-task-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.add-task-button button {
+    padding: 15px 30px;
+    color: white;
+    background-color: #2b3a67;
+    /* Dark blue */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-task-button button:hover {
+    background-color: #415e9c;
+    /* Lighter blue */
+}
+
+/* Container for Task Columns */
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex-wrap: wrap;
+    /* Ensures columns will stack on smaller screens */
+    flex-grow: 1;
+    /* Makes sure container grows and takes remaining space */
+}
+
+/* Individual Column Styles */
+.column {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    transition: box-shadow 0.3s ease;
+}
+
+.column:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.column h2 {
+    text-align: center;
+    background-color: #2b3a67;
+    /* Dark blue */
+    color: white;
+    padding: 10px;
+    margin: -10px -10px 20px;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.2rem;
+}
+
+/* Task List within Columns */
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-list li {
+    padding: 12px;
+    background-color: #f9f9f9;
+    margin: 8px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.task-list li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form Styles */
+.add-task-form {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 40px 0;
+}
+
+.add-task-form h2 {
+    margin-bottom: 20px;
+    color: #2b3a67;
+    /* Dark blue */
+    text-align: center;
+}
+
+/* Form Group Styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-group button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group button {
+    background-color: #2b3a67;
+    /* Dark blue */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #415e9c;
+    /* Lighter blue */
+}

@@ -3,31 +3,34 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f7f9fc;
     color: #333;
     padding-bottom: 60px;
-    /* Add space for footer */
+    min-height: 100vh;
+    position: relative;
 }
 
 /* Header */
-#header {
+header {
     background-color: #2b3a67;
     color: white;
     text-align: center;
     padding: 20px 0;
+    width: 100%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-#header h1 {
+header h1 {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 2rem;
     letter-spacing: 1.2px;
 }
+
 
 /* Navigation Bar */
 nav {
     background-color: #02003bdd;
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 nav ul {
@@ -35,7 +38,8 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 20px;
 }
 
 nav ul li {
@@ -45,136 +49,84 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
-    padding: 14px 20px;
+    padding: 12px 20px;
     display: block;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 nav ul li a:hover {
-    background-color: #575757;
-    transition: 0.3s;
+    background-color: #415e9c;
+    color: #fff;
 }
 
 /* Container for the form and table */
 .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 /* New Project Form */
-#new-project-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
-#new-project-container h2 {
-    margin-bottom: 20px;
-    color: #2b3a67;
-}
-
-#new-project-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-}
-
-#new-project-form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-#new-project-form input {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-}
-
-#new-project-form textarea {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-
-    height: 80px;
-}
-
-#new-project-form button {
-    grid-column: span 2;
-    padding: 12px;
-    background-color: #2b3a67;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#new-project-form button:hover {
-    background-color: #415e9c;
-}
-
-/* Edit Project Form */
-#edit-input-project-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
+#new-project-container h2,
 #edit-input-project-container h2 {
     margin-bottom: 20px;
     color: #2b3a67;
+    font-size: 1.8rem;
 }
 
+#new-project-form,
 #edit-project-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
 }
 
+#new-project-form label,
 #edit-project-form label {
     font-weight: bold;
-    margin-bottom: 5px;
     color: #555;
 }
 
+#new-project-form input,
+#new-project-form textarea,
 #edit-project-form input,
 #edit-project-form textarea {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     font-size: 1rem;
     background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
 }
 
-#edit-project-form textarea {
-    height: 80px;
+#new-project-form input:focus,
+#new-project-form textarea:focus,
+#edit-project-form input:focus,
+#edit-project-form textarea:focus {
+    border-color: #2b3a67;
 }
 
+#new-project-form button,
 #edit-project-form button {
     grid-column: span 2;
-    padding: 12px;
+    padding: 15px;
     background-color: #2b3a67;
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
+#new-project-form button:hover,
 #edit-project-form button:hover {
     background-color: #415e9c;
 }
@@ -184,7 +136,7 @@ nav ul li a:hover {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
     margin-top: 20px;
@@ -192,7 +144,7 @@ nav ul li a:hover {
 
 #project-table th,
 #project-table td {
-    padding: 15px 10px;
+    padding: 15px;
     text-align: left;
     border-bottom: 1px solid #eee;
 }
@@ -210,37 +162,7 @@ nav ul li a:hover {
     color: #555;
 }
 
-#project-table #project-progress .progress-bar {
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    height: 20px;
-    width: 100%;
-    margin-top: 5px;
-    overflow: hidden;
-}
-
-#project-table #project-progress .progress {
-    height: 100%;
-    background-color: #2b3a67;
-    border-radius: 5px 0 0 5px;
-}
-
-#project-table #project-developers .developer-profile {
-    display: inline-block;
-    text-align: center;
-    margin-right: 10px;
-    font-size: 0.85rem;
-    color: #333;
-}
-
-#project-table #project-developers img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 5px;
-    border: 2px solid #2b3a67;
-}
-
+/* Button links */
 #project-table a.btn-details {
     background-color: #2b3a67;
     color: white;
@@ -257,25 +179,26 @@ nav ul li a:hover {
     background-color: #415e9c;
 }
 
+/* Footer */
 #footer {
     background-color: #2b3a67;
     color: white;
     text-align: center;
     padding: 20px 0;
     position: absolute;
-    /* Change from relative to absolute */
     bottom: 0;
     width: 100%;
-}
-
-body {
-    position: relative;
-    /* Ensure the footer is positioned relative to the body */
-    min-height: 100vh;
-    /* Ensure the body takes up at least the viewport height */
-}
-
-#footer p {
-    margin: 0;
     font-size: 0.85rem;
+}
+
+
+/* Hover and focus effects */
+input:hover,
+textarea:hover {
+    border-color: #aaa;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(43, 58, 103, 0.4);
 }

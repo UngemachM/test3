@@ -1,0 +1,105 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Ensures footer stays at the bottom */
+    align-items: center;
+    /* Centers content horizontally */
+    min-height: 100vh;
+    /* Full viewport height */
+}
+
+header {
+    background-color: #2b3a67;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 1.2px;
+}
+
+/* Task form styles */
+.add-task-form {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    /* Add some space from the top */
+    margin-bottom: 40px;
+    /* Add some space from the bottom */
+}
+
+.add-task-form h2 {
+    margin-bottom: 20px;
+    color: #2b3a67;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-group button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    width: 100%;
+    /* Ensures all form elements are the same width */
+    box-sizing: border-box;
+    /* Includes padding and border in the width calculation */
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group button {
+    background-color: #2b3a67;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #415e9c;
+}
+
+/* Footer */
+footer {
+    background-color: #2b3a67;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    font-size: 0.85rem;
+}
