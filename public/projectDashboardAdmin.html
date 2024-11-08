@@ -39,7 +39,41 @@
             <button type="submit">Add Project</button>
         </form>
     </div>
-    
+    <!-- Edit User Form (Initially hidden) -->
+<div class="container" id="edit-user-container" style="display: none;">
+    <h2>Edit Users</h2>
+    <table id="user-table">
+        <thead>
+            <tr><th>Benutzer-ID</th>
+                <th>Username</th>
+                <th>Rank</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="user-body">
+            <!-- Rows with user information will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <!-- Edit User Form (Populates with selected user data) -->
+    <div id="edit-user-form-container" style="display: none;">
+        <h3>Edit User</h3>
+        <form id="edit-user-form">
+            <label for="edit-username">Username:</label>
+            <input type="text" id="edit-username" name="username" required readonly>
+
+            <label for="edit-user-rank">Rank:</label>
+            <select id="edit-user-rank" name="user-rank" required>
+                <option value=3>Admin</option>
+                <option value=2>Manager</option>
+                <option value=1>Developer</option>
+            </select>
+
+            <button type="submit">Update User</button>
+        </form>
+    </div>
+</div>
+
 
     <!-- Edit Project Form (Initially hidden) -->
     <div class="container" id="edit-input-project-container" style="display: none;">
