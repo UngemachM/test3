@@ -1,13 +1,13 @@
 // JavaScript to toggle the "New Project" form
 document.getElementById('new-project-link').addEventListener('click', function () {
-    document.getElementById('new-project-container').style.display = 'block';    document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+    document.getElementById('new-project-container').style.display = 'block';   
+    document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
 });
 
 // Toggle the "Edit User" section and hide other sections
 document.getElementById('edit-user').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'none'; // Hide new project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // Hide edit project section
+    document.getElementById('edit-project-container').style.display = 'none'; // Hide edit project section
     document.getElementById('edit-user-container').style.display = 'block'; // Show edit user section
 
     // Load users when "Edit User" is clicked
@@ -133,16 +133,180 @@ document.addEventListener('click', function (event) {
 document.getElementById('overview-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'none';
     document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+    document.getElementById('edit-user-container').style.display = 'none'; // Show edit user section
+
     restoreDetailsButtons();
 });
 
-// JavaScript to show "Edit Project" form and hide "New Project" form
-document.getElementById('edit-project-link').addEventListener('click', function () {
-    document.getElementById('new-project-container').style.display = 'none'; // hide new project section
-    document.getElementById('edit-project-container').style.display = 'block'; // show edit project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Loading projects...");
+
+    fetch('/projects')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Projects fetched:', data);
+
+            // Get the tbody element
+            const tableBody = document.getElementById('project-body');
+            
+            // Set innerHTML to new content
+            tableBody.innerHTML = data.map(project => `
+                <tr data-project-id="${project.id}">
+                    <td>${project.projectname}</td>
+                    <td class="project-details">${project.projectDetails}</td>
+                    <td>
+                        <button class="edit-project-btn">Edit</button>
+                    </td>
+                </tr>
+            `).join(''); // join('') kombiniert alle Zeilen zu einem einzigen HTML-String
+        })
+        .catch(error => console.error('Error fetching projects:', error));
 });
+
+// Funktion zum Ersetzen der "View Details"-Buttons durch "Edit"-Buttons
+document.getElementById('edit-project-link').addEventListener('click', function () {
+    document.getElementById('new-project-container').style.display = 'none'; // Verstecke "Neues Projekt" Formular
+    document.getElementById('edit-project-container').style.display = 'block'; // Zeige "Projekt Bearbeiten" Formular
+    replaceDetailsWithEditButtons(); // Ersetze Details-Buttons durch Edit-Buttons
+});
+
+// Funktion zum Ersetzen der "View Details"-Buttons durch "Edit"-Buttons
+function replaceDetailsWithEditButtons() {
+    const projectRows = document.querySelectorAll('#project-body tr');
+    projectRows.forEach(row => {
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.classList.add('edit-project-btn');
+        
+        const detailsButtonCell = row.querySelector('td:last-child');
+        detailsButtonCell.innerHTML = ''; // Entferne den "View Details"-Button
+        detailsButtonCell.appendChild(editButton); // Füge den "Edit"-Button hinzu
+    });
+}
+
+// Handle "Edit" Button click
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('edit-project-btn')) {
+        const projectRow = event.target.closest('tr');
+        const projectId = projectRow.dataset.projectId;
+        const projectName = projectRow.children[0].textContent;
+        const projectDetails = projectRow.children[1].textContent;
+
+        // Zeige das Editierformular
+        document.getElementById('edit-project-container').dataset.projectId = projectId; // Speichere die Projekt-ID
+        document.getElementById('edit-project-progress').value = ''; // Reset progress
+        document.getElementById('edit-project-details').value = projectDetails; // Zeige Projektdetails im Formular
+
+        // Zeige das Editierformular an
+        document.getElementById('edit-project-form-container').style.display = 'block';
+    }
+});// Handle "Edit" Button click
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('edit-project-btn')) {
+        const projectRow = event.target.closest('tr');
+        const projectId = projectRow.dataset.projectId;
+        const projectName = projectRow.children[0].textContent; // Der Name des Projekts
+        const projectDetails = projectRow.children[1].textContent; // Die Details des Projekts
+
+        // Setze den projectName in das versteckte input-Feld
+        document.getElementById('projectNameHidden').value = projectName; // Das versteckte Input-Feld mit dem Namen des Projekts setzen
+
+        // Zeige das Editierformular
+        document.getElementById('edit-project-container').dataset.projectId = projectId; // Speichere die Projekt-ID
+        document.getElementById('edit-project-progress').value = ''; // Reset progress
+        document.getElementById('edit-project-details').value = projectDetails; // Zeige Projektdetails im Formular
+
+        // Zeige das Editierformular an
+        document.getElementById('edit-project-form-container').style.display = 'block';
+    }
+});
+
+document.getElementById('edit-project-form').addEventListener('submit', function (e) {
+    e.preventDefault(); // Verhindert das Standard-Formular-Verhalten
+
+    // Erstellt den URL-Parameter-String aus dem Formular
+    const formData = new URLSearchParams(new FormData(this)).toString();
+    console.log(formData)
+
+    const projectName = document.getElementById('projectNameHidden').value; // Name des Projekts aus dem versteckten Input-Feld
+
+    // Sende die PUT-Anfrage an den Server
+    fetch(`/projects/${encodeURIComponent(projectName)}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Projekt erfolgreich aktualisiert:', data);
+        loadProjects();  // Projekte nach der Aktualisierung neu laden
+        alert('Projekt wurde erfolgreich aktualisiert!');
+    })
+    .catch(error => {
+        console.error('Fehler beim Aktualisieren des Projekts:', error);
+        alert('Fehler beim Aktualisieren des Projekts: ' + error.message);
+    });
+});
+
+
+
+
+// Lade Projekte und zeige sie in der Tabelle an
+function loadProjects() {
+    console.log("Lade Projekte...");
+
+    fetch('/projects')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Projekte geladen:', data);
+
+            // Holen des tbody-Elements für die Tabelle
+            const tableBody = document.getElementById('project-body');
+
+            // Setze den innerHTML der Tabelle auf die neuen Projekt-Daten
+            tableBody.innerHTML = data.map(project => `
+                <tr data-project-id="${project.id}"> <!-- Angenommene ID des Projekts -->
+                    <td>${project.projectname}</td>
+                    <td class="project-details">${project.projectDetails}</td>
+                    <td>
+                        <button class="project-details-btn">View Details</button>
+                    </td>
+                </tr>
+            `).join(''); // join('') kombiniert alle Zeilen zu einem einzigen HTML-String
+        })
+        .catch(error => console.error('Fehler beim Laden der Projekte:', error));
+}
+
+// Beim Laden der Seite alle Projekte abrufen
+document.addEventListener('DOMContentLoaded', function() {
+    loadProjects(); // Projekte laden
+});
+
+
+// Funktion zum Laden der Projekte und Anzeigen in der Tabelle
+function loadProjects() {
+    console.log("Lade Projekte...");
+
+    fetch('/projects')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Projekte geladen:', data);
+
+            const tableBody = document.getElementById('project-body');
+            tableBody.innerHTML = data.map(project => `
+                <tr data-project-id="${project.id}">
+                    <td>${project.projectname}</td>
+                    <td class="project-details">${project.projectDetails}</td>
+                    <td>
+                        <button class="edit-project-btn">Edit</button>
+                    </td>
+                </tr>
+            `).join('');
+        })
+        .catch(error => console.error('Fehler beim Laden der Projekte:', error));
+}
 
 // Restore "View Details" buttons when switching back to Projects Overview
 function restoreDetailsButtons() {
@@ -168,8 +332,8 @@ document.addEventListener('click', function (event) {
     if (event.target.id === 'project-details-btn-edit') {
         document.getElementById('new-project-container').style.display = 'none'; // hide new project section
         document.getElementById('main-container').style.display = 'none'; // hide main project section
-        document.getElementById('edit-input-project-container').style.display = 'block'; // show edit project section
-        document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
+        document.getElementById('edit-project-container').style.display = 'block'; // show edit project section
+       
     }
 });
 
@@ -198,3 +362,87 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error fetching projects:', error));
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Zeige das Formular für die Eingabe eines neuen Projekts an
+    const addProjectButton = document.getElementById('new-project-link');
+    const newProjectContainer = document.getElementById('new-project-container');
+
+    addProjectButton.addEventListener('click', () => {
+        newProjectContainer.style.display = 'block'; // Formular anzeigen
+    });
+
+    // Verstecke das Formular wieder, wenn das Formular abgesendet wurde oder abgebrochen wird
+    const cancelProjectButton = document.getElementById('cancel-project-link');
+    if (cancelProjectButton) {
+        cancelProjectButton.addEventListener('click', () => {
+            newProjectContainer.style.display = 'none';
+        });
+    }
+
+    document.getElementById('new-project-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new URLSearchParams(new FormData(this)).toString();
+        console.log(formData);
+    
+        // Sende die Daten an den Server
+        fetch('/addProject', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded' 
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Erfolgreiche Antwort
+            } else {
+                // Überprüfen, ob der Fehlerstatus 409 (Konflikt) ist
+                if (response.status === 409) {
+                    throw new Error('Wähle einen anderen Namen. Ein Projekt mit diesem Namen existiert bereits.');
+                } else {
+                    throw new Error('Fehler beim Hinzufügen des Projekts. Bitte versuche es erneut.');
+                }
+            }
+        })
+        .then(data => {
+            alert('Projekt erfolgreich hinzugefügt!');
+            newProjectContainer.style.display = 'none'; // Formular nach dem Hinzufügen schließen
+            loadProjects(); // Neue Projekte laden
+        })
+        .catch(error => {
+            console.error('Fehler beim Hinzufügen des Projekts:', error);
+            alert(error.message); // Zeige die Fehlermeldung an
+        });
+    });
+});
+
+
+// Funktion zum Laden der Projekte und Anzeigen in der Tabelle
+function loadProjects() {
+    console.log("Lade Projekte...");
+
+    // Abfrage der Projekte vom Server
+    fetch('/projects')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Projekte geladen:', data);
+
+            // Holen des tbody-Elements für die Tabelle
+            const tableBody = document.getElementById('project-body');
+
+            // Setze den innerHTML der Tabelle auf die neuen Projekt-Daten
+            tableBody.innerHTML = data.map(project => `
+                <tr data-project-id="${project.id}"> <!-- Angenommene ID des Projekts -->
+                    <td>${project.projectname}</td>
+                    <td class="project-details">${project.projectDetails}</td>
+                    <td>
+                        <button class="project-details-btn">View Details</button>
+                    </td>
+                </tr>
+            `).join(''); // join('') kombiniert alle Zeilen zu einem einzigen HTML-String
+
+        })
+        .catch(error => console.error('Fehler beim Laden der Projekte:', error));
+}
+

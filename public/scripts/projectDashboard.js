@@ -40,7 +40,7 @@ document.addEventListener('click', function (event) {
         const projectName = projectRow.children[0].textContent; // Assuming the project name is in the first column
 
         // Redirect to the dashboard with the project ID and name as query parameters
-        window.location.href = `/dashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
+        window.location.href = `/taskDashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
     }
 
     // Handle 'Edit This Project' button click

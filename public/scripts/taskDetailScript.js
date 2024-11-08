@@ -26,6 +26,7 @@
         // Erstelle ein FormData-Objekt mit dem Formular
         const form = document.getElementById('taskForm');
         const formData = new FormData(form);
+        console.log(formData)
     
     
         
