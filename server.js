@@ -321,10 +321,41 @@ app.post('/getComments', (req, res) => {
 
 // Route zum Abrufen aller Benutzer
 app.get('/users', (req, res) => {
-    let sql = 'SELECT username FROM namen';
+    let sql = 'SELECT id,username,rank FROM namen';
     db.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
+    });
+});
+
+// Route zum Aktualisieren eines Benutzers (PUT)
+app.put('/users/:userId', (req, res) => {
+    console.log("Benutzer wird aktualisiert");
+
+    const userId = req.params.userId;  // Benutzer-ID aus der URL extrahieren
+    const { username, rank } = req.query; // Den Benutzernamen und Rang aus der URL extrahieren
+
+    console.log(`Aktualisiere Benutzer mit ID: ${userId}`);
+    console.log(`Neuer Rang: ${rank}`);
+    console.log(`Neuer Benutzername: ${username}`);
+
+    // SQL-Abfrage zum Aktualisieren des Benutzers in der Datenbank
+    const query = 'UPDATE namen SET rank = ?, username = ? WHERE id = ?';
+
+    // Datenbankabfrage ausführen, um den Benutzer zu aktualisieren
+    db.query(query, [rank, username, userId], (err, result) => {
+        if (err) {
+            console.error('Fehler beim Aktualisieren des Benutzers:', err);
+            return res.status(500).json({ error: 'Fehler beim Aktualisieren des Benutzers' });
+        }
+
+        // Überprüfen, ob der Benutzer existiert und aktualisiert wurde
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+        }
+
+        // Erfolgreiche Antwort senden
+        res.json({ message: 'Benutzer erfolgreich aktualisiert' });
     });
 });
 
