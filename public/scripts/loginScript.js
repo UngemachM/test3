@@ -14,11 +14,11 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         .then(result => {
             if (result.success) {
                 if (result.rank === 1) {
-                        window.location.href = '/dashboardUser';
+                        window.location.href = '/projectDashboardUser';
                     } else if (result.rank === 2) {
-                        window.location.href = '/dashboardManager';
+                        window.location.href = '/projectDashboard';
                     } else if (result.rank === 3) {
-                        window.location.href = '/dashboardAdmin';
+                        window.location.href = '/projectDashboardAdmin';
                     }
                 } else {
                     // Zeige Fehlermeldung an

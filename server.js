@@ -122,7 +122,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-// Middleware zum Überprüfen, ob der Benutzer eingeloggt ist
 function isAuthenticated(req, res, next) {
     if (req.session.loggedIn) {
         return next();
@@ -132,17 +131,19 @@ function isAuthenticated(req, res, next) {
 }
 
 // Dashboard-Routen für verschiedene Ränge
-app.get('/dashboardUser', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboardUser.html'));
+app.get('/dashboard', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+app.get('/projectDashboardUser', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'projectDashboardUser.html'));
+});
+app.get('/projectDashboard', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'projectDashboard.html'));
+});
+app.get('/projectDashboardAdmin', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'projectDashboardAdmin.html'));
 });
 
-app.get('/dashboardManager', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboardManager.html'));
-});
-
-app.get('/dashboardAdmin', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboardAdmin.html'));
-});
 
 // Route zum Abmelden
 app.post('/logout', (req, res) => {
@@ -154,19 +155,34 @@ app.post('/logout', (req, res) => {
     });
 });
 
-// Aufgabe hinzufügen
 app.post('/addTask', (req, res) => {
-    const { taskname, prio, owner, assigned, description,projectName } = req.body;
-        // Füge die Aufgabe in die Datenbank ein, einschließlich des relativen Dateipfads
-        const insertTaskSql = 'INSERT INTO tasks (taskname, prio, owner, assigned,  description, status, projecName) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        db.query(insertTaskSql, [taskname, prio, owner, assigned, description, "1", projectName], (err, result) => {
-            if (err) {
-                console.error('Datenbankfehler:', err);
-                return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
-            }
-            res.send('Aufgabe erfolgreich hinzugefügt.');
-        });
+    const { taskname, prio, owner, assigned, description, project } = req.body;
+
+    // Logging each field to confirm data retrieval
+    console.log('Received Data:', {
+        taskname,
+        prio,
+        owner,
+        assigned,
+        description,
+        project
     });
+
+    // SQL query to insert task into the database, including the project
+    const insertTaskSql = `
+        INSERT INTO tasks (taskname, prio, owner, assigned, description, status, projectName)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    // Insert task into the database, with project as a field
+    db.query(insertTaskSql, [taskname, prio, owner, assigned, description, "1", project], (err, result) => {
+        if (err) {
+            console.error('Datenbankfehler:', err);
+            return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
+        }
+        res.send('Aufgabe erfolgreich hinzugefügt.');
+    });
+});
 
 
 // Route zum Abrufen der Aufgabenerstellungsseite

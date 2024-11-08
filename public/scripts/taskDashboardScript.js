@@ -2,7 +2,6 @@ function loadTasks() {
     const urlParams = new URLSearchParams(window.location.search);
     const projectName = urlParams.get('projectName'); // Projektname aus den URL-Parametern extrahieren
 
-    console.log("Project Name:", projectName); // Projektname protokollieren
 
     // Formulardaten für die Anfrage vorbereiten
     const formData = new URLSearchParams();

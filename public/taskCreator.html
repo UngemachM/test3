@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management Dashboard</title>
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="styles/style.css">
-
 </head>
-
 <body>
 
 <header>
@@ -24,16 +21,26 @@
             <label for="taskname">Task Name:</label>
             <input type="text" id="taskname" name="taskname" required />
         </div>
+        
         <div class="form-group">
             <label for="prio">Priority (1-5):</label>
             <input type="number" id="prio" name="prio" required />
         </div>
+        
+        <div class="form-group">
+            <label for="project">Project:</label>
+            <select id="project" name="project" required>
+                <option value="">Select Project</option>
+            </select>
+        </div>
+        
         <div class="form-group">
             <label for="owner">Owner:</label>
             <select id="owner" name="owner" required>
                 <option value="">Select Owner</option>
             </select>
         </div>
+        
         <div class="form-group">
             <label for="assigned">Assigned:</label>
             <select id="assigned" name="assigned" required>
@@ -45,21 +52,19 @@
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea>
         </div>
+        
         <div class="form-group">
             <button type="submit">Add Task</button>
         </div>
     </form>
+    
 </div>
 
 <footer>
     <p>Task Management Dashboard - 2024</p>
 </footer>
 
-<script src="scripts/creatorScript.js">
-   
-</script>
-
+<script src="scripts/creatorScript.js"></script>
 
 </body>
-
 </html>

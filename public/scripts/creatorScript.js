@@ -1,44 +1,65 @@
 document.getElementById('taskForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Prevent default form submission behavior
-    const formData = new URLSearchParams(new FormData(this)).toString();
+    event.preventDefault();  // Verhindert das Standard-Verhalten des Formulars
 
+    // Werte aus den Dropdowns holen
+    const taskname = document.getElementById('taskname').value;
+    const prio = document.getElementById('prio').value;
+    const project = document.getElementById('project').value;
+    const owner = document.getElementById('owner').value;
+    const assigned = document.getElementById('assigned').value;
+    const description = document.getElementById('description').value;
+
+    // Sicherstellen, dass alle erforderlichen Felder ausgefüllt sind
+    if (!taskname || !prio || !project || !owner || !assigned || !description) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    // Formulardaten in URLSearchParams umwandeln
+    const formData = new URLSearchParams();
+    formData.append('taskname', taskname);
+    formData.append('prio', prio);
+    formData.append('project', project);
+    formData.append('owner', owner);
+    formData.append('assigned', assigned);
+    formData.append('description', description);
+
+    // Formulardaten an den Server senden
     fetch('/addTask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData
+        body: formData.toString()
     })
     .then(response => response.text())
     .then(message => {
-        alert(message);  // Show a success message
-
-        // Redirect to the task board after successful creation
-        window.location.href = '/dashboard';  // Replace with your actual taskboard URL
+        alert(message);  // Erfolgsnachricht
+        window.location.href = '/dashboard';
+       
     })
     .catch(error => {
-        document.querySelector('.add-task-form').insertAdjacentHTML('beforeend', `<p>Fehler beim Hinzufügen der Aufgabe.</p>`);
-        console.error('Error adding task:', error);
+        console.error('Fehler beim Hinzufügen der Aufgabe:', error);
     });
 });
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Funktion zum Laden der Benutzer
+    // Function to load users
     function loadUsers() {
-        fetch('/users') // API-Endpunkt zum Abrufen der Benutzer
+        fetch('/users') // API endpoint to fetch users
             .then(response => response.json())
             .then(users => {
-                // Dropdown-Elemente für Owner und Assigned
                 const ownerSelect = document.getElementById('owner');
                 const assignedSelect = document.getElementById('assigned');
 
-                // Benutzer in Dropdown-Menüs einfügen
                 users.forEach(user => {
                     const optionOwner = document.createElement('option');
-                    optionOwner.value = user.id;
+                    optionOwner.value = user.username;
                     optionOwner.textContent = user.username;
                     ownerSelect.appendChild(optionOwner);
 
                     const optionAssigned = document.createElement('option');
-                    optionAssigned.value = user.id;
+                    optionAssigned.value = user.username;
                     optionAssigned.textContent = user.username;
                     assignedSelect.appendChild(optionAssigned);
                 });
@@ -48,6 +69,29 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Benutzer laden, sobald die Seite vollständig geladen ist
+    // Function to load projects and populate the project dropdown
+    function loadProjects() {
+        fetch('/projects') // API endpoint to fetch projects
+            .then(response => response.json())
+            .then(projects => {
+                const projectSelect = document.getElementById('project');
+
+                // Clear any existing options (except the default prompt)
+                projectSelect.innerHTML = '<option value="">Select Project</option>';
+
+                projects.forEach(project => {
+                    const optionProject = document.createElement('option');
+                    optionProject.value = project.projectname;  // assuming `project.id` is the project identifier
+                    optionProject.textContent = project.projectname;  // assuming `project.name` is the project name
+                    projectSelect.appendChild(optionProject);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching projects:', error);
+            });
+    }
+
+    // Load users and projects when the page is fully loaded
     loadUsers();
+    loadProjects();
 });
