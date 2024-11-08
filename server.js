@@ -156,33 +156,41 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/addTask', (req, res) => {
-    const { taskname, prio, owner, assigned, description, project } = req.body;
+    const { taskname, prio, owner, assigned, description, project, deadline } = req.body;
 
-    // Logging each field to confirm data retrieval
-    console.log('Received Data:', {
-        taskname,
-        prio,
-        owner,
-        assigned,
-        description,
-        project
-    });
+    // SQL query to check if a task with the same name already exists
+    const checkTaskSql = 'SELECT COUNT(*) AS count FROM tasks WHERE taskname = ? AND projectName = ?';
 
-    // SQL query to insert task into the database, including the project
-    const insertTaskSql = `
-        INSERT INTO tasks (taskname, prio, owner, assigned, description, status, projectName)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
-
-    // Insert task into the database, with project as a field
-    db.query(insertTaskSql, [taskname, prio, owner, assigned, description, "1", project], (err, result) => {
+    // Check if a task with the same name already exists in the database
+    db.query(checkTaskSql, [taskname, project], (err, result) => {
         if (err) {
-            console.error('Datenbankfehler:', err);
-            return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
+            console.error('Datenbankfehler beim Überprüfen der Aufgabe:', err);
+            return res.status(500).send('Fehler beim Überprüfen der Aufgabe.');
         }
-        res.send('Aufgabe erfolgreich hinzugefügt.');
+
+        // If a task with the same name already exists, return an error
+        if (result[0].count > 0) {
+            return res.status(400).send('Es gibt bereits eine Aufgabe mit diesem Namen in diesem Projekt.');
+        }
+
+        // If no task exists with the same name, proceed to insert the new task
+        const insertTaskSql = `
+            INSERT INTO tasks (taskname, prio, owner, assigned, description, status, projectName, deadline)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        // Insert the task into the database
+        db.query(insertTaskSql, [taskname, prio, owner, assigned, description, "1", project, deadline], (err, result) => {
+            if (err) {
+                console.error('Datenbankfehler:', err);
+                return res.status(500).send('Fehler beim Hinzufügen der Aufgabe.');
+            }
+            res.send('Aufgabe erfolgreich hinzugefügt.');
+        });
     });
 });
+
+
 
 
 // Route zum Abrufen der Aufgabenerstellungsseite
@@ -190,10 +198,11 @@ app.get('/taskCreator', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  // Serve your task creation page here
 });
 
-// Route zum Abrufen aller Aufgaben für ein bestimmtes Projekt
 app.post('/getTasks', (req, res) => {
     const projectName = req.body.projectName; // Projektname aus den Formulardaten abrufen
-    const sql = 'SELECT * FROM tasks WHERE projectname = ?'; // SQL-Abfrage mit Filter
+    
+    // SQL-Abfrage anpassen, um auch das Feld 'deadline' zu berücksichtigen
+    const sql = 'SELECT taskname, prio, owner, assigned, description, status, deadline FROM tasks WHERE projectname = ?';
 
     db.query(sql, [projectName], (err, results) => {
         if (err) {
@@ -201,12 +210,16 @@ app.post('/getTasks', (req, res) => {
             return res.status(500).send('Fehler beim Abrufen der Aufgaben.');
         }
         if (results.length === 0) {
-            return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.'); // Keine Aufgaben gefunden
+            return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.');
         }
+
         console.log('Aufgaben für Projekt abgerufen:', results); // Debug-Ausgabe
-        res.json(results); // JSON-Antwort senden
+
+        // Hier senden wir die Aufgaben als JSON-Antwort, einschließlich der Deadline
+        res.json(results); // Die `deadline` ist nun Teil des Ergebnisses
     });
 });
+
 
 // Route zum Abrufen der Details zu einer bestimmten Aufgabe
 app.get('/taskDetail', (req, res) => {
@@ -250,36 +263,38 @@ app.get('/taskDetail', (req, res) => {
 
 // Route zum Aktualisieren der Task-Details
 app.post('/updateTask', (req, res) => {
-    const { taskname, prio, owner, assigned, description, comments } = req.body;
+    const { taskname, prio, owner, assigned, description, deadline, comments } = req.body;
+    console.log(req.body);
 
-    if (!taskname || prio === undefined || owner === undefined || assigned === undefined || description === undefined) {
-        return res.status(400).send('Alle Felder sind erforderlich.' + taskname + prio + owner + assigned + description);
-    }
+    
 
-    // Update der Task in der Datenbank
-    db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ? WHERE taskname = ?',
-        [prio, owner, assigned, description, taskname],
+    // Update der Task in der Datenbank, einschließlich des kombinierten DateTime-Werts
+    db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ?, deadline = ? WHERE taskname = ?',
+        [prio, owner, assigned, description, deadline, taskname],
         (err, results) => {
             if (err) {
-                return res.status(500).json({ error: err.message });
+                return res.status(500).json({ error111: err.message });
             }
 
-            // Speichern des Kommentars, falls vorhanden
+            // Wenn ein Kommentar übermittelt wird, diesen speichern
             if (comments) {
                 const currentUser = req.session.username;
+
+                // Kommentar in die Datenbank einfügen
                 db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)',
                     [comments, currentUser, taskname],
                     (err, results) => {
                         if (err) {
                             return res.status(500).json({ error: err.message });
                         }
-                        res.send('Task aktualisiert und Kommentar gespeichert.');
+                        res.send('Task erfolgreich aktualisiert und Kommentar gespeichert.');
                     });
             } else {
-                res.send('Task aktualisiert.');
+                res.send('Task erfolgreich aktualisiert.');
             }
         });
 });
+
 
 // Route zum Abrufen von Kommentaren
 app.post('/getComments', (req, res) => {
@@ -358,6 +373,58 @@ app.put('/users/:userId', (req, res) => {
         res.json({ message: 'Benutzer erfolgreich aktualisiert' });
     });
 });
+
+// Endpoint zum Hinzufügen eines neuen Projekts
+app.post('/addProject', (req, res) => {
+    const { projectName, projectDetails } = req.body;
+
+    // SQL-Query, um zu überprüfen, ob der Projektname bereits existiert
+    const checkProjectSql = 'SELECT * FROM projects WHERE projectname = ?';
+
+    // Überprüfe, ob das Projekt mit dem gleichen Namen schon existiert
+    db.query(checkProjectSql, [projectName], (err, result) => {
+        if (err) {
+            console.error('Fehler bei der Abfrage:', err);
+            return res.status(500).send('Fehler bei der Abfrage des Projektnamens.');
+        }
+
+        if (result.length > 0) {
+            // Wenn der Projektname bereits existiert
+            console.error('Ein Projekt mit diesem Namen existiert bereits.');
+            return res.status(409).send('namen gibts schon')
+        }
+
+        // SQL-Query, um das neue Projekt in die Datenbank zu speichern
+        const insertProjectSql = `
+            INSERT INTO projects (projectname, projectDetails, progress)
+            VALUES (?, ?, 0)
+        `;
+
+        // Füge das Projekt in die Datenbank ein
+        db.query(insertProjectSql, [projectName, projectDetails], (err, result) => {
+            if (err) {
+                console.error('Datenbankfehler:', err);
+                return res.status(500).send('Fehler beim Hinzufügen des Projekts.');
+            }
+            res.json({ message: 'Projekt erfolgreich hinzugefügt!' });
+        });
+    });
+});
+app.put('/projects/:name', (req, res) => {
+    const projectName = req.params.name;
+    const { projectDetails, projectProgress } = req.body; // Die Formulardaten sind jetzt in req.body verfügbar
+
+    const query = 'UPDATE projects SET progress = ?, projectdetails = ? WHERE projectname = ?';
+    db.query(query, [projectProgress, projectDetails, projectName], (err, result) => {
+        if (err) {
+            console.error('Datenbankfehler:', err);
+            return res.status(500).json({ error: 'Fehler beim Aktualisieren des Projekts' });
+        }
+        res.json({ message: 'Projekt erfolgreich aktualisiert', updatedProject: { name: projectName, projectProgress, projectDetails } });
+    });
+});
+
+
 
 // Route zum Abrufen aller Projekte
 app.get('/projects', (req, res) => {

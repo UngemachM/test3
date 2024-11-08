@@ -8,12 +8,17 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
     const owner = document.getElementById('owner').value;
     const assigned = document.getElementById('assigned').value;
     const description = document.getElementById('description').value;
+    const deadlineDate = document.getElementById('deadline').value;  // Datum holen
+    const deadlineTime = document.getElementById('time').value;  // Uhrzeit holen
 
     // Sicherstellen, dass alle erforderlichen Felder ausgefüllt sind
-    if (!taskname || !prio || !project || !owner || !assigned || !description) {
+    if (!taskname || !prio || !project || !owner || !assigned || !description || !deadlineDate || !deadlineTime) {
         alert('Please fill in all required fields.');
         return;
     }
+
+    // Kombinieren von Datum und Uhrzeit zu einem einzigen Parameter
+    const deadline = `${deadlineDate} ${deadlineTime}`;
 
     // Formulardaten in URLSearchParams umwandeln
     const formData = new URLSearchParams();
@@ -23,6 +28,7 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
     formData.append('owner', owner);
     formData.append('assigned', assigned);
     formData.append('description', description);
+    formData.append('deadline', deadline);  // Kombiniertes Datum und Uhrzeit zu den Formulardaten hinzufügen
 
     // Formulardaten an den Server senden
     fetch('/addTask', {
@@ -33,8 +39,6 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
     .then(response => response.text())
     .then(message => {
         alert(message);  // Erfolgsnachricht
-        window.location.href = '/dashboard';
-       
     })
     .catch(error => {
         console.error('Fehler beim Hinzufügen der Aufgabe:', error);
