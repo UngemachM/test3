@@ -132,7 +132,7 @@ function isAuthenticated(req, res, next) {
 
 // Dashboard-Routen für verschiedene Ränge
 app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+    res.sendFile(path.join(__dirname, 'public', 'taskDashboard.html'));
 });
 app.get('/projectDashboardUser', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'projectDashboardUser.html'));
