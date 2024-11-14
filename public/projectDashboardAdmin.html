@@ -1,17 +1,3 @@
-html
-
-Copy
-<!--
-Diese HTML-Datei stellt ein Administrations-Dashboard für das Projektmanagement dar. 
-Es enthält eine Navigationsleiste, die Links zu den Projektübersichten, 
-dem Erstellen und Bearbeiten von Projekten sowie der Benutzerverwaltung bietet. 
-Das Dashboard bietet Formulare zum Erstellen neuer Projekte,
-Bearbeiten von Benutzern und Aktualisieren von Projektdetails,
-die bei Bedarf eingeblendet werden können. 
-Ein Footer zeigt Copyright-Informationen an, und ein externes 
-JavaScript-Skript sorgt für die Funktionalität der Seite.
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +6,7 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>111Project Management Dashboard Admin</title>
     <link rel="icon" href="images/favicon.ico">
-    <link href="styles/projectboard.css" rel="stylesheet">
-</head>
+    <link href="styles/projectboard.css" rel="stylesheet"></head>
 
 <body>
 
@@ -29,7 +14,7 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
         <h1>Project Management Dashboard</h1>
     </header>
 
-    <!-- Navigationsleiste -->
+    <!-- Navigation Bar -->
     <nav>
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
@@ -38,46 +23,22 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
         </ul>
     </nav>
 
-   <!--Neues Projektformular (Zunächst verborgen)-->
+    <!-- New Project Form (Initially hidden) -->
     <div class="container" id="new-project-container" style="display: none;">
         <h2>Create New Project</h2>
         <form id="new-project-form">
             <label for="new-project-name">Project Name:</label>
             <input type="text" id="projectName" name="projectName" required>
 
-
-
+            
+            
             <label for="new-project-details">Project Details:</label>
             <textarea id="projectDetails" name="projectDetails" required></textarea>
 
             <button type="submit">Add Project</button>
         </form>
     </div>
-<<<<<<< HEAD
     <!-- Edit User Form (Initially hidden) -->
-    <div class="container" id="edit-user-container" style="display: none;">
-        <h2>Edit Users</h2>
-        <table id="user-table">
-            <thead>
-                <tr>
-                    <th>Benutzer-ID</th>
-                    <th>Username</th>
-                    <th>Rank</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="user-body">
-                <!-- Rows with user information will be added here dynamically -->
-            </tbody>
-        </table>
-
-        <!-- Edit User Form (Populates with selected user data) -->
-        <div id="edit-user-form-container" style="display: none;">
-            <h3>Edit User</h3>
-            <h4>Please consider that there is always at least one admin user.</h4>
-            <form id="edit-user-form">
-=======
-   <!--Bearbeitungsformular für Benutzer (Zunächst verborgen)-->
 <div class="container" id="edit-user-container" style="display: none;">
     <h2>Edit Users</h2>
     <table id="user-table">
@@ -89,80 +50,55 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
             </tr>
         </thead>
         <tbody id="user-body">
-            <!--Hier werden die Zeilen mit Benutzerinformationen dynamisch hinzugefügt-->
+            <!-- Rows with user information will be added here dynamically -->
         </tbody>
     </table>
 
-   <!--Bearbeitungsformular für Benutzer (Wird mit den Daten des ausgewählten Benutzers gefüllt)-->
+    <!-- Edit User Form (Populates with selected user data) -->
     <div id="edit-user-form-container" style="display: none;">
         <h3>Edit User</h3>
         <form id="edit-user-form">
             
             <label for="user-id">User ID:</label>
             <input type="text" id="user-id" name="user-id" required readonly >
->>>>>>> 862c439ed227ed76c9e5253db5293751fa6a593b
 
-                <label for="user-id">User ID:</label>
-                <input type="text" id="user-id" name="user-id" required readonly>
+            <label for="edit-username">Username:</label>
+            <input type="text" id="edit-username" name="username" required >
 
-                <label for="edit-username">Username:</label>
-                <input type="text" id="edit-username" name="username" required>
+            <label for="edit-user-rank">Rank:</label>
+            <select id="edit-user-rank" name="user-rank" required>
+                <option value=3>Admin</option>
+                <option value=2>Manager</option>
+                <option value=1>Developer</option>
 
-                <label for="edit-user-rank">Rank:</label>
-                <select id="edit-user-rank" name="user-rank" required>
-                    <option value=3>Admin</option>
-                    <option value=2>Manager</option>
-                    <option value=1>Developer</option>
+            </select>
 
-                </select>
-
-                <button type="submit">Update User</button>
-            </form>
-        </div>
+            <button type="submit">Update User</button>
+        </form>
     </div>
+</div>
 
-<<<<<<< HEAD
-    <!-- Edit Project Form (Initially hidden) -->
-    <div class="container" id="edit-project-container" style="display: none;">
-        <div id="edit-project-form-container">
-            <h2>Edit Project</h2>
-            <form id="edit-project-form">
-                <!-- Hidden Input Field to store the project name -->
-                <input hidden type="text" id="projectNameHidden" value="">
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-   <!--Bearbeitungsformular für das Projekt (Zunächst verborgen)-->
-=======
-=======
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
    <!-- Edit Project Form (Initially hidden) -->
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 <div class="container" id="edit-project-container" style="display: none;">
     <div id="edit-project-form-container">
         <h2>Edit Project</h2>
         <form id="edit-project-form">
-            <!--Verstecktes Eingabefeld zum Speichern des Projektnamens-->
+            <!-- Hidden Input Field to store the project name -->
             <input hidden type="text" id="projectNameHidden" value="">
             
             <label for="edit-project-progress">Progress (%):</label>
             <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
->>>>>>> 862c439ed227ed76c9e5253db5293751fa6a593b
 
-                <label for="edit-project-progress">Progress (%):</label>
-                <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
+            <label for="edit-project-details">Project Details:</label>
+            <textarea id="edit-project-details" name="projectDetails" required></textarea>
 
-                <label for="edit-project-details">Project Details:</label>
-                <textarea id="edit-project-details" name="projectDetails" required></textarea>
-
-                <button type="submit">Update Project</button>
-            </form>
-        </div>
+            <button type="submit">Update Project</button>
+        </form>
     </div>
+</div>
 
 
-    <!-- Hauptprojekttabelle-->
+    <!-- Main Project Table -->
     <table id="project-table">
         <thead>
             <tr>
