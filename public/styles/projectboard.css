@@ -1,4 +1,4 @@
-/* Allgemeine Stile */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -26,11 +26,12 @@ header h1 {
     letter-spacing: 1.2px;
 }
 
-
-/* Navigationsleiste */
+/* Navigation Bar */
 nav {
     background-color: #02003bdd;
     padding: 10px 20px;
+    position: relative;
+    /* For positioning the logout button */
 }
 
 nav ul {
@@ -61,7 +62,28 @@ nav ul li a:hover {
     color: #fff;
 }
 
-/* Container für das Formular und die Tabelle */
+/* Logout Button */
+#logout-button {
+    background-color: #2b3a67;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+
+#logout-button:hover {
+    background-color: #415e9c;
+}
+
+/* Container for the Form and Table */
 .container {
     width: 90%;
     max-width: 1000px;
@@ -72,7 +94,7 @@ nav ul li a:hover {
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-/* Neues Projektformular */
+/* New Project Form */
 #new-project-container h2,
 #edit-input-project-container h2 {
     margin-bottom: 20px;
@@ -131,13 +153,10 @@ nav ul li a:hover {
     background-color: #415e9c;
 }
 
-/* Tabellen style */
+/* Table Style */
 #project-table {
     width: 95%;
     margin: 20px auto;
-    /* Centers the table horizontally */
-    padding: 0;
-    /* Removed padding: auto as it is not valid in CSS */
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -166,7 +185,7 @@ nav ul li a:hover {
     color: #555;
 }
 
-/* Button links */
+/* Button Links */
 #project-table a.btn-details {
     background-color: #2b3a67;
     color: white;
@@ -195,8 +214,7 @@ nav ul li a:hover {
     font-size: 0.85rem;
 }
 
-
-/* Hover und Focus Effect */
+/* Hover and Focus Effect */
 input:hover,
 textarea:hover {
     border-color: #aaa;
