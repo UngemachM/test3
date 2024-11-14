@@ -42,6 +42,25 @@ footer {
     font-size: 0.85rem;
 }
 
+/* Back Button in Header */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #2b3a67;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #415e9c;
+}
+
 /* Button zum kreiren neuer Aufgaben */
 .add-task-button {
     display: flex;

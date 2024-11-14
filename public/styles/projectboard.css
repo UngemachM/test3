@@ -166,8 +166,7 @@ nav ul li a:hover {
 /* Stil für Details-Button */
 .project-details-btn {
     padding: 12px 20px;
-    background-color: #2b3a67;
-    /* Helles Blau */
+
     background-color: #2b3a67; /* Helles Blau */
     color: white;
     border: none;

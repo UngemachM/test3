@@ -71,3 +71,38 @@ function goBack() {
 
 
 window.onload = loadTasks; // Aufgaben laden, wenn die Seite geladen wird
+
+
+
+
+function injectStyles() {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .details-btn {
+            background: #2b3a67;
+            border: none;
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(255, 85, 85, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .details-btn:hover {
+            background: #357ab8;
+            box-shadow: 0 6px 12px rgba(255, 85, 85, 0.4);
+            transform: scale(1.05);
+        }
+
+        .details-btn:active {
+            transform: scale(1);
+            box-shadow: 0 2px 4px rgba(255, 85, 85, 0.2);
+        }
+    `;
+    document.head.appendChild(style); // Append the style element to the document head
+}
+
+// Call this function to inject the styles when the page loads
+injectStyles();
