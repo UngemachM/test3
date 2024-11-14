@@ -116,9 +116,9 @@ function loadProjects() {
             const tableBody = document.getElementById('project-body');
             tableBody.innerHTML = data.map(project => `
                 <tr>
-                    <td>${project.projectname}</td>
+                    <td>${project.projectName}</td>
                     <td class="project-details">${project.projectDetails}</td>
-                    <td class="project.progress">${project.progress}</td>
+                    <td class="project.progress">${project.projectProgress}</td>
                     <td><button class="edit-project-btn">Bearbeiten</button></td>
                     <td><button class="project-details-btn">Details</button></td>
                 </tr>

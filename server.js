@@ -418,7 +418,7 @@ app.put('/projects/:name', (req, res) => {
     const projectName = req.params.name;
     const { projectDetails, projectProgress } = req.body; 
 
-    const query = 'UPDATE projects SET progress = ?, projectdetails = ? WHERE projectname = ?';
+    const query = 'UPDATE projects SET projectProgress = ?, projectDetails = ? WHERE projectName = ?';
     db.query(query, [projectProgress, projectDetails, projectName], (err, result) => {
         if (err) {
             console.error('Datenbankfehler:', err);
