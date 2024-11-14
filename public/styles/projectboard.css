@@ -140,10 +140,10 @@ nav ul li a:hover {
 .edit-project-btn {
     padding: 12px 20px;
     background-color: #2b3a67;
+    background-color: #2b3a67; /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 20px;
-    /* Runde Ecken */
+    border-radius: 10px; /* Runde Ecken */
     font-size: 1rem;
     font-weight: bold;
     /* Fett für bessere Lesbarkeit */
@@ -168,10 +168,10 @@ nav ul li a:hover {
     padding: 12px 20px;
     background-color: #2b3a67;
     /* Helles Blau */
+    background-color: #2b3a67; /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 20px;
-    /* Runde Ecken */
+    border-radius: 10px; /* Runde Ecken */
     font-size: 1rem;
     font-weight: bold;
     /* Fett für bessere Lesbarkeit */
