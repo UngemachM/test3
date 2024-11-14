@@ -25,14 +25,14 @@ function loadUsers() {
                     case 3: rankText = "Admin"; break;
                     case 2: rankText = "Manager"; break;
                     case 1: rankText = "User"; break;
-                    default: rankText = "Unbekannt";
+                    default: rankText = "Unknown";
                 }
                 return `
                     <tr data-user-id="${user.id}">
                         <td>${user.id}</td>
                         <td>${user.username}</td>
                         <td>${rankText}</td>
-                        <td><button class="edit-user-btn">Bearbeiten</button></td>
+                        <td><button class="edit-user-btn">Edit</button></td>
                     </tr>
                 `;
             }).join('');
@@ -119,7 +119,7 @@ function loadProjects() {
                     <td>${project.projectName}</td>
                     <td class="project-details">${project.projectDetails}</td>
                     <td class="project.progress">${project.projectProgress}</td>
-                    <td><button class="edit-project-btn">Bearbeiten</button></td>
+                    <td><button class="edit-project-btn">Edit</button></td>
                     <td><button class="project-details-btn">Details</button></td>
                 </tr>
             `).join('');
