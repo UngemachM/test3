@@ -257,40 +257,32 @@ app.get('/taskDetail', (req, res) => {
         }
     });
 });
-
 // Route zum Aktualisieren der Task-Details
-app.post('/updateTask', (req, res) => {
-    const { taskname, prio, owner, assigned, description, deadline, comments } = req.body;
-    console.log(req.body);
+app.post('/updateTask', async (req, res) => {
+    const { taskname, prio, owner, assigned, description, deadline, comments, status } = req.body;
 
+    try {
+        // Update der Task in der Datenbank, einschließlich des Status, der Priorität, Besitzer, Zuweisung, Beschreibung und Deadline
+        const updateTaskQuery = 'UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ?, deadline = ?, status = ? WHERE taskname = ?';
+        const updateTaskResult = await db.promise().query(updateTaskQuery, [prio, owner, assigned, description, deadline, status, taskname]);
 
+        // Wenn ein Kommentar übermittelt wird, diesen speichern
+        if (comments) {
+            const currentUser = req.session.username;
 
-    // Update der Task in der Datenbank, einschließlich des kombinierten DateTime-Werts
-    db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ?, deadline = ? WHERE taskname = ?',
-        [prio, owner, assigned, description, deadline, taskname],
-        (err, results) => {
-            if (err) {
-                return res.status(500).json({ error111: err.message });
-            }
+            // Kommentar in die Datenbank einfügen
+            const insertCommentQuery = 'INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)';
+            await db.promise().query(insertCommentQuery, [comments, currentUser, taskname]);
+        }
 
-            // Wenn ein Kommentar übermittelt wird, diesen speichern
-            if (comments) {
-                const currentUser = req.session.username;
-
-                // Kommentar in die Datenbank einfügen
-                db.query('INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)',
-                    [comments, currentUser, taskname],
-                    (err, results) => {
-                        if (err) {
-                            return res.status(500).json({ error: err.message });
-                        }
-                        res.send('Task erfolgreich aktualisiert und Kommentar gespeichert.');
-                    });
-            } else {
-                res.send('Task erfolgreich aktualisiert.');
-            }
-        });
+        // Erfolgsnachricht zurück an den Client
+        res.send('Task erfolgreich aktualisiert' + (comments ? ' und Kommentar gespeichert.' : '.') );
+    } catch (err) {
+        console.error('Fehler bei der Aktualisierung der Aufgabe:', err);
+        res.status(500).json({ error: err.message });
+    }
 });
+
 
 
 // Route zum Abrufen von Kommentaren

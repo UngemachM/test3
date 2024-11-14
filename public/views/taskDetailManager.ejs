@@ -21,6 +21,7 @@ Ein Footer zeigt die Copyright-Informationen an, und ein externes JavaScript-Skr
 
     <header>
         <h1>Task Management Dashboard</h1>
+        <button onclick="goBack()" class="back-button">Go Back</button>
     </header>
 
     <div class="add-task-form">
@@ -36,6 +37,15 @@ Ein Footer zeigt die Copyright-Informationen an, und ein externes JavaScript-Skr
                 <label for="prio">Priority (0-9):</label>
                 <input type="number" id="prio" name="prio" min="0" max="9" value="<%= task.prio %>">
             </div>
+            
+            <select id="status" name="status">
+                <option value="1" <% if (task.status === 1) { %> selected <% } %>>1 - Neu</option>
+                <option value="2" <% if (task.status === 2) { %> selected <% } %>>2 - In Bearbeitung</option>
+                <option value="3" <% if (task.status === 3) { %> selected <% } %>>3 - Fast Fertig</option>
+                <option value="4" <% if (task.status === 4) { %> selected <% } %>>4 - Abgeschlossen</option>
+                <option value="5" <% if (task.status === 5) { %> selected <% } %>>5 - Archiviert</option>
+            </select>
+            
 
             <div class="form-group">
                 <label for="owner">Owner:</label>

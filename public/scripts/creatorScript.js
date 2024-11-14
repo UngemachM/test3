@@ -99,3 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
     loadProjects();
 });
+function goBack() {
+    window.history.back();  // Dies bringt den Benutzer zur vorherigen Seite im Verlauf zurück
+}

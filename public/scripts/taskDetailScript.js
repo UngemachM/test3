@@ -26,25 +26,25 @@
         // Erstelle ein FormData-Objekt mit dem Formular
         const form = document.getElementById('taskForm');
         const formData = new FormData(form);
-        console.log(formData)
+    
+        // Konvertiere FormData zu URLSearchParams (damit es in der fetch-Abfrage funktioniert)
+        const params = new URLSearchParams(formData);
     
     
-        
+    
         fetch('/updateTask', {
             method: 'POST',
-            body: new URLSearchParams(formData)
+            body: params
         })
         .then(response => response.text())
         .then(data => {
-            // Erfolgsnachricht anzeigen oder zur Task-Übersicht weiterleiten
             alert(data);
-            // Alternativ kannst du hier zu einer anderen Seite weiterleiten:
-            // window.location.href = '/dashboard';
         })
         .catch(error => {
             console.error('Fehler beim Aktualisieren der Aufgabe:', error);
         });
     }
+
     
     // Lade die Kommentare, wenn die Seite geladen wird
     document.addEventListener('DOMContentLoaded', () => {
@@ -84,4 +84,7 @@
         loadUsers();
     });
     
+    function goBack() {
+        window.history.back();  // Dies bringt den Benutzer zur vorherigen Seite im Verlauf zurück
+    }
     
