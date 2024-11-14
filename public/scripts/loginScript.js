@@ -26,7 +26,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
                 }
         })
         .catch(error => {
-            document.getElementById('result').textContent = 'Fehler bei der Anmeldung.';
-            console.error('Fehler:', error);
+            document.getElementById('result').textContent = 'Error logging in';
+            console.error('Error:', error);
         });
 });
