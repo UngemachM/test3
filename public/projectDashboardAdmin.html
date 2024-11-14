@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>111Project Management Dashboard Admin</title>
     <link rel="icon" href="images/favicon.ico">
-    <link href="styles/projectboard.css" rel="stylesheet"></head>
+    <link href="styles/projectboard.css" rel="stylesheet">
+</head>
 
 <body>
 
@@ -30,8 +31,8 @@
             <label for="new-project-name">Project Name:</label>
             <input type="text" id="projectName" name="projectName" required>
 
-            
-            
+
+
             <label for="new-project-details">Project Details:</label>
             <textarea id="projectDetails" name="projectDetails" required></textarea>
 
@@ -39,63 +40,65 @@
         </form>
     </div>
     <!-- Edit User Form (Initially hidden) -->
-<div class="container" id="edit-user-container" style="display: none;">
-    <h2>Edit Users</h2>
-    <table id="user-table">
-        <thead>
-            <tr><th>Benutzer-ID</th>
-                <th>Username</th>
-                <th>Rank</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="user-body">
-            <!-- Rows with user information will be added here dynamically -->
-        </tbody>
-    </table>
+    <div class="container" id="edit-user-container" style="display: none;">
+        <h2>Edit Users</h2>
+        <table id="user-table">
+            <thead>
+                <tr>
+                    <th>Benutzer-ID</th>
+                    <th>Username</th>
+                    <th>Rank</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="user-body">
+                <!-- Rows with user information will be added here dynamically -->
+            </tbody>
+        </table>
 
-    <!-- Edit User Form (Populates with selected user data) -->
-    <div id="edit-user-form-container" style="display: none;">
-        <h3>Edit User</h3>
-        <form id="edit-user-form">
-            
-            <label for="user-id">User ID:</label>
-            <input type="text" id="user-id" name="user-id" required readonly >
+        <!-- Edit User Form (Populates with selected user data) -->
+        <div id="edit-user-form-container" style="display: none;">
+            <h3>Edit User</h3>
+            <h4>Please consider that there is always at least one admin user.</h4>
+            <form id="edit-user-form">
 
-            <label for="edit-username">Username:</label>
-            <input type="text" id="edit-username" name="username" required >
+                <label for="user-id">User ID:</label>
+                <input type="text" id="user-id" name="user-id" required readonly>
 
-            <label for="edit-user-rank">Rank:</label>
-            <select id="edit-user-rank" name="user-rank" required>
-                <option value=3>Admin</option>
-                <option value=2>Manager</option>
-                <option value=1>Developer</option>
+                <label for="edit-username">Username:</label>
+                <input type="text" id="edit-username" name="username" required>
 
-            </select>
+                <label for="edit-user-rank">Rank:</label>
+                <select id="edit-user-rank" name="user-rank" required>
+                    <option value=3>Admin</option>
+                    <option value=2>Manager</option>
+                    <option value=1>Developer</option>
 
-            <button type="submit">Update User</button>
-        </form>
+                </select>
+
+                <button type="submit">Update User</button>
+            </form>
+        </div>
     </div>
-</div>
 
-   <!-- Edit Project Form (Initially hidden) -->
-<div class="container" id="edit-project-container" style="display: none;">
-    <div id="edit-project-form-container">
-        <h2>Edit Project</h2>
-        <form id="edit-project-form">
-            <!-- Hidden Input Field to store the project name -->
-            <input hidden type="text" id="projectNameHidden" value="">
-            
-            <label for="edit-project-progress">Progress (%):</label>
-            <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
+    <!-- Edit Project Form (Initially hidden) -->
+    <div class="container" id="edit-project-container" style="display: none;">
+        <div id="edit-project-form-container">
+            <h2>Edit Project</h2>
+            <form id="edit-project-form">
+                <!-- Hidden Input Field to store the project name -->
+                <input hidden type="text" id="projectNameHidden" value="">
 
-            <label for="edit-project-details">Project Details:</label>
-            <textarea id="edit-project-details" name="projectDetails" required></textarea>
+                <label for="edit-project-progress">Progress (%):</label>
+                <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
 
-            <button type="submit">Update Project</button>
-        </form>
+                <label for="edit-project-details">Project Details:</label>
+                <textarea id="edit-project-details" name="projectDetails" required></textarea>
+
+                <button type="submit">Update Project</button>
+            </form>
+        </div>
     </div>
-</div>
 
 
     <!-- Main Project Table -->
