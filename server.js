@@ -389,7 +389,7 @@ app.post('/addProject', (req, res) => {
 
         // SQL-Query, um das neue Projekt in die Datenbank zu speichern
         const insertProjectSql = `
-            INSERT INTO projects (projectname, projectDetails, progress)
+            INSERT INTO projects (projectname, projectDetails, projectProgress)
             VALUES (?, ?, 0)
         `;
 
