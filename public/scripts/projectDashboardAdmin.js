@@ -3,7 +3,6 @@ document.getElementById('new-project-link').addEventListener('click', function (
     document.getElementById('new-project-container').style.display = 'block';
     document.getElementById('edit-project-container').style.display = 'none';
     document.getElementById('edit-user-container').style.display = 'none';
-
 });
 
 // Umschalten des "Benutzer Bearbeiten" Abschnitts, versteckt andere Abschnitte und lädt Benutzer
@@ -54,9 +53,10 @@ document.addEventListener('click', function (event) {
         document.getElementById('edit-user-form-container').style.display = 'block';
     }
 });
+
 // Event-Handler für das Formular-Submit
 document.getElementById('edit-user-form').onsubmit = function (e) {
-    e.preventDefault();  // Verhindert das Standard-Formular-Submit
+    e.preventDefault();
 
     // Zugriff auf die Formularelemente
     const userId = document.getElementById('user-id');
@@ -64,9 +64,9 @@ document.getElementById('edit-user-form').onsubmit = function (e) {
     const updatedRank = document.getElementById('edit-user-rank');
 
     // Auslesen der Werte
-    const userIdValue = userId.value;            // Benutzer-ID
-    const updatedNameValue = updatedName.value;  // Neuer Benutzername
-    const updatedRankValue = updatedRank.value;  // Neuer Benutzer-Rang
+    const userIdValue = userId.value;
+    const updatedNameValue = updatedName.value;
+    const updatedRankValue = updatedRank.value;
 
     // URLSearchParams erstellen, um die Formulardaten zu codieren
     const formData = new URLSearchParams();
@@ -76,10 +76,8 @@ document.getElementById('edit-user-form').onsubmit = function (e) {
     // PUT-Anfrage senden
     fetch(`/users/${userIdValue}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'  // Header für URL-kodierte Daten
-        },
-        body: formData.toString()  // Die Daten als URL-kodierte Formulardaten senden
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
     })
     .then(response => {
         if (!response.ok) {
@@ -89,7 +87,7 @@ document.getElementById('edit-user-form').onsubmit = function (e) {
     })
     .then(data => {
         console.log('Benutzer erfolgreich aktualisiert:', data);
-        loadUsers();  // Benutzerliste neu laden
+        loadUsers();
         document.getElementById('edit-user-form-container').style.display = 'none';
     })
     .catch(error => alert('Fehler beim Aktualisieren des Benutzers: ' + error.message));
@@ -100,11 +98,10 @@ document.getElementById('overview-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'none';
     document.getElementById('edit-project-container').style.display = 'none';
     document.getElementById('edit-user-container').style.display = 'none';
-    restoreDetailsButtons();
 });
 
 // Lädt Projekte beim Laden der Seite und zeigt sie in der Tabelle an
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     loadProjects();
 });
 
@@ -118,12 +115,12 @@ function loadProjects() {
             console.log('Projekte geladen:', data);
             const tableBody = document.getElementById('project-body');
             tableBody.innerHTML = data.map(project => `
-                <tr data-project-id="${project.id}">
+                <tr>
                     <td>${project.projectname}</td>
                     <td class="project-details">${project.projectDetails}</td>
+                    <td class="project.progress">${project.progress}</td>
                     <td><button class="edit-project-btn">Bearbeiten</button></td>
                     <td><button class="project-details-btn">Details</button></td>
-
                 </tr>
             `).join('');
         })
@@ -132,15 +129,16 @@ function loadProjects() {
 
 // Öffnet das Formular "Projekt Bearbeiten" und befüllt es mit Projektdaten
 document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('edit-project-link')) {
+    if (event.target.classList.contains('edit-project-btn')) {
         const projectRow = event.target.closest('tr');
         const projectId = projectRow.dataset.projectId;
         const projectName = projectRow.children[0].textContent;
         const projectDetails = projectRow.children[1].textContent;
 
-        document.getElementById('edit-project-container').dataset.projectId = projectId;
+        document.getElementById('projectNameHidden').value = projectName;
         document.getElementById('edit-project-details').value = projectDetails;
-        document.getElementById('edit-project-form-container').style.display = 'block';
+
+        document.getElementById('edit-project-container').style.display = 'block';
     }
 });
 
@@ -207,8 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => alert(error.message));
     });
 });
-
-
 
 // Delegiert Klick-Events für dynamische Elemente wie den "Details anzeigen"-Button
 document.addEventListener('click', function (event) {
