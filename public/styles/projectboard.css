@@ -133,7 +133,11 @@ nav ul li a:hover {
 
 /* Table styling */
 #project-table {
-    width: 100%;
+    width: 95%;
+    margin: 20px auto;
+    /* Centers the table horizontally */
+    padding: 0;
+    /* Removed padding: auto as it is not valid in CSS */
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
