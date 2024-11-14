@@ -1,4 +1,4 @@
-/* Grundstil für die Seite */
+/* General styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -11,7 +11,6 @@ body {
     min-height: 100vh;
 }
 
-/* Header-Styling */
 header {
     background-color: #2b3a67;
     color: white;
@@ -23,14 +22,13 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 2.5em;
+    font-size: 2rem;
+    letter-spacing: 1.2px;
 }
 
-/* Container-Styling */
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+.add-task-form {
+    width: 90%;
+    max-width: 600px;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
