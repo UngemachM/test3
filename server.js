@@ -159,11 +159,7 @@ app.post('/logout', (req, res) => {
 app.post('/addTask', (req, res) => {
     const { taskname, prio, owner, assigned, description, project, deadline } = req.body;
 
-<<<<<<< HEAD
-    // SQL Abfrage ob eine Aufgabe mit dem Namen bereits existiert
-=======
-    // SQL query zum überprüfen ob eine Task mit dem Name breits existiert
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+    // SQL query to check if a task with the same name already exists
     const checkTaskSql = 'SELECT COUNT(*) AS count FROM tasks WHERE taskname = ? AND projectName = ?';
 
     // Überprüfen ob eine Aufgabe mit dem Namen bereits existiert
@@ -173,20 +169,12 @@ app.post('/addTask', (req, res) => {
             return res.status(500).send('Fehler beim Überprüfen der Aufgabe.');
         }
 
-<<<<<<< HEAD
-        // Fehlermeldung wenn Aufgabe mit dem Namen bereits existiert
-=======
-        // Wenn ein Task mit dem Namen Existirt, gebe fehler aus
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+        // If a task with the same name already exists, return an error
         if (result[0].count > 0) {
             return res.status(400).send('Es gibt bereits eine Aufgabe mit diesem Namen in diesem Projekt.');
         }
 
-<<<<<<< HEAD
-        // Wenn die Aufgabe nicht bereits existiert, füge die Aufgabe ein
-=======
-        // Wenn keine Task mit dem Namen existiert, füge sie ein
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+        // If no task exists with the same name, proceed to insert the new task
         const insertTaskSql = `
             INSERT INTO tasks (taskname, prio, owner, assigned, description, status, projectName, deadline)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -208,11 +196,7 @@ app.post('/addTask', (req, res) => {
 
 // Route zum Abrufen der Aufgabenerstellungsseite
 app.get('/taskCreator', (req, res) => {
-<<<<<<< HEAD
-    res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  //  Seite zur Erstellung von Aufgaben
-=======
-    res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+    res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  // Serve your task creation page here
 });
 
 app.post('/getTasks', (req, res) => {
@@ -252,8 +236,7 @@ app.get('/taskDetail', (req, res) => {
 // Bereinigen des Tasknamens, um SQL-Injection zu vermeiden
 =======
 
-    // Taskname formatiern um SQL Injection zu vermeiden
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+    // Sanitizing taskname to avoid SQL injection
     const sanitizedTaskName = taskname.trim();
 
     // Abfrage der Datenbank für die Aufgabe basierend auf dem taskname
@@ -471,46 +454,25 @@ app.get('/projects', (req, res) => {
 
 
 app.post('/projects/tasks', (req, res) => {
-<<<<<<< HEAD
-    const projectName = req.body.projectName; // Projektname aus den URL-kodierten Formulardaten abrufen
+    const projectName = req.body.projectName; // Get projectName from URL-encoded form data
 
-   // SQL-Abfrage zum Auswählen aller erforderlichen Felder
-=======
-    const projectName = req.body.projectName;
-
-
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+    // SQL query to select all required fields
     const sql = 'SELECT taskname, prio, owner, assigned, description, status FROM tasks WHERE projectname = ?'; 
     db.query(sql, [projectName], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
-<<<<<<< HEAD
-            return res.status(500).send('Fehler beim Abrufen der Aufgaben.'); // Sende eine Fehlermeldung
-        }
-
-        if (results.length === 0) {
-            return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.'); // Sende eine Fehlermeldung für keien Aufgabe gefunden
-        }
-
-       // Bereite eine Antwort in einem Format vor, das leicht verarbeitet werden kann
-=======
-            return res.status(500).send('Fehler beim Abrufen der Aufgaben.'); 
+            return res.status(500).send('Fehler beim Abrufen der Aufgaben.'); // Send plain text error message
         }
 
         if (results.length === 0) {
             return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.'); 
         }
 
-        // Antwort Formatieren
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+        // Prepare a response in a format that can be easily processed
         const tasksByStatus = results.reduce((acc, task) => {
             const status = task.status; // Status der Aufgabe
             if (!acc[status]) {
-<<<<<<< HEAD
-                acc[status] = [];// Initialisiere das Array für diesen Status, falls es nicht existiert
-=======
-                acc[status] = []; 
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+                acc[status] = []; // Initialize array for this status if it doesn't exist
             }
             acc[status].push({
                 taskname: task.taskname,
@@ -519,19 +481,11 @@ app.post('/projects/tasks', (req, res) => {
                 assigned: task.assigned,
                 description: task.description,
                 status: task.status
-<<<<<<< HEAD
-            }); // Füge das Aufgabenobjekt dem entsprechenden Status hinzu
+            }); // Add task object to the corresponding status
             return acc;
         }, {});
 
-       // Formatiere die Aufgaben nach Status in eine Antwortzeichenkette
-=======
-            }); 
-            return acc;
-        }, {});
-
-        // Task formatieren
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+        // Format the tasks by status into a response string
         let responseString = '';
         for (let i = 1; i <= 5; i++) {
             if (tasksByStatus[i]) {
@@ -543,25 +497,14 @@ app.post('/projects/tasks', (req, res) => {
                     responseString += `Assigned: ${task.assigned}\n`;
                     responseString += `Description: ${task.description}\n`;
                     responseString += `Status: ${task.status}\n`;
-<<<<<<< HEAD
-                    responseString += `---------------------------------\n`; // Trenner für Aufgaben
+                    responseString += `---------------------------------\n`; // Divider for tasks
                 });
-                responseString += `\n`; // Zusätzliche Leerzeile für den Abstand
-            } else {
-                responseString += `Progress ${i}:\nKeine Aufgaben gefunden.\n\n`;// Gebe an, dass keine Aufgaben für diesen Fortschritt vorhanden sind
-            }
-        }
-        res.send(responseString); // Sende die nach Status organisierten Aufgaben im Klartext
-=======
-                    responseString += `---------------------------------\n`; 
-                });
-                responseString += `\n`; // Spacing
+                responseString += `\n`; // Extra newline for spacing
             } else {
                 responseString += `Progress ${i}:\nKeine Aufgaben gefunden.\n\n`; //Keine Aufgabe gefunden
             }
         }
-        res.send(responseString); //Aufgaben senden
->>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+        res.send(responseString); // Send tasks organized by status as plain text
     });
 });
 

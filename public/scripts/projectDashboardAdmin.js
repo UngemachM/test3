@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 // JavaScript, um das Formular für "Neues Projekt" umzuschalten
 document.getElementById('new-project-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'block';   
@@ -25,6 +26,17 @@ document.getElementById('new-project-link').addEventListener('click', function (
 
 // Umschalten des "Benutzer Bearbeiten" Abschnitts, versteckt andere Abschnitte und lädt Benutzer
 document.getElementById('edit-user').addEventListener('click', function () {
+=======
+// Zeigt das Formular für "Neues Projekt" an und versteckt andere Abschnitte
+document.getElementById('new-project-link').addEventListener('click', function () {
+    document.getElementById('new-project-container').style.display = 'block';
+    document.getElementById('edit-project-container').style.display = 'none';
+    document.getElementById('edit-user-container').style.display = 'none';
+});
+
+// Umschalten des "Benutzer Bearbeiten" Abschnitts, versteckt andere Abschnitte und lädt Benutzer
+document.getElementById('edit-user').addEventListener('click', function () {
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
     document.getElementById('new-project-container').style.display = 'none';
     document.getElementById('edit-project-container').style.display = 'none';
     document.getElementById('edit-user-container').style.display = 'block';
@@ -32,6 +44,9 @@ document.getElementById('edit-user').addEventListener('click', function () {
 });
 
 // Holt und zeigt Benutzer in der Tabelle an
+<<<<<<< HEAD
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+=======
 >>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 function loadUsers() {
     fetch('/users')
@@ -113,6 +128,7 @@ document.getElementById('edit-user-form').onsubmit = function (e) {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Behandle Benutzerbearbeitung
 document.addEventListener('click', function (event) {
     if (event.target.classList.contains('edit-user-btn')) {
@@ -169,6 +185,13 @@ document.getElementById('overview-link').addEventListener('click', function () {
     document.getElementById('edit-project-container').style.display = 'none';
     document.getElementById('edit-user-container').style.display = 'none';
 >>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+=======
+// Zeigt die "Projektübersicht" an und versteckt andere Abschnitte
+document.getElementById('overview-link').addEventListener('click', function () {
+    document.getElementById('new-project-container').style.display = 'none';
+    document.getElementById('edit-project-container').style.display = 'none';
+    document.getElementById('edit-user-container').style.display = 'none';
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 });
 
 // Lädt Projekte beim Laden der Seite und zeigt sie in der Tabelle an
@@ -184,12 +207,17 @@ function loadProjects() {
         .then(response => response.json())
         .then(data => {
 <<<<<<< HEAD
+<<<<<<< HEAD
             console.log('Projects fetched:', data);
 
             // Hole das tbody Element
             const tableBody = document.getElementById('project-body');
             
            // innerHTML auf neuen Inhalt setzen
+=======
+            console.log('Projekte geladen:', data);
+            const tableBody = document.getElementById('project-body');
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 =======
             console.log('Projekte geladen:', data);
             const tableBody = document.getElementById('project-body');
@@ -242,6 +270,7 @@ document.getElementById('edit-project-form').addEventListener('submit', function
         loadProjects();
         alert('Projekt wurde erfolgreich aktualisiert!');
     })
+<<<<<<< HEAD
 <<<<<<< HEAD
     .catch(error => {
         console.error('Fehler beim Aktualisieren des Projekts:', error);
@@ -336,10 +365,14 @@ document.addEventListener('click', function (event) {
 =======
     .catch(error => alert('Fehler beim Aktualisieren des Projekts: ' + error.message));
 >>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
+=======
+    .catch(error => alert('Fehler beim Aktualisieren des Projekts: ' + error.message));
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 });
 
 // Zeigt das Formular für ein neues Projekt an
 document.addEventListener('DOMContentLoaded', () => {
+<<<<<<< HEAD
 <<<<<<< HEAD
     console.log("Loading projects...");
 
@@ -367,6 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Zeige das Formular für die Eingabe eines neuen Projekts an
+=======
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 =======
 >>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
     const addProjectButton = document.getElementById('new-project-link');
