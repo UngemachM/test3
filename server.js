@@ -4,9 +4,10 @@ const path = require('path');
 const mysql = require('mysql2');
 const fs = require('fs');
 const session = require('express-session');
+const config = require("./config.json"); // Konfiguration aus der JSON-Datei einbinden
 
 const app = express();
-const port = 3001;
+const port = config.port || 3001; // Port aus der Konfiguration oder Standardport
 
 // Middleware zum Parsen von Formulardaten
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,12 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MySQL-Datenbankverbindung konfigurieren
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'name_db'
-});
+const db = mysql.createConnection(config.db);
 
 db.connect(err => {
     if (err) throw err;
@@ -29,20 +25,21 @@ db.connect(err => {
 
 // Session-Konfiguration
 app.use(session({
-    secret: 'geheimnisvollerSchlüssel',
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 600000 }
+    cookie: { maxAge: config.sessionMaxAge }
 }));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
 
 // Registrierung eines neuen Benutzers mit Überprüfung ob ein Benutzer bereits existiert und hinzufügen eines Ranges
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
 
     // Überprüfen, ob der Benutzername bereits existiert
-    const checkUsernameSql = 'SELECT * FROM namen WHERE username = ?';
+    const checkUsernameSql = 'SELECT * FROM users WHERE username = ?';
     db.query(checkUsernameSql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
@@ -57,7 +54,7 @@ app.post('/register', (req, res) => {
         }
 
         // Zuerst prüfen, ob bereits Benutzer existieren
-        const checkUserCountSql = 'SELECT COUNT(*) AS count FROM namen';
+        const checkUserCountSql = 'SELECT COUNT(*) AS count FROM users';
         db.query(checkUserCountSql, (err, results) => {
             if (err) {
                 console.error('Datenbankfehler:', err);
@@ -75,9 +72,9 @@ app.post('/register', (req, res) => {
                 rank = 1;
             }
 
-            // Benutzer mit entsprechendem Rang in die Datenbank einfügen
-            const insertUserSql = 'INSERT INTO namen (username, password, rank) VALUES (?, ?, ?)';
-            db.query(insertUserSql, [username, password, rank], (err, result) => {
+            // Benutzer mit entsprechendem Rang und Email in die Datenbank einfügen
+            const insertUserSql = 'INSERT INTO users (username, password, email, rank) VALUES (?, ?, ?, ?)';
+            db.query(insertUserSql, [username, password, email, rank], (err, result) => {
                 if (err) {
                     console.error('Datenbankfehler:', err);
                     res.status(500).send('Fehler bei der Registrierung.');
@@ -94,7 +91,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    const sql = 'SELECT password, rank FROM namen WHERE username = ?';
+    const sql = 'SELECT password, rank FROM users WHERE username = ?';
     db.query(sql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
@@ -162,7 +159,11 @@ app.post('/logout', (req, res) => {
 app.post('/addTask', (req, res) => {
     const { taskname, prio, owner, assigned, description, project, deadline } = req.body;
 
+<<<<<<< HEAD
     // SQL Abfrage ob eine Aufgabe mit dem Namen bereits existiert
+=======
+    // SQL query zum überprüfen ob eine Task mit dem Name breits existiert
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
     const checkTaskSql = 'SELECT COUNT(*) AS count FROM tasks WHERE taskname = ? AND projectName = ?';
 
     // Überprüfen ob eine Aufgabe mit dem Namen bereits existiert
@@ -172,12 +173,20 @@ app.post('/addTask', (req, res) => {
             return res.status(500).send('Fehler beim Überprüfen der Aufgabe.');
         }
 
+<<<<<<< HEAD
         // Fehlermeldung wenn Aufgabe mit dem Namen bereits existiert
+=======
+        // Wenn ein Task mit dem Namen Existirt, gebe fehler aus
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
         if (result[0].count > 0) {
             return res.status(400).send('Es gibt bereits eine Aufgabe mit diesem Namen in diesem Projekt.');
         }
 
+<<<<<<< HEAD
         // Wenn die Aufgabe nicht bereits existiert, füge die Aufgabe ein
+=======
+        // Wenn keine Task mit dem Namen existiert, füge sie ein
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
         const insertTaskSql = `
             INSERT INTO tasks (taskname, prio, owner, assigned, description, status, projectName, deadline)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -199,13 +208,17 @@ app.post('/addTask', (req, res) => {
 
 // Route zum Abrufen der Aufgabenerstellungsseite
 app.get('/taskCreator', (req, res) => {
+<<<<<<< HEAD
     res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  //  Seite zur Erstellung von Aufgaben
+=======
+    res.sendFile(path.join(__dirname, 'public', 'taskCreator.html'));  
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 });
 
 app.post('/getTasks', (req, res) => {
     const projectName = req.body.projectName; // Projektname aus den Formulardaten abrufen
-    
-    // SQL-Abfrage anpassen, um auch das Feld 'deadline' zu berücksichtigen
+
+
     const sql = 'SELECT taskname, prio, owner, assigned, description, status, deadline FROM tasks WHERE projectname = ?';
 
     db.query(sql, [projectName], (err, results) => {
@@ -217,10 +230,9 @@ app.post('/getTasks', (req, res) => {
             return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.');
         }
 
-        console.log('Aufgaben für Projekt abgerufen:', results); // Debug-Ausgabe
 
         // Hier senden wir die Aufgaben als JSON-Antwort, einschließlich der Deadline
-        res.json(results); // Die `deadline` ist nun Teil des Ergebnisses
+        res.json(results); 
     });
 });
 
@@ -236,7 +248,12 @@ app.get('/taskDetail', (req, res) => {
 
     // Benutzer-Rang aus der Session abrufen
     const userRank = req.session.rank;
+<<<<<<< HEAD
 // Bereinigen des Tasknamens, um SQL-Injection zu vermeiden
+=======
+
+    // Taskname formatiern um SQL Injection zu vermeiden
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
     const sanitizedTaskName = taskname.trim();
 
     // Abfrage der Datenbank für die Aufgabe basierend auf dem taskname
@@ -256,7 +273,7 @@ app.get('/taskDetail', (req, res) => {
             res.render('taskDetailUser', { task }); // Render für Rang 1 Benutzer
         } else if (userRank === 2) {
             res.render('taskDetailManager', { task }); // Render für Rang 2 Benutzer
-            } else if (userRank === 3) {
+        } else if (userRank === 3) {
             res.render('taskDetailManager', { task }); // Render für Rang 2 Benutzer
         } else {
             return res.status(403).send('Zugriff verweigert.'); // Anderen Rängen ggf. behandeln
@@ -269,7 +286,7 @@ app.post('/updateTask', (req, res) => {
     const { taskname, prio, owner, assigned, description, deadline, comments } = req.body;
     console.log(req.body);
 
-    
+
 
     // Update der Task in der Datenbank, einschließlich des kombinierten DateTime-Werts
     db.query('UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ?, deadline = ? WHERE taskname = ?',
@@ -343,26 +360,29 @@ app.post('/getComments', (req, res) => {
 
 // Route zum Abrufen aller Benutzer
 app.get('/users', (req, res) => {
-    let sql = 'SELECT id,username,rank FROM namen';
+    let sql = 'SELECT id,username,rank FROM users';
     db.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
     });
 });
 
-// Route zum Aktualisieren eines Benutzers (PUT)
+
+// PUT-Route zum Aktualisieren eines Benutzers
 app.put('/users/:userId', (req, res) => {
     console.log("Benutzer wird aktualisiert");
 
-    const userId = req.params.userId;  // Benutzer-ID aus der URL extrahieren
-    const { username, rank } = req.query; // Den Benutzernamen und Rang aus der URL extrahieren
+    // Benutzerinformationen aus dem Request-Body extrahieren
+    const userId = req.params.userId;
+    const { username, rank } = req.body; // Daten aus dem Form-Body extrahieren
 
     console.log(`Aktualisiere Benutzer mit ID: ${userId}`);
     console.log(`Neuer Rang: ${rank}`);
     console.log(`Neuer Benutzername: ${username}`);
 
+
     // SQL-Abfrage zum Aktualisieren des Benutzers in der Datenbank
-    const query = 'UPDATE namen SET rank = ?, username = ? WHERE id = ?';
+    const query = 'UPDATE users SET rank = ?, username = ? WHERE id = ?';
 
     // Datenbankabfrage ausführen, um den Benutzer zu aktualisieren
     db.query(query, [rank, username, userId], (err, result) => {
@@ -380,6 +400,7 @@ app.put('/users/:userId', (req, res) => {
         res.json({ message: 'Benutzer erfolgreich aktualisiert' });
     });
 });
+
 
 // Endpoint zum Hinzufügen eines neuen Projekts
 app.post('/addProject', (req, res) => {
@@ -419,9 +440,9 @@ app.post('/addProject', (req, res) => {
 });
 app.put('/projects/:name', (req, res) => {
     const projectName = req.params.name;
-    const { projectDetails, projectProgress } = req.body; // Die Formulardaten sind jetzt in req.body verfügbar
+    const { projectDetails, projectProgress } = req.body; 
 
-    const query = 'UPDATE projects SET progress = ?, projectdetails = ? WHERE projectname = ?';
+    const query = 'UPDATE projects SET projectProgress = ?, projectDetails = ? WHERE projectName = ?';
     db.query(query, [projectProgress, projectDetails, projectName], (err, result) => {
         if (err) { // Fehlerbehandlung
             console.error('Datenbankfehler:', err);
@@ -436,7 +457,7 @@ app.put('/projects/:name', (req, res) => {
 // Route zum Abrufen aller Projekte
 app.get('/projects', (req, res) => {
     const sql = 'SELECT * FROM projects';
-    
+
     db.query(sql, (err, results) => {
         if (err) { // Fehlerbehandlung
             console.error('Fehler beim Abrufen der Projekte:', err);
@@ -450,13 +471,20 @@ app.get('/projects', (req, res) => {
 
 
 app.post('/projects/tasks', (req, res) => {
+<<<<<<< HEAD
     const projectName = req.body.projectName; // Projektname aus den URL-kodierten Formulardaten abrufen
 
    // SQL-Abfrage zum Auswählen aller erforderlichen Felder
+=======
+    const projectName = req.body.projectName;
+
+
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
     const sql = 'SELECT taskname, prio, owner, assigned, description, status FROM tasks WHERE projectname = ?'; 
     db.query(sql, [projectName], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
+<<<<<<< HEAD
             return res.status(500).send('Fehler beim Abrufen der Aufgaben.'); // Sende eine Fehlermeldung
         }
 
@@ -465,10 +493,24 @@ app.post('/projects/tasks', (req, res) => {
         }
 
        // Bereite eine Antwort in einem Format vor, das leicht verarbeitet werden kann
+=======
+            return res.status(500).send('Fehler beim Abrufen der Aufgaben.'); 
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('Keine Aufgaben gefunden für dieses Projekt.'); 
+        }
+
+        // Antwort Formatieren
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
         const tasksByStatus = results.reduce((acc, task) => {
             const status = task.status; // Status der Aufgabe
             if (!acc[status]) {
+<<<<<<< HEAD
                 acc[status] = [];// Initialisiere das Array für diesen Status, falls es nicht existiert
+=======
+                acc[status] = []; 
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
             }
             acc[status].push({
                 taskname: task.taskname,
@@ -477,11 +519,19 @@ app.post('/projects/tasks', (req, res) => {
                 assigned: task.assigned,
                 description: task.description,
                 status: task.status
+<<<<<<< HEAD
             }); // Füge das Aufgabenobjekt dem entsprechenden Status hinzu
             return acc;
         }, {});
 
        // Formatiere die Aufgaben nach Status in eine Antwortzeichenkette
+=======
+            }); 
+            return acc;
+        }, {});
+
+        // Task formatieren
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
         let responseString = '';
         for (let i = 1; i <= 5; i++) {
             if (tasksByStatus[i]) {
@@ -493,6 +543,7 @@ app.post('/projects/tasks', (req, res) => {
                     responseString += `Assigned: ${task.assigned}\n`;
                     responseString += `Description: ${task.description}\n`;
                     responseString += `Status: ${task.status}\n`;
+<<<<<<< HEAD
                     responseString += `---------------------------------\n`; // Trenner für Aufgaben
                 });
                 responseString += `\n`; // Zusätzliche Leerzeile für den Abstand
@@ -501,27 +552,37 @@ app.post('/projects/tasks', (req, res) => {
             }
         }
         res.send(responseString); // Sende die nach Status organisierten Aufgaben im Klartext
+=======
+                    responseString += `---------------------------------\n`; 
+                });
+                responseString += `\n`; // Spacing
+            } else {
+                responseString += `Progress ${i}:\nKeine Aufgaben gefunden.\n\n`; //Keine Aufgabe gefunden
+            }
+        }
+        res.send(responseString); //Aufgaben senden
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
     });
 });
 
 
-// Respond with plain text for project details
-app.post('/projects/details', isAuthenticated, (req, res) => {
-    const projectName = req.body.projectName; // Get projectName from URL-encoded form data
 
-    const sql = 'SELECT name FROM projects WHERE projectname = ?'; // Adjust as needed
+app.post('/projects/details', isAuthenticated, (req, res) => {
+    const projectName = req.body.projectName; // Den Projectnamen und Rang aus der URL extrahieren
+
+    const sql = 'SELECT name FROM projects WHERE projectname = ?';
     db.query(sql, [projectName], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
-            return res.status(500).send('Fehler beim Abrufen der Projektdaten.'); // Send plain text error message
+            return res.status(500).send('Fehler beim Abrufen der Projektdaten.'); //Fehlermeldung
         }
 
         if (results.length === 0) {
-            return res.status(404).send('Projekt nicht gefunden.'); // Send plain text for project not found
+            return res.status(404).send('Projekt nicht gefunden.'); // Fehlermeldung Project nicht gefunden
         }
 
-        // Return project name as plain text
-        res.send(results[0].name); // Send project name as plain text
+       
+        res.send(results[0].name); 
     });
 });
 

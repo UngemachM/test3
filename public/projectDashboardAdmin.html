@@ -33,7 +33,6 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
             <li><a href="#" id="new-project-link">New Project</a></li>
-            <li><a href="#" id="edit-project-link">Edit Project</a></li>
             <li><a href="#" id="edit-user">Edit User</a></li>
         </ul>
     </nav>
@@ -73,8 +72,12 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
     <div id="edit-user-form-container" style="display: none;">
         <h3>Edit User</h3>
         <form id="edit-user-form">
+            
+            <label for="user-id">User ID:</label>
+            <input type="text" id="user-id" name="user-id" required readonly >
+
             <label for="edit-username">Username:</label>
-            <input type="text" id="edit-username" name="username" required readonly>
+            <input type="text" id="edit-username" name="username" required >
 
             <label for="edit-user-rank">Rank:</label>
             <select id="edit-user-rank" name="user-rank" required>
@@ -89,8 +92,12 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
     </div>
 </div>
 
+<<<<<<< HEAD
 
    <!--Bearbeitungsformular für das Projekt (Zunächst verborgen)-->
+=======
+   <!-- Edit Project Form (Initially hidden) -->
+>>>>>>> 57f76f46d30f03f1a45bef6ce0a12d92b0bd46f2
 <div class="container" id="edit-project-container" style="display: none;">
     <div id="edit-project-form-container">
         <h2>Edit Project</h2>
@@ -116,6 +123,9 @@ JavaScript-Skript sorgt für die Funktionalität der Seite.
             <tr>
                 <th>Projektname</th>
                 <th>Projekt Details</th>
+                <th>Projekt Progress</th>
+                <th></th>
+                <th></th>
             </tr>
 
         </thead>
