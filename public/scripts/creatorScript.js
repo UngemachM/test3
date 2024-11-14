@@ -48,9 +48,9 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Function to load users
+   // Funktion zum Laden von Benutzern
     function loadUsers() {
-        fetch('/users') // API endpoint to fetch users
+        fetch('/users') // API-Endpunkt zum Abrufen von Benutzern
             .then(response => response.json())
             .then(users => {
                 const ownerSelect = document.getElementById('owner');
@@ -73,29 +73,29 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Function to load projects and populate the project dropdown
+    // Funktion zum Laden von Projekten und zum Befüllen des Projekt-Dropdowns
     function loadProjects() {
-        fetch('/projects') // API endpoint to fetch projects
+        fetch('/projects') // API-Endpunkt zum Abrufen von Projekten
             .then(response => response.json())
             .then(projects => {
                 const projectSelect = document.getElementById('project');
 
-                // Clear any existing options (except the default prompt)
+                // Vorhandene Optionen löschen (außer der Standardaufforderung)
                 projectSelect.innerHTML = '<option value="">Select Project</option>';
 
                 projects.forEach(project => {
                     const optionProject = document.createElement('option');
-                    optionProject.value = project.projectname;  // assuming `project.id` is the project identifier
-                    optionProject.textContent = project.projectname;  // assuming `project.name` is the project name
+                    optionProject.value = project.projectname;  // Angenommen, `project.id` ist der Projektbezeichner
+                    optionProject.textContent = project.projectname; // Angenommen, `project.projectname` ist der Projektname
                     projectSelect.appendChild(optionProject);
                 });
             })
             .catch(error => {
-                console.error('Error fetching projects:', error);
+                console.error('Error fetching projects:', error); // Fehlerbehandlung
             });
     }
 
-    // Load users and projects when the page is fully loaded
+   // Benutzer und Projekte laden, wenn die Seite vollständig geladen ist
     loadUsers();
     loadProjects();
 });

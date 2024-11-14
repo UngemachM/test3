@@ -7,11 +7,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Ensures footer stays at the bottom */
+    /* Stellt sicher, dass der Footer am Ende bleibt */
     align-items: center;
-    /* Centers content horizontally */
+ /* Zentriert den Inhalt horizontal */
     min-height: 100vh;
-    /* Full viewport height */
+   /* Volle Höhe des Viewports */
 }
 
 header {
@@ -34,7 +34,7 @@ header h1 {
 /* Footer */
 footer {
     background-color: #2b3a67;
-    /* Dark blue */
+    /* Dunkles Blau */
     color: white;
     text-align: center;
     padding: 20px 0;
@@ -42,7 +42,7 @@ footer {
     font-size: 0.85rem;
 }
 
-/* Button to Create New Task */
+/* Button zum kreiren neuer Aufgaben */
 .add-task-button {
     display: flex;
     justify-content: center;
@@ -53,7 +53,7 @@ footer {
     padding: 15px 30px;
     color: white;
     background-color: #2b3a67;
-    /* Dark blue */
+    /* Dunkles Blau */
     border: none;
     border-radius: 5px;
     font-size: 16px;
@@ -63,21 +63,22 @@ footer {
 
 .add-task-button button:hover {
     background-color: #415e9c;
-    /* Lighter blue */
+    /* Helleres Blau */
 }
 
-/* Container for Task Columns */
+
+/* Container für Aufgaben-Spalten */
 .container {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     flex-wrap: wrap;
-    /* Ensures columns will stack on smaller screens */
+ /* Stellt sicher, dass Spalten auf kleineren Bildschirmen gestapelt werden */
     flex-grow: 1;
-    /* Makes sure container grows and takes remaining space */
+   /* Lässt den Container wachsen und den verbleibenden Platz einnehmen */
 }
 
-/* Individual Column Styles */
+/* Stile für einzelne Spalten */
 .column {
     flex: 1;
     margin: 10px;
@@ -96,7 +97,7 @@ footer {
 .column h2 {
     text-align: center;
     background-color: #2b3a67;
-    /* Dark blue */
+    /* Dunkles Blau */
     color: white;
     padding: 10px;
     margin: -10px -10px 20px;
@@ -104,7 +105,7 @@ footer {
     font-size: 1.2rem;
 }
 
-/* Task List within Columns */
+/* Task List innerhalb der Spalten */
 .task-list {
     list-style: none;
     padding: 0;
@@ -137,11 +138,10 @@ footer {
 .add-task-form h2 {
     margin-bottom: 20px;
     color: #2b3a67;
-    /* Dark blue */
+    /* Dunkles Blau */
     text-align: center;
 }
-
-/* Form Group Styles */
+/* Stile für form-group */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -174,7 +174,7 @@ footer {
 
 .form-group button {
     background-color: #2b3a67;
-    /* Dark blue */
+    /* Dunkleres Bau */
     color: white;
     border: none;
     cursor: pointer;
@@ -183,5 +183,5 @@ footer {
 
 .form-group button:hover {
     background-color: #415e9c;
-    /* Lighter blue */
+    /* Helleres Blau */
 }

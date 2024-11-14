@@ -1,3 +1,17 @@
+html
+
+Copy
+<!--
+Diese HTML-Datei stellt ein Administrations-Dashboard für das Projektmanagement dar. 
+Es enthält eine Navigationsleiste, die Links zu den Projektübersichten, 
+dem Erstellen und Bearbeiten von Projekten sowie der Benutzerverwaltung bietet. 
+Das Dashboard bietet Formulare zum Erstellen neuer Projekte,
+Bearbeiten von Benutzern und Aktualisieren von Projektdetails,
+die bei Bedarf eingeblendet werden können. 
+Ein Footer zeigt Copyright-Informationen an, und ein externes 
+JavaScript-Skript sorgt für die Funktionalität der Seite.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +28,7 @@
         <h1>Project Management Dashboard</h1>
     </header>
 
-    <!-- Navigation Bar -->
+    <!-- Navigationsleiste -->
     <nav>
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
@@ -24,7 +38,7 @@
         </ul>
     </nav>
 
-    <!-- New Project Form (Initially hidden) -->
+   <!--Neues Projektformular (Zunächst verborgen)-->
     <div class="container" id="new-project-container" style="display: none;">
         <h2>Create New Project</h2>
         <form id="new-project-form">
@@ -39,7 +53,7 @@
             <button type="submit">Add Project</button>
         </form>
     </div>
-    <!-- Edit User Form (Initially hidden) -->
+   <!--Bearbeitungsformular für Benutzer (Zunächst verborgen)-->
 <div class="container" id="edit-user-container" style="display: none;">
     <h2>Edit Users</h2>
     <table id="user-table">
@@ -51,11 +65,11 @@
             </tr>
         </thead>
         <tbody id="user-body">
-            <!-- Rows with user information will be added here dynamically -->
+            <!--Hier werden die Zeilen mit Benutzerinformationen dynamisch hinzugefügt-->
         </tbody>
     </table>
 
-    <!-- Edit User Form (Populates with selected user data) -->
+   <!--Bearbeitungsformular für Benutzer (Wird mit den Daten des ausgewählten Benutzers gefüllt)-->
     <div id="edit-user-form-container" style="display: none;">
         <h3>Edit User</h3>
         <form id="edit-user-form">
@@ -76,12 +90,12 @@
 </div>
 
 
-   <!-- Edit Project Form (Initially hidden) -->
+   <!--Bearbeitungsformular für das Projekt (Zunächst verborgen)-->
 <div class="container" id="edit-project-container" style="display: none;">
     <div id="edit-project-form-container">
         <h2>Edit Project</h2>
         <form id="edit-project-form">
-            <!-- Hidden Input Field to store the project name -->
+            <!--Verstecktes Eingabefeld zum Speichern des Projektnamens-->
             <input hidden type="text" id="projectNameHidden" value="">
             
             <label for="edit-project-progress">Progress (%):</label>
@@ -96,7 +110,7 @@
 </div>
 
 
-    <!-- Main Project Table -->
+    <!-- Hauptprojekttabelle-->
     <table id="project-table">
         <thead>
             <tr>

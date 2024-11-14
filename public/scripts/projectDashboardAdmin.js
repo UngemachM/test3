@@ -1,20 +1,19 @@
-// JavaScript to toggle the "New Project" form
+// JavaScript, um das Formular für "Neues Projekt" umzuschalten
 document.getElementById('new-project-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'block';   
-    document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
+    document.getElementById('edit-project-container').style.display = 'none'; // Bearbeitungsbereich für das Projekt ausblenden
 });
 
-// Toggle the "Edit User" section and hide other sections
+// Den Abschnitt "Benutzer bearbeiten" umschalten und andere Abschnitte ausblenden
 document.getElementById('edit-user').addEventListener('click', function () {
-    document.getElementById('new-project-container').style.display = 'none'; // Hide new project section
-    document.getElementById('edit-project-container').style.display = 'none'; // Hide edit project section
-    document.getElementById('edit-user-container').style.display = 'block'; // Show edit user section
+    document.getElementById('new-project-container').style.display = 'none'; // Neuen Projektbereich ausblenden
+    document.getElementById('edit-project-container').style.display = 'none'; // Bearbeitungsbereich für Projekte ausblenden
+    document.getElementById('edit-user-container').style.display = 'block'; // Bearbeitungsbereich für Benutzer anzeigen
 
-    // Load users when "Edit User" is clicked
+    // Benutzer laden, wenn "Benutzer bearbeiten" angeklickt wird
     loadUsers();
 });
-
-// Fetch and display users in the table
+// Benutzer abrufen und in der Tabelle anzeigen
 function loadUsers() {
     fetch('/users')
         .then(response => response.json())
@@ -87,7 +86,7 @@ document.getElementById('edit-user-form').onsubmit = function(e) {
     });
 };
 
-// Handle user editing
+// Behandle Benutzerbearbeitung
 document.addEventListener('click', function (event) {
     if (event.target.classList.contains('edit-user-btn')) {
         const userRow = event.target.closest('tr');
@@ -129,11 +128,11 @@ document.addEventListener('click', function (event) {
 
 
 
-// JavaScript to go back to "Projects Overview"
+// JavaScript, um zur "Projektübersicht" zurückzukehren
 document.getElementById('overview-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'none';
-    document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-    document.getElementById('edit-user-container').style.display = 'none'; // Show edit user section
+    document.getElementById('edit-project-container').style.display = 'none'; // Abschnitt zum Bearbeiten des Benutzers ausblenden
+    document.getElementById('edit-user-container').style.display = 'none'; // Bearbeitungsbereich für den Benutzer ausblenden
 
     restoreDetailsButtons();
 });
@@ -146,10 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Projects fetched:', data);
 
-            // Get the tbody element
+            // Hole das tbody Element
             const tableBody = document.getElementById('project-body');
             
-            // Set innerHTML to new content
+           // innerHTML auf neuen Inhalt setzen
             tableBody.innerHTML = data.map(project => `
                 <tr data-project-id="${project.id}">
                     <td>${project.projectname}</td>
@@ -308,7 +307,7 @@ function loadProjects() {
         .catch(error => console.error('Fehler beim Laden der Projekte:', error));
 }
 
-// Restore "View Details" buttons when switching back to Projects Overview
+// "Details anzeigen"-Schaltflächen wiederherstellen, wenn zur Projektübersicht gewechselt wird
 function restoreDetailsButtons() {
     var detailsButtons = document.querySelectorAll('#project-view a.btn-details');
     detailsButtons.forEach(function (button) {
@@ -316,24 +315,23 @@ function restoreDetailsButtons() {
     });
 }
 
-// Event delegation for dynamic elements like the "View Details" button
+// Ereignisdelegierung für dynamische Elemente wie den "Details anzeigen"-Button
 document.addEventListener('click', function (event) {
-    // Handle 'View Details' button click
+    // Klick auf den Button "Details anzeigen" behandeln
     if (event.target.classList.contains('project-details-btn')) {
         const projectRow = event.target.closest('tr');
-        const projectId = projectRow.dataset.projectId; // Assuming the project ID is stored in a data attribute
-        const projectName = projectRow.children[0].textContent; // Assuming the project name is in the first column
+        const projectId = projectRow.dataset.projectId; // Angenommen, die Projekt-ID ist in einem Datenattribut gespeichert
+        const projectName = projectRow.children[0].textContent; // Angenommen, der Projektname befindet sich in der ersten Spalte
 
-        // Redirect to the dashboard with the project ID and name as query parameters
+        // Weiterleiten zum Dashboard mit der Projekt-ID und dem Projektnamen als Abfrageparameter
         window.location.href = `/taskDashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
     }
 
-    // Handle 'Edit This Project' button click
+    // Klick auf den Button "Dieses Projekt bearbeiten" behandeln
     if (event.target.id === 'project-details-btn-edit') {
-        document.getElementById('new-project-container').style.display = 'none'; // hide new project section
-        document.getElementById('main-container').style.display = 'none'; // hide main project section
-        document.getElementById('edit-project-container').style.display = 'block'; // show edit project section
-       
+        document.getElementById('new-project-container').style.display = 'none'; // neuen Projektbereich ausblenden
+        document.getElementById('main-container').style.display = 'none'; // Hauptprojektbereich ausblenden
+        document.getElementById('edit-project-container').style.display = 'block'; // Bearbeitungsbereich für das Projekt anzeigen
     }
 });
 
@@ -345,10 +343,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Projects fetched:', data);
 
-            // Get the tbody element
+            // Hole das tbody Elemnt
             const tableBody = document.getElementById('project-body');
-            
-            // Set innerHTML to new content
+            // innerHTML auf neuen Inhalt setzen
             tableBody.innerHTML = data.map(project => `
                 <tr data-project-id="${project.id}"> <!-- Assuming project has an id -->
                     <td>${project.projectname}</td>
@@ -357,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button class="project-details-btn">View Details</button>
                     </td>
                 </tr>
-            `).join(''); // join('') combines all rows into a single HTML string
+            `).join(''); /// join('') kombiniert alle Zeilen zu einem einzigen HTML-String
 
         })
         .catch(error => console.error('Error fetching projects:', error));

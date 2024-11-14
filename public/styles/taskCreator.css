@@ -1,4 +1,4 @@
-/* General styles */
+/* Allgemeine Stile */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,11 +8,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* Ensures footer stays at the bottom */
+    /* Stellt sicher, dass der Footer am Ende bleibt */
     align-items: center;
-    /* Centers content horizontally */
+    /* Zentriert den Inhalt horizontal */
     min-height: 100vh;
-    /* Full viewport height */
+    /* Volle Höhe des Viewports */
 }
 
 header {
@@ -30,7 +30,7 @@ header h1 {
     letter-spacing: 1.2px;
 }
 
-/* Task form styles */
+/* Task form Style */
 .add-task-form {
     width: 90%;
     max-width: 600px;
@@ -39,9 +39,9 @@ header h1 {
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 40px;
-    /* Add some space from the top */
+    /* Fügt etwas Abstand vom oberen Rand hinzu */
     margin-bottom: 40px;
-    /* Add some space from the bottom */
+    /* Fügt etwas Abstand vom unteren Rand hinzu */
 }
 
 .add-task-form h2 {
@@ -72,9 +72,9 @@ header h1 {
     font-size: 1rem;
     background-color: #f9f9f9;
     width: 100%;
-    /* Ensures all form elements are the same width */
+    /* Stellt sicher, dass alle Formularelemente die gleiche Breite haben */
     box-sizing: border-box;
-    /* Includes padding and border in the width calculation */
+    /* Bezieht Padding und Border in die Breitenberechnung mit ein */
 }
 
 .form-group textarea {

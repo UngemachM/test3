@@ -1,29 +1,29 @@
-// JavaScript to toggle the "New Project" form
+// JavaScript, um das Formular für "Neues Projekt" umzuschalten
 document.getElementById('new-project-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'block';
     document.getElementById('main-container').style.display = 'none';
-    document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+    document.getElementById('edit-project-container').style.display = 'none'; // Abschnitt zum Bearbeiten des Projekts ausblenden
+    document.getElementById('edit-input-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
 });
 
-// JavaScript to go back to "Projects Overview"
+// JavaScript, um zur "Projektübersicht" zurückzukehren
 document.getElementById('overview-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'none';
     document.getElementById('main-container').style.display = 'block';
-    document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+    document.getElementById('edit-project-container').style.display = 'none'; // Abschnitt zum Bearbeiten des Projekts ausblenden
+    document.getElementById('edit-input-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
     restoreDetailsButtons();
 });
 
-// JavaScript to show "Edit Project" form and hide "New Project" form
+// JavaScript, um das Formular "Projekt bearbeiten" anzuzeigen und das Formular "Neues Projekt" auszublenden
 document.getElementById('edit-project-link').addEventListener('click', function () {
-    document.getElementById('new-project-container').style.display = 'none'; // hide new project section
-    document.getElementById('main-container').style.display = 'none'; // hide main project section
-    document.getElementById('edit-project-container').style.display = 'block'; // show edit project section
-    document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+    document.getElementById('new-project-container').style.display = 'none'; // neuen Projektbereich ausblenden
+    document.getElementById('main-container').style.display = 'none'; // Hauptprojektbereich ausblenden
+    document.getElementById('edit-project-container').style.display = 'block'; // Bearbeitungsbereich für das Projekt anzeigen
+    document.getElementById('edit-input-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
 });
 
-// Restore "View Details" buttons when switching back to Projects Overview
+// "Details anzeigen"-Schaltflächen wiederherstellen, wenn zur Projektübersicht gewechselt wird
 function restoreDetailsButtons() {
     var detailsButtons = document.querySelectorAll('#project-view a.btn-details');
     detailsButtons.forEach(function (button) {
@@ -31,21 +31,21 @@ function restoreDetailsButtons() {
     });
 }
 
-// Event delegation for dynamic elements like the "Edit This Project" button
+// Ereignisdelegierung für dynamische Elemente wie den "Dieses Projekt bearbeiten"-Button
 document.addEventListener('click', function (event) {
-    // Handle 'View Details' button click
+  // Klick auf den Button "Details anzeigen" behandeln
     if (event.target.id === 'project-details-btn') {
-        document.getElementById('new-project-container').style.display = 'none'; // hide new project section
-        document.getElementById('main-container').style.display = 'none'; // hide main project section
-        document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
-        document.getElementById('edit-input-project-container').style.display = 'none'; // hide edit project section
+        document.getElementById('new-project-container').style.display = 'none'; // neuen Projektbereich ausblenden
+        document.getElementById('main-container').style.display = 'none'; // Hauptprojektbereich ausblenden
+        document.getElementById('edit-project-container').style.display = 'none'; // Bearbeitungsbereich für das Projekt ausblenden
+        document.getElementById('edit-input-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
     }
-
-    // Handle 'Edit This Project' button click
+    
+// Klick auf den Button "Dieses Projekt bearbeiten" behandeln
     if (event.target.id === 'project-details-btn-edit') {
-        document.getElementById('new-project-container').style.display = 'none'; // hide new project section
-        document.getElementById('main-container').style.display = 'none'; // hide main project section
-        document.getElementById('edit-input-project-container').style.display = 'block'; // show edit project section
-        document.getElementById('edit-project-container').style.display = 'none'; // hide edit project section
+        document.getElementById('new-project-container').style.display = 'none';// neuen Projektbereich ausblenden
+        document.getElementById('main-container').style.display = 'none'; // Hauptprojektbereich ausblenden
+        document.getElementById('edit-input-project-container').style.display = 'block'; // Bearbeitungsbereich für das Projekt anzeigen
+        document.getElementById('edit-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
     }
 });

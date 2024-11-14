@@ -13,7 +13,7 @@
             commentsSection.innerHTML = commentsHtml; // HTML-Inhalt einfügen
         })
         .catch(error => {
-            console.error('Error fetching comments:', error);
+            console.error('Error fetching comments:', error); //Fehlerbehandlung
         });
     }
 
