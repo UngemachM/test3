@@ -139,6 +139,8 @@ document.addEventListener('click', function (event) {
         document.getElementById('edit-project-details').value = projectDetails;
 
         document.getElementById('edit-project-container').style.display = 'block';
+        document.getElementById('edit-user-form-container').style.display = 'none';
+
     }
 });
 
