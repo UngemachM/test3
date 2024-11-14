@@ -20,7 +20,7 @@ const db = mysql.createConnection(config.db);
 
 db.connect(err => {
     if (err) throw err;
-    console.log('Datenbank verbunden.');
+    console.log('database connected.');
 });
 
 // Session-Konfiguration
@@ -95,12 +95,12 @@ app.post('/login', (req, res) => {
     db.query(sql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
-            res.status(500).send('Fehler bei der Anmeldung.');
+            res.status(500).send('Login failed.');
             return;
         }
 
         if (results.length === 0) {
-            res.json({ success: false, message: 'Benutzername nicht gefunden.' });
+            res.json({ success: false, message: 'Username not found.' });
             return;
         }
 
@@ -276,7 +276,7 @@ app.post('/updateTask', async (req, res) => {
         }
 
         // Erfolgsnachricht zurück an den Client
-        res.send('Task erfolgreich aktualisiert' + (comments ? ' und Kommentar gespeichert.' : '.') );
+        res.send('Task erfolgreich aktualisiert' + (comments ? ' und Kommentar gespeichert.' : '.'));
     } catch (err) {
         console.error('Fehler bei der Aktualisierung der Aufgabe:', err);
         res.status(500).json({ error: err.message });

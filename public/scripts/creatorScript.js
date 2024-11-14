@@ -41,7 +41,7 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
         alert(message);  // Erfolgsnachricht
     })
     .catch(error => {
-        console.error('Fehler beim Hinzufügen der Aufgabe:', error);
+        console.error('Error adding task:', error);
     });
 });
 

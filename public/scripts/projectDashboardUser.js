@@ -14,7 +14,7 @@ document.getElementById('overview-link').addEventListener('click', function () {
 
 // Ereignisdelegierung für dynamische Elemente wie den "Details anzeigen"-Button
 document.addEventListener('click', function (event) {
-   // Klick auf den Button "Details anzeigen" behandeln
+    // Klick auf den Button "Details anzeigen" behandeln
     if (event.target.classList.contains('project-details-btn')) {
         const projectRow = event.target.closest('tr');
         const projectId = projectRow.dataset.projectId; // Angenommen, die Projekt-ID ist in einem Datenattribut gespeichert
@@ -23,13 +23,13 @@ document.addEventListener('click', function (event) {
         window.location.href = `/taskDashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
     }
 
-   // Klick auf den Button "Dieses Projekt bearbeiten" behandeln
-   if (event.target.id === 'project-details-btn-edit') {
-    document.getElementById('new-project-container').style.display = 'none'; // neuen Projektbereich ausblenden
-    document.getElementById('main-container').style.display = 'none'; // Hauptprojektbereich ausblenden
-    document.getElementById('edit-input-project-container').style.display = 'block'; // Bearbeitungsbereich für das Projekt anzeigen
-    document.getElementById('edit-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
-}
+    // Klick auf den Button "Dieses Projekt bearbeiten" behandeln
+    if (event.target.id === 'project-details-btn-edit') {
+        document.getElementById('new-project-container').style.display = 'none'; // neuen Projektbereich ausblenden
+        document.getElementById('main-container').style.display = 'none'; // Hauptprojektbereich ausblenden
+        document.getElementById('edit-input-project-container').style.display = 'block'; // Bearbeitungsbereich für das Projekt anzeigen
+        document.getElementById('edit-project-container').style.display = 'none'; // Bearbeitungsbereich ausblenden
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log('Projects fetched:', data);
 
-           // Das tbody-Element abrufen
+            // Das tbody-Element abrufen
             const tableBody = document.getElementById('project-body');
-            
-           // innerHTML auf neuen Inhalt setzen
+
+            // innerHTML auf neuen Inhalt setzen
             tableBody.innerHTML = data.map(project => `
                 <tr >
                     <td>${project.projectName}</td>
@@ -72,19 +72,19 @@ function logout() {
             message: "User wants to log out"
         })
     })
-    .then(response => {
-        if (response.ok) {
-            // Erfolgreiches Abmelden, Weiterleitung zur Startseite oder Login-Seite
-            window.location.href = '/';  // Weiterleitung zur Startseite oder Login-Seite
-        } else {
-            // Fehlerbehandlung
-            alert('Fehler beim Abmelden. Bitte versuche es später erneut.');
-        }
-    })
-    .catch(error => {
-        console.error('Fehler beim Logout:', error);
-        alert('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
-    });
+        .then(response => {
+            if (response.ok) {
+                // Erfolgreiches Abmelden, Weiterleitung zur Startseite oder Login-Seite
+                window.location.href = '/';  // Weiterleitung zur Startseite oder Login-Seite
+            } else {
+                // Fehlerbehandlung
+                alert('Error logging in , please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error logging out', error);
+            alert('An error has occurred. Please try again later.');
+        });
 }
 
 // Event Listener für den Logout-Button
