@@ -106,21 +106,21 @@ nav ul li a:hover {
 
     height: 80px;
 }
-
 #new-project-form button {
     grid-column: span 2;
     padding: 12px;
-    background-color: #2b3a67;
+    background-color: #4a90e2; /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px; /* Runde Ecken */
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hinzufügen von Transform */
 }
 
 #new-project-form button:hover {
-    background-color: #415e9c;
+    background-color: #357ab8; /* Dunkleres Blau beim Hover */
+    transform: scale(1.05); /* Leichte Vergrößerung beim Hover */
 }
 
 /* Bearbeitungsformular für das Projekt */
