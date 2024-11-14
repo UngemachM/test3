@@ -41,7 +41,7 @@
             alert(data);
         })
         .catch(error => {
-            console.error('Fehler beim Aktualisieren der Aufgabe:', error);
+            console.error('Error updating task:', error);
         });
     }
 
