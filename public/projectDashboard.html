@@ -1,3 +1,10 @@
+<!--
+Diese HTML-Datei stellt ein Dashboard für das Projektmanagement dar. 
+Es enthält eine Navigationsleiste mit Links zu den Projektübersichten, dem Erstellen neuer Projekte und dem Bearbeiten bestehender Projekte. 
+Die Seite umfasst Formulare zur Eingabe von Projektnamen, Details, Fortschritt und Entwicklern, die bei Bedarf angezeigt werden. 
+Ein Footer zeigt Copyright-Informationen an, und ein externes JavaScript-Skript sorgt für die Funktionalität der Seite.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +22,7 @@
         <h1>Project Management Dashboard</h1>
     </header>
 
-    <!-- Navigation Bar -->
+    <!--Navigationsleiste-->
     <nav>
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
@@ -24,7 +31,7 @@
         </ul>
     </nav>
 
-    <!-- New Project Form (Initially hidden) -->
+  <!--Neues Projektformular (Zunächst verborgen)-->
     <div class="container" id="new-project-container" style="display: none;">
         <h2>Create New Project</h2>
         <form id="new-project-form">
@@ -41,7 +48,7 @@
     </div>
 
 
-    <!-- Edit Project Form (Initially hidden) -->
+    <!--Bearbeitungsformular für das Projekt (Zunächst verborgen)-->
     <div class="container" id="edit-input-project-container" style="display: none;">
         <div id="edit-project-form-container">
             <h2>Edit Project</h2>
@@ -63,7 +70,7 @@
         </div>
     </div>
 
-    <!-- Main Project Table -->
+    <!--Hauptprojekttabelle-->
     <table id="project-table">
         <thead>
             <tr>

@@ -1,4 +1,4 @@
-/* General styles */
+/* Allgemeine Stile */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,7 +6,7 @@ body {
     background-color: #f4f4f4;
     color: #333;
     padding-bottom: 60px;
-    /* Add space for footer */
+    /* Füge PLatz für footer hinzu*/
 }
 
 /* Header */
@@ -24,7 +24,7 @@ body {
     letter-spacing: 1.2px;
 }
 
-/* Navigation Bar */
+/* Navigationsleiste */
 nav {
     background-color: #02003bdd;
     padding: 10px;
@@ -54,14 +54,14 @@ nav ul li a:hover {
     transition: 0.3s;
 }
 
-/* Container for the form and table */
+/* Container für das Formular und die Tabelle */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 40px auto;
 }
 
-/* New Project Form */
+/* Neues Projektformular */
 #new-project-container {
     background-color: white;
     padding: 20px;
@@ -123,7 +123,7 @@ nav ul li a:hover {
     background-color: #415e9c;
 }
 
-/* Edit Project Form */
+/* Bearbeitungsformular für das Projekt */
 #edit-input-project-container {
     background-color: white;
     padding: 20px;
@@ -264,16 +264,16 @@ nav ul li a:hover {
     text-align: center;
     padding: 20px 0;
     position: absolute;
-    /* Change from relative to absolute */
+   /* Wechsel von relativ zu absolut */
     bottom: 0;
     width: 100%;
 }
 
 body {
     position: relative;
-    /* Ensure the footer is positioned relative to the body */
+    /* Stellt sicher, dass der Footer relativ zum Body positioniert ist */
     min-height: 100vh;
-    /* Ensure the body takes up at least the viewport height */
+    /* Stellt sicher, dass der Body mindestens die Höhe des Viewports einnimmt */
 }
 
 #footer p {

@@ -1,3 +1,9 @@
+<!--
+Diese HTML-Datei stellt ein Dashboard zur Verwaltung von Aufgaben dar, insbesondere eine Seite zum Hinzufügen neuer Aufgaben. 
+Sie enthält ein Formular mit Eingabefeldern für den Aufgabennamen, die Priorität, das Projekt, den Besitzer, die Zuweisung, die Beschreibung und die Frist. 
+Das Formular ist so konzipiert, dass es die erforderlichen Informationen erfasst, bevor die Aufgabe zur Verwaltung hinzugefügt wird.
+-->
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -13,7 +19,7 @@
     <h1>Task Management Dashboard</h1>
 </header>
 
-<!-- Task Form -->
+<!-- Aufgabenformular-->
 <div class="add-task-form">
     <h2>Add Task</h2>
     <form id="taskForm">
@@ -53,7 +59,7 @@
             <textarea id="description" name="description" required></textarea>
         </div>
         
-        <!-- Deadline Input Field with Date and Time -->
+        <!-- Eingabefeld für die Frist mit Datum und Uhrzeit -->
         <div class="form-group">
             <label for="deadline">Deadline:</label>
             <input type="date" id="deadline" name="deadline" required />

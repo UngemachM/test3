@@ -1,4 +1,4 @@
-/* General styles */
+/* Allgemeine Stile */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -80,7 +80,7 @@ header h1 {
     background-color: #415e9c;
 }
 
-/* Link for already registered users */
+/* Link für bereits registrierte Benutzer */
 .already-registered {
     text-align: center;
     margin-top: 15px;

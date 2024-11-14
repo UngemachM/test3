@@ -50,6 +50,7 @@ footer {
 }
 
 /* Button zum Erstellen einer neuen Aufgabe */
+
 .add-task-button {
     display: flex;
     justify-content: center;
