@@ -1,4 +1,3 @@
-
 <!--
 Diese Datei zeigt die Details einer bestimmten Aufgabe im Task Management Board an. 
 Sie enthält ein Formular zur Anzeige und Aktualisierung von Aufgabendetails wie dem Namen, der Priorität und der Beschreibung. 
@@ -9,50 +8,54 @@ Ein Footer zeigt die Copyright-Informationen an, und ein externes JavaScript-Skr
 
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Details</title>
     <link href="../styles/details.css" rel="stylesheet">
 </head>
+
 <body>
 
-<header>
-    <h1>Task Details</h1>
-    <button onclick="goBack()" class="back-button">Go Back</button>
-</header>
+    <header>
+        <h1>Task Details</h1>
+        <button onclick="goBack()" class="back-button">Return</button>
+    </header>
 
-<div class="container">
-    <h1>Task: <%= task.taskname %></h1>
+    <div class="container">
+        <h1>Task: <%= task.taskname %>
+        </h1>
 
-    <form id="taskForm">
-        <label for="taskname">Task Name:</label>
-        <input type="text" id="taskname" name="taskname" value="<%= task.taskname %>" readonly>
+        <form id="taskForm">
+            <label for="taskname">Task Name:</label>
+            <input type="text" id="taskname" name="taskname" value="<%= task.taskname %>" readonly>
 
-        <label for="prio">Priority (0-9):</label>
-        <input type="number" id="prio" name="prio" min="0" max="9" value="<%= task.prio %>">
+            <label for="prio">Priority (0-9):</label>
+            <input type="number" id="prio" name="prio" min="0" max="9" value="<%= task.prio %>">
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4"><%= task.description %></textarea>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"><%= task.description %></textarea>
 
-        <label for="comments">Comments:</label>
-        <textarea id="comments" name="comments" rows="4" placeholder="Leave a comment..."></textarea>
+            <label for="comments">Comments:</label>
+            <textarea id="comments" name="comments" rows="4" placeholder="Leave a comment..."></textarea>
 
-        <button type="button" onclick="updateTask()">Update Task</button>
+            <button type="button" onclick="updateTask()">Update Task</button>
 
-    </form>
+        </form>
 
-    <div class="comments-section" id="commentsSection">
-        <h2>Comments</h2>
-        <!-- Kommentare werden hier dynamisch eingefügt -->
+        <div class="comments-section" id="commentsSection">
+            <h2>Comments</h2>
+            <!-- Kommentare werden hier dynamisch eingefügt -->
+        </div>
     </div>
-</div>
 
-<footer>
-    <p>Task Management Board - 2024</p>
-</footer>
+    <footer>
+        <p>Task Management Board - 2024</p>
+    </footer>
 
-<script src="../scripts/taskDetailScript.js"></script>
+    <script src="../scripts/taskDetailScript.js"></script>
 
 </body>
+
 </html>
