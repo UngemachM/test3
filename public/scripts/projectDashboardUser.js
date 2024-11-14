@@ -45,9 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
            // innerHTML auf neuen Inhalt setzen
             tableBody.innerHTML = data.map(project => `
-                <tr data-project-id="${project.id}"> <!-- Assuming project has an id -->
-                    <td>${project.projectname}</td>
+                <tr >
+                    <td>${project.projectName}</td>
                     <td class="project-details">${project.projectDetails}</td>
+                    <td class="project-progress">${project.projectProgress}</td>
+
                     <td>
                         <button class="project-details-btn">View Details</button>
                     </td>
