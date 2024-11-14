@@ -4,9 +4,10 @@ const path = require('path');
 const mysql = require('mysql2');
 const fs = require('fs');
 const session = require('express-session');
+const config = require("./config.json"); // Konfiguration aus der JSON-Datei einbinden
 
 const app = express();
-const port = 3001;
+const port = config.port || 3001; // Port aus der Konfiguration oder Standardport
 
 // Middleware zum Parsen von Formulardaten
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,12 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MySQL-Datenbankverbindung konfigurieren
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'name_db'
-});
+const db = mysql.createConnection(config.db);
 
 db.connect(err => {
     if (err) throw err;
@@ -29,11 +25,12 @@ db.connect(err => {
 
 // Session-Konfiguration
 app.use(session({
-    secret: 'geheimnisvollerSchlüssel',
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 600000 }
+    cookie: { maxAge: config.sessionMaxAge }
 }));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
 
@@ -42,7 +39,7 @@ app.post('/register', (req, res) => {
     const { username, password, email } = req.body;
 
     // Überprüfen, ob der Benutzername bereits existiert
-    const checkUsernameSql = 'SELECT * FROM namen WHERE username = ?';
+    const checkUsernameSql = 'SELECT * FROM users WHERE username = ?';
     db.query(checkUsernameSql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
@@ -57,7 +54,7 @@ app.post('/register', (req, res) => {
         }
 
         // Zuerst prüfen, ob bereits Benutzer existieren
-        const checkUserCountSql = 'SELECT COUNT(*) AS count FROM namen';
+        const checkUserCountSql = 'SELECT COUNT(*) AS count FROM users';
         db.query(checkUserCountSql, (err, results) => {
             if (err) {
                 console.error('Datenbankfehler:', err);
@@ -76,7 +73,7 @@ app.post('/register', (req, res) => {
             }
 
             // Benutzer mit entsprechendem Rang und Email in die Datenbank einfügen
-            const insertUserSql = 'INSERT INTO namen (username, password, email, rank) VALUES (?, ?, ?, ?)';
+            const insertUserSql = 'INSERT INTO users (username, password, email, rank) VALUES (?, ?, ?, ?)';
             db.query(insertUserSql, [username, password, email, rank], (err, result) => {
                 if (err) {
                     console.error('Datenbankfehler:', err);
@@ -94,7 +91,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    const sql = 'SELECT password, rank FROM namen WHERE username = ?';
+    const sql = 'SELECT password, rank FROM users WHERE username = ?';
     db.query(sql, [username], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
@@ -336,7 +333,7 @@ app.post('/getComments', (req, res) => {
 
 // Route zum Abrufen aller Benutzer
 app.get('/users', (req, res) => {
-    let sql = 'SELECT id,username,rank FROM namen';
+    let sql = 'SELECT id,username,rank FROM users';
     db.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -358,7 +355,7 @@ app.put('/users/:userId', (req, res) => {
 
 
     // SQL-Abfrage zum Aktualisieren des Benutzers in der Datenbank
-    const query = 'UPDATE namen SET rank = ?, username = ? WHERE id = ?';
+    const query = 'UPDATE users SET rank = ?, username = ? WHERE id = ?';
 
     // Datenbankabfrage ausführen, um den Benutzer zu aktualisieren
     db.query(query, [rank, username, userId], (err, result) => {

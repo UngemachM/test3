@@ -1,0 +1,12 @@
+{
+    "db": {
+      "host": "localhost",
+      "user": "root",
+      "password": "",
+      "database": "name_db"
+    },
+    "sessionSecret": "geheimnisvollerSchlüssel",
+    "sessionMaxAge": 600000,
+    "port": 3001
+  }
+  
