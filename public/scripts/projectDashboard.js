@@ -31,7 +31,7 @@ function loadProjects() {
                     <td>${project.projectName}</td>
                     <td class="project-details">${project.projectDetails}</td>
                     <td class="project.progress">${project.projectProgress}</td>
-                    <td><button class="edit-project-btn">Bearbeiten</button></td>
+                    <td><button class="edit-project-btn">Edit</button></td>
                     <td><button class="project-details-btn">Details</button></td>
                 </tr>
             `).join('');
