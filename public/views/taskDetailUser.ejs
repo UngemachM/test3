@@ -23,30 +23,36 @@ Ein Footer zeigt die Copyright-Informationen an, und ein externes JavaScript-Skr
         <button onclick="goBack()" class="back-button">Return</button>
     </header>
 
-    <div class="container">
+    <div class="container-tasks">
         <h1>Task: <%= task.taskname %>
         </h1>
 
         <form id="taskForm">
-            <label for="taskname">Task Name:</label>
-            <input type="text" id="taskname" name="taskname" value="<%= task.taskname %>" readonly>
-
-            <label for="prio">Priority (0-9):</label>
-            <input type="number" id="prio" name="prio" min="0" max="9" value="<%= task.prio %>">
-
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4"><%= task.description %></textarea>
-
-            <label for="comments">Comments:</label>
-            <textarea id="comments" name="comments" rows="4" placeholder="Leave a comment..."></textarea>
-
-            <button type="button" onclick="updateTask()">Update Task</button>
-
+            <div class="form-group">
+                <label for="taskname">Task Name:</label>
+                <input type="text" id="taskname" name="taskname" value="<%= task.taskname %>" readonly>
+            </div>
+            <div class="form-group">
+                <label for="prio">Priority (0-9):</label>
+                <input type="number" id="prio" name="prio" min="0" max="9" value="<%= task.prio %>">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4"><%= task.description %></textarea>
+            </div>
+            <div class="form-group">
+                <label for="comments">Comments:</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Leave a comment..."></textarea>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="updateTask()">Update Task</button>
+            </div>
         </form>
-
-        <div class="comments-section" id="commentsSection">
-            <h2>Comments</h2>
-            <!-- Kommentare werden hier dynamisch eingefügt -->
+        <div class="comments-area">
+            <div class="comments-section" id="commentsSection">
+                <h2>Comments</h2>
+                <!-- Kommentare werden hier dynamisch eingefügt -->
+            </div>
         </div>
     </div>
 

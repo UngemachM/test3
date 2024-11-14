@@ -119,7 +119,7 @@ nav ul li a:hover {
 #new-project-form textarea,
 #edit-project-form input,
 #edit-project-form textarea {
-    width: 100%;
+    width: 94%;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -140,10 +140,12 @@ nav ul li a:hover {
 .edit-project-btn {
     padding: 12px 20px;
     background-color: #2b3a67;
-    background-color: #2b3a67; /* Helles Blau */
+    background-color: #2b3a67;
+    /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 10px; /* Runde Ecken */
+    border-radius: 10px;
+    /* Runde Ecken */
     font-size: 1rem;
     font-weight: bold;
     /* Fett für bessere Lesbarkeit */
@@ -167,10 +169,12 @@ nav ul li a:hover {
 .project-details-btn {
     padding: 12px 20px;
 
-    background-color: #2b3a67; /* Helles Blau */
+    background-color: #2b3a67;
+    /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 10px; /* Runde Ecken */
+    border-radius: 10px;
+    /* Runde Ecken */
     font-size: 1rem;
     font-weight: bold;
     /* Fett für bessere Lesbarkeit */
