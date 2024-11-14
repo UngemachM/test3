@@ -201,13 +201,8 @@ app.get('/taskCreator', (req, res) => {
 
 app.post('/getTasks', (req, res) => {
     const projectName = req.body.projectName; // Projektname aus den Formulardaten abrufen
-<<<<<<< HEAD
 
-    // SQL-Abfrage anpassen, um auch das Feld 'deadline' zu berücksichtigen
-=======
-    
 
->>>>>>> 1cee56c81c43d580932244fdf8eede0c95216750
     const sql = 'SELECT taskname, prio, owner, assigned, description, status, deadline FROM tasks WHERE projectname = ?';
 
     db.query(sql, [projectName], (err, results) => {
@@ -452,12 +447,7 @@ app.post('/projects/tasks', (req, res) => {
     const projectName = req.body.projectName;
 
 
-<<<<<<< HEAD
-    // SQL query to select all required fields
-    const sql = 'SELECT taskname, prio, owner, assigned, description, status FROM tasks WHERE projectname = ?';
-=======
     const sql = 'SELECT taskname, prio, owner, assigned, description, status FROM tasks WHERE projectname = ?'; 
->>>>>>> 1cee56c81c43d580932244fdf8eede0c95216750
     db.query(sql, [projectName], (err, results) => {
         if (err) {
             console.error('Datenbankfehler:', err);
