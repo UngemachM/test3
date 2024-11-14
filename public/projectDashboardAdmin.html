@@ -14,7 +14,7 @@
         <h1>Project Management Dashboard</h1>
     </header>
 
-    <!-- Navigation Bar -->
+    <!-- Navigationsleiste -->
     <nav>
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
@@ -23,7 +23,7 @@
         </ul>
     </nav>
 
-    <!-- New Project Form (Initially hidden) -->
+    <!-- Neues Projektformular (Anfangs verborgen) -->
     <div class="container" id="new-project-container" style="display: none;">
         <h2>Create New Project</h2>
         <form id="new-project-form">
@@ -38,7 +38,7 @@
             <button type="submit">Add Project</button>
         </form>
     </div>
-    <!-- Edit User Form (Initially hidden) -->
+  <!-- Bearbeitungsformular für Benutzer (Anfangs verborgen) -->
 <div class="container" id="edit-user-container" style="display: none;">
     <h2>Edit Users</h2>
     <table id="user-table">
@@ -50,11 +50,11 @@
             </tr>
         </thead>
         <tbody id="user-body">
-            <!-- Rows with user information will be added here dynamically -->
+          <!-- Zeilen mit Benutzerinformationen werden hier dynamisch hinzugefügt -->
         </tbody>
     </table>
 
-    <!-- Edit User Form (Populates with selected user data) -->
+    <!-- Bearbeitungsformular für Benutzer (Wird mit den ausgewählten Benutzerdaten gefüllt) -->
     <div id="edit-user-form-container" style="display: none;">
         <h3>Edit User</h3>
         <form id="edit-user-form">
@@ -78,12 +78,12 @@
     </div>
 </div>
 
-   <!-- Edit Project Form (Initially hidden) -->
+  <!-- Bearbeitungsformular für das Projekt (Anfangs verborgen) -->
 <div class="container" id="edit-project-container" style="display: none;">
     <div id="edit-project-form-container">
         <h2>Edit Project</h2>
         <form id="edit-project-form">
-            <!-- Hidden Input Field to store the project name -->
+            <!-- Verstecktes Eingabefeld zur Speicherung des Projektnamens -->
             <input hidden type="text" id="projectNameHidden" value="">
             
             <label for="edit-project-progress">Progress (%):</label>
@@ -98,7 +98,7 @@
 </div>
 
 
-    <!-- Main Project Table -->
+    <!-- Hauptprojekt Tabelle -->
     <table id="project-table">
         <thead>
             <tr>
