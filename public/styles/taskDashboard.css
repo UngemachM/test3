@@ -9,9 +9,9 @@ body {
     justify-content: space-between;
     /* Stellt sicher, dass der Footer am Ende bleibt */
     align-items: center;
- /* Zentriert den Inhalt horizontal */
+    /* Zentriert den Inhalt horizontal */
     min-height: 100vh;
-   /* Volle Höhe des Viewports */
+    /* Volle Höhe des Viewports */
 }
 
 header {
@@ -73,9 +73,9 @@ footer {
     justify-content: space-between;
     padding: 20px;
     flex-wrap: wrap;
- /* Stellt sicher, dass Spalten auf kleineren Bildschirmen gestapelt werden */
+    /* Stellt sicher, dass Spalten auf kleineren Bildschirmen gestapelt werden */
     flex-grow: 1;
-   /* Lässt den Container wachsen und den verbleibenden Platz einnehmen */
+    /* Lässt den Container wachsen und den verbleibenden Platz einnehmen */
 }
 
 /* Stile für einzelne Spalten */
@@ -141,6 +141,7 @@ footer {
     /* Dunkles Blau */
     text-align: center;
 }
+
 /* Stile für form-group */
 .form-group {
     display: flex;

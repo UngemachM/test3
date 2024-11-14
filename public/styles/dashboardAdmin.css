@@ -264,7 +264,7 @@ nav ul li a:hover {
     text-align: center;
     padding: 20px 0;
     position: absolute;
-   /* Wechsel von relativ zu absolut */
+    /* Wechsel von relativ zu absolut */
     bottom: 0;
     width: 100%;
 }

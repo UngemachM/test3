@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>111Project Management Dashboard Admin</title>
     <link rel="icon" href="images/favicon.ico">
-    <link href="styles/projectboard.css" rel="stylesheet"></head>
+    <link href="styles/projectboard.css" rel="stylesheet">
+</head>
 
 <body>
 
@@ -19,7 +20,6 @@
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
             <li><a href="#" id="new-project-link">New Project</a></li>
-            <li><a href="#" id="edit-user">Edit User</a></li>
             <li><button id="logout-button">Logout</button></li>
         </ul>
     </nav>
@@ -31,34 +31,34 @@
             <label for="new-project-name">Project Name:</label>
             <input type="text" id="projectName" name="projectName" required>
 
-            
-            
+
+
             <label for="new-project-details">Project Details:</label>
             <textarea id="projectDetails" name="projectDetails" required></textarea>
 
             <button type="submit">Add Project</button>
         </form>
     </div>
- 
 
-   <!-- Edit Project Form (Initially hidden) -->
-<div class="container" id="edit-project-container" style="display: none;">
-    <div id="edit-project-form-container">
-        <h2>Edit Project</h2>
-        <form id="edit-project-form">
-            <!-- Hidden Input Field to store the project name -->
-            <input hidden type="text" id="projectNameHidden" value="">
-            
-            <label for="edit-project-progress">Progress (%):</label>
-            <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
 
-            <label for="edit-project-details">Project Details:</label>
-            <textarea id="edit-project-details" name="projectDetails" required></textarea>
+    <!-- Edit Project Form (Initially hidden) -->
+    <div class="container" id="edit-project-container" style="display: none;">
+        <div id="edit-project-form-container">
+            <h2>Edit Project</h2>
+            <form id="edit-project-form">
+                <!-- Hidden Input Field to store the project name -->
+                <input hidden type="text" id="projectNameHidden" value="">
 
-            <button type="submit">Update Project</button>
-        </form>
+                <label for="edit-project-progress">Progress (%):</label>
+                <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
+
+                <label for="edit-project-details">Project Details:</label>
+                <textarea id="edit-project-details" name="projectDetails" required></textarea>
+
+                <button type="submit">Update Project</button>
+            </form>
+        </div>
     </div>
-</div>
 
 
     <!-- Main Project Table -->

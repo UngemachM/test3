@@ -6,6 +6,7 @@ Das Formular ist so konzipiert, dass es die erforderlichen Informationen erfasst
 
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,71 +14,73 @@ Das Formular ist so konzipiert, dass es die erforderlichen Informationen erfasst
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="styles/taskCreator.css">
 </head>
+
 <body>
 
-<header>
-    <h1>Task Management Dashboard</h1>
-    <button onclick="goBack()" class="back-button">Go Back</button>
-</header>
+    <header>
+        <h1>Task Management Dashboard</h1>
+        <button onclick="goBack()" class="back-button">Return</button>
+    </header>
 
-<!-- Aufgabenformular-->
-<div class="add-task-form">
-    <h2>Add Task</h2>
-    <form id="taskForm">
-        <div class="form-group">
-            <label for="taskname">Task Name:</label>
-            <input type="text" id="taskname" name="taskname" required />
-        </div>
-        
-        <div class="form-group">
-            <label for="prio">Priority (1-5):</label>
-            <input type="number" id="prio" name="prio" required />
-        </div>
-        
-        <div class="form-group">
-            <label for="project">Project:</label>
-            <select id="project" name="project" required>
-                <option value="">Select Project</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="owner">Owner:</label>
-            <select id="owner" name="owner" required>
-                <option value="">Select Owner</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="assigned">Assigned:</label>
-            <select id="assigned" name="assigned" required>
-                <option value="">Select Assigned</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
-        </div>
-        
-        <!-- Eingabefeld für die Frist mit Datum und Uhrzeit -->
-        <div class="form-group">
-            <label for="deadline">Deadline:</label>
-            <input type="date" id="deadline" name="deadline" required />
-            <input type="time" id="time" name="time" required />
-        </div>
-        
-        <div class="form-group">
-            <button type="submit">Add Task</button>
-        </div>
-    </form>
-</div>
+    <!-- Aufgabenformular-->
+    <div class="add-task-form">
+        <h2>Add Task</h2>
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="taskname">Task Name:</label>
+                <input type="text" id="taskname" name="taskname" required />
+            </div>
 
-<footer>
-    <p>Task Management Dashboard - 2024</p>
-</footer>
+            <div class="form-group">
+                <label for="prio">Priority (1-5):</label>
+                <input type="number" id="prio" name="prio" required />
+            </div>
 
-<script src="scripts/creatorScript.js"></script>
+            <div class="form-group">
+                <label for="project">Project:</label>
+                <select id="project" name="project" required>
+                    <option value="">Select Project</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="owner">Owner:</label>
+                <select id="owner" name="owner" required>
+                    <option value="">Select Owner</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="assigned">Assigned:</label>
+                <select id="assigned" name="assigned" required>
+                    <option value="">Select Assigned</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+
+            <!-- Eingabefeld für die Frist mit Datum und Uhrzeit -->
+            <div class="form-group">
+                <label for="deadline">Deadline:</label>
+                <input type="date" id="deadline" name="deadline" required />
+                <input type="time" id="time" name="time" required />
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Add Task</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>Task Management Dashboard - 2024</p>
+    </footer>
+
+    <script src="scripts/creatorScript.js"></script>
 
 </body>
+
 </html>
