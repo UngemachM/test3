@@ -12,7 +12,7 @@ document.getElementById('registerForm').addEventListener('submit', function (eve
             document.getElementById('result').textContent = result;
         })
         .catch(error => {
-            document.getElementById('result').textContent = 'Fehler bei der Registrierung.';
-            console.error('Fehler:', error);
+            document.getElementById('result').textContent = 'Error registering';
+            console.error('Error:', error);
         });
 });
