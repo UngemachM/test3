@@ -194,13 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 return response.json();
             } else if (response.status === 409) {
-                throw new Error('Wähle einen anderen Namen. Ein Projekt mit diesem Namen existiert bereits.');
+                throw new Error('Choose another name. A project with this name already exists.');
             } else {
-                throw new Error('Fehler beim Hinzufügen des Projekts. Bitte versuche es erneut.');
+                throw new Error('Error adding project. Please try again.');
             }
         })
         .then(data => {
-            alert('Projekt erfolgreich hinzugefügt!');
+            alert('Project added successfullyt!');
             newProjectContainer.style.display = 'none';
             loadProjects();
         })
