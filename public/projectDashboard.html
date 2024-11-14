@@ -1,20 +1,12 @@
-<!--
-Diese HTML-Datei stellt ein Dashboard für das Projektmanagement dar. 
-Es enthält eine Navigationsleiste mit Links zu den Projektübersichten, dem Erstellen neuer Projekte und dem Bearbeiten bestehender Projekte. 
-Die Seite umfasst Formulare zur Eingabe von Projektnamen, Details, Fortschritt und Entwicklern, die bei Bedarf angezeigt werden. 
-Ein Footer zeigt Copyright-Informationen an, und ein externes JavaScript-Skript sorgt für die Funktionalität der Seite.
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>111Project Management Dashboard111</title>
+    <title>111Project Management Dashboard Admin</title>
     <link rel="icon" href="images/favicon.ico">
-    <link href="styles/projectboard.css" rel="stylesheet">
-</head>
+    <link href="styles/projectboard.css" rel="stylesheet"></head>
 
 <body>
 
@@ -22,60 +14,62 @@ Ein Footer zeigt Copyright-Informationen an, und ein externes JavaScript-Skript 
         <h1>Project Management Dashboard</h1>
     </header>
 
-    <!--Navigationsleiste-->
+    <!-- Navigation Bar -->
     <nav>
         <ul>
             <li><a href="#" id="overview-link">Projects Overview</a></li>
             <li><a href="#" id="new-project-link">New Project</a></li>
-            <li><a href="#" id="edit-project-link">Edit Project</a></li>
+            <li><a href="#" id="edit-user">Edit User</a></li>
+            <li><button id="logout-button">Logout</button></li>
         </ul>
     </nav>
 
-  <!--Neues Projektformular (Zunächst verborgen)-->
+    <!-- New Project Form (Initially hidden) -->
     <div class="container" id="new-project-container" style="display: none;">
         <h2>Create New Project</h2>
         <form id="new-project-form">
             <label for="new-project-name">Project Name:</label>
-            <input type="text" id="new-project-name" name="project-name" required>
+            <input type="text" id="projectName" name="projectName" required>
 
-
-
+            
+            
             <label for="new-project-details">Project Details:</label>
-            <textarea id="new-project-details" name="project-details" required></textarea>
+            <textarea id="projectDetails" name="projectDetails" required></textarea>
 
             <button type="submit">Add Project</button>
         </form>
     </div>
+ 
 
+   <!-- Edit Project Form (Initially hidden) -->
+<div class="container" id="edit-project-container" style="display: none;">
+    <div id="edit-project-form-container">
+        <h2>Edit Project</h2>
+        <form id="edit-project-form">
+            <!-- Hidden Input Field to store the project name -->
+            <input hidden type="text" id="projectNameHidden" value="">
+            
+            <label for="edit-project-progress">Progress (%):</label>
+            <input type="number" id="edit-project-progress" name="projectProgress" min="0" max="100" required>
 
-    <!--Bearbeitungsformular für das Projekt (Zunächst verborgen)-->
-    <div class="container" id="edit-input-project-container" style="display: none;">
-        <div id="edit-project-form-container">
-            <h2>Edit Project</h2>
-            <form id="edit-project-form">
-                <label for="edit-project-name">Project Name:</label>
-                <input type="text" id="edit-project-name" name="project-name" required>
+            <label for="edit-project-details">Project Details:</label>
+            <textarea id="edit-project-details" name="projectDetails" required></textarea>
 
-                <label for="edit-project-progress">Progress (%):</label>
-                <input type="number" id="edit-project-progress" name="project-progress" min="0" max="100" required>
-
-                <label for="edit-project-developers">Developers (comma separated):</label>
-                <input type="text" id="edit-project-developers" name="project-developers" required>
-
-                <label for="edit-project-details">Project Details:</label>
-                <textarea id="edit-project-details" name="project-details" required></textarea>
-
-                <button type="submit">Update Project</button>
-            </form>
-        </div>
+            <button type="submit">Update Project</button>
+        </form>
     </div>
+</div>
 
-    <!--Hauptprojekttabelle-->
+
+    <!-- Main Project Table -->
     <table id="project-table">
         <thead>
             <tr>
                 <th>Projektname</th>
                 <th>Projekt Details</th>
+                <th>Projekt Progress</th>
+                <th></th>
+                <th></th>
             </tr>
 
         </thead>
@@ -89,7 +83,7 @@ Ein Footer zeigt Copyright-Informationen an, und ein externes JavaScript-Skript 
         <p>&copy; 2024 Project Management Dashboard. All rights reserved.</p>
     </footer>
 
-    <script src="scripts/Dashboardadmin.js"></script>
+    <script src="scripts/projectDashboard.js"></script>
 
 </body>
 

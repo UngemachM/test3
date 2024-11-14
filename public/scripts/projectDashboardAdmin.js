@@ -218,3 +218,34 @@ document.addEventListener('click', function (event) {
         window.location.href = `/taskDashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
     }
 });
+// Funktion für den Logout-Prozess
+function logout() {
+    // Sende eine POST-Anfrage an die Logout-Route
+    fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        // Falls du Daten an den Server senden musst, kannst du sie hier hinzufügen
+        body: JSON.stringify({
+            message: "User wants to log out"
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Erfolgreiches Abmelden, Weiterleitung zur Startseite oder Login-Seite
+            window.location.href = '/';  // Weiterleitung zur Startseite oder Login-Seite
+        } else {
+            // Fehlerbehandlung
+            alert('Fehler beim Abmelden. Bitte versuche es später erneut.');
+        }
+    })
+    .catch(error => {
+        console.error('Fehler beim Logout:', error);
+        alert('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+    });
+}
+
+// Event Listener für den Logout-Button
+document.getElementById('logout-button').addEventListener('click', logout);
+
