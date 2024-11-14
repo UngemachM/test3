@@ -58,5 +58,9 @@ function loadTasks() {
         console.error('Error loading tasks:', err); // Fehlerprotokollierung
     });
 }
+function goBack() {
+    window.history.back();  // Dies bringt den Benutzer zur vorherigen Seite im Verlauf zurück
+}
+
 
 window.onload = loadTasks; // Aufgaben laden, wenn die Seite geladen wird

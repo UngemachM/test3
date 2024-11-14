@@ -1,12 +1,4 @@
 
-<!--
-Diese HTML-Datei stellt ein einfaches Task Management Board dar. 
-Sie enthält einen Header mit dem Titel, einen Button zum Erstellen neuer Aufgaben und mehrere Spalten, 
-in denen Aufgaben nach Fortschritt (Progress 1 bis 5) aufgelistet werden. 
-Ein Footer zeigt das Jahr an, und ein externes JavaScript-Skript wird geladen, um die Funktionalität zu unterstützen.
--->
-
-
 <!DOCTYPE html>
 <html lang="de">
 
@@ -22,6 +14,8 @@ Ein Footer zeigt das Jahr an, und ein externes JavaScript-Skript wird geladen, u
 
     <header>
         <h1>Task Management Board</h1>
+        <!-- Zurück-Button hinzufügen -->
+        <button onclick="goBack()" class="back-button">Go Back</button>
     </header>
 
     <div class="add-task-button">
