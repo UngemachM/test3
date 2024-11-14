@@ -115,7 +115,6 @@ function loadProjects() {
     fetch('/projects')
         .then(response => response.json())
         .then(data => {
-            restoreDetailsButtons;
             console.log('Projekte geladen:', data);
             const tableBody = document.getElementById('project-body');
             tableBody.innerHTML = data.map(project => `
@@ -133,7 +132,7 @@ function loadProjects() {
 
 // Öffnet das Formular "Projekt Bearbeiten" und befüllt es mit Projektdaten
 document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('edit-project-btn')) {
+    if (event.target.classList.contains('edit-project-link')) {
         const projectRow = event.target.closest('tr');
         const projectId = projectRow.dataset.projectId;
         const projectName = projectRow.children[0].textContent;
@@ -209,13 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Stellt die "Details anzeigen"-Buttons beim Zurückkehren zur Projektübersicht wieder her
-function restoreDetailsButtons() {
-    var detailsButtons = document.querySelectorAll('#project-view a.btn-details');
-    detailsButtons.forEach(function (button) {
-        button.textContent = 'View Details';
-    });
-}
+
 
 // Delegiert Klick-Events für dynamische Elemente wie den "Details anzeigen"-Button
 document.addEventListener('click', function (event) {
@@ -227,4 +220,3 @@ document.addEventListener('click', function (event) {
         window.location.href = `/taskDashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
     }
 });
-window.onload = restoreDetailsButtons;
