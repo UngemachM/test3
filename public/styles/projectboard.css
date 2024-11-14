@@ -139,10 +139,10 @@ nav ul li a:hover {
 /* Stil für Edit-Button */
 .edit-project-btn {
     padding: 12px 20px;
-    background-color: #4a90e2; /* Helles Blau */
+    background-color: #2b3a67; /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 20px; /* Runde Ecken */
+    border-radius: 10px; /* Runde Ecken */
     font-size: 1rem;
     font-weight: bold; /* Fett für bessere Lesbarkeit */
     cursor: pointer;
@@ -158,10 +158,10 @@ nav ul li a:hover {
 /* Stil für Details-Button */
 .project-details-btn {
     padding: 12px 20px;
-    background-color: #4a90e2; /* Helles Blau */
+    background-color: #2b3a67; /* Helles Blau */
     color: white;
     border: none;
-    border-radius: 20px; /* Runde Ecken */
+    border-radius: 10px; /* Runde Ecken */
     font-size: 1rem;
     font-weight: bold; /* Fett für bessere Lesbarkeit */
     cursor: pointer;
