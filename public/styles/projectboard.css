@@ -135,6 +135,45 @@ nav ul li a:hover {
     border-color: #2b3a67;
 }
 
+
+/* Stil für Edit-Button */
+.edit-project-btn {
+    padding: 12px 20px;
+    background-color: #4a90e2; /* Helles Blau */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Runde Ecken */
+    font-size: 1rem;
+    font-weight: bold; /* Fett für bessere Lesbarkeit */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.edit-project-btn:hover {
+    background-color: #357ab8; /* Dunkleres Blau beim Hover */
+    transform: scale(1.05); /* Leichte Vergrößerung */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten beim Hover */
+}
+
+/* Stil für Details-Button */
+.project-details-btn {
+    padding: 12px 20px;
+    background-color: #4a90e2; /* Helles Blau */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Runde Ecken */
+    font-size: 1rem;
+    font-weight: bold; /* Fett für bessere Lesbarkeit */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.project-details-btn:hover {
+    background-color: #357ab8; /* Dunkleres Blau beim Hover */
+    transform: scale(1.05); /* Leichte Vergrößerung */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten beim Hover */
+}
+
 #new-project-form button,
 #edit-project-form button {
     grid-column: span 2;
@@ -191,21 +230,7 @@ nav ul li a:hover {
     border-color: #2b3a67;
 }
 
-#edit-project-form button {
-    grid-column: span 2;
-    padding: 15px;
-    background-color: #2b3a67;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-#edit-project-form button:hover {
-    background-color: #415e9c;
-}
 
 /* Table Style */
 #project-table {
