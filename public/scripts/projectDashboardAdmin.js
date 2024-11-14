@@ -2,6 +2,8 @@
 document.getElementById('new-project-link').addEventListener('click', function () {
     document.getElementById('new-project-container').style.display = 'block';
     document.getElementById('edit-project-container').style.display = 'none';
+    document.getElementById('edit-user-container').style.display = 'none';
+
 });
 
 // Umschalten des "Benutzer Bearbeiten" Abschnitts, versteckt andere Abschnitte und lädt Benutzer
@@ -39,16 +41,45 @@ function loadUsers() {
         .catch(error => console.error('Fehler beim Abrufen der Benutzer:', error));
 }
 
-// Event-Handler für das Aktualisieren von Benutzerdaten
+// Öffnet das Formular "Benutzer Bearbeiten" mit vorbefüllten Daten
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('edit-user-btn')) {
+        const userRow = event.target.closest('tr');
+        const userId = userRow.dataset.userId;
+        const username = userRow.children[1].textContent;
+        const rank = userRow.children[2].textContent;
+        document.getElementById('user-id').value = userId;
+        document.getElementById('edit-username').value = username;
+        document.getElementById('edit-user-rank').value = rank;
+        document.getElementById('edit-user-form-container').style.display = 'block';
+    }
+});
+// Event-Handler für das Formular-Submit
 document.getElementById('edit-user-form').onsubmit = function (e) {
-    e.preventDefault();
-    const userId = document.getElementById('edit-username').value;
-    const updatedRank = document.getElementById('edit-user-rank').value;
-    
-    fetch(`/users/${userId}`, {
+    e.preventDefault();  // Verhindert das Standard-Formular-Submit
+
+    // Zugriff auf die Formularelemente
+    const userId = document.getElementById('user-id');
+    const updatedName = document.getElementById('edit-username');
+    const updatedRank = document.getElementById('edit-user-rank');
+
+    // Auslesen der Werte
+    const userIdValue = userId.value;            // Benutzer-ID
+    const updatedNameValue = updatedName.value;  // Neuer Benutzername
+    const updatedRankValue = updatedRank.value;  // Neuer Benutzer-Rang
+
+    // URLSearchParams erstellen, um die Formulardaten zu codieren
+    const formData = new URLSearchParams();
+    formData.append('username', updatedNameValue);
+    formData.append('rank', updatedRankValue);
+
+    // PUT-Anfrage senden
+    fetch(`/users/${userIdValue}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rank: updatedRank })
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'  // Header für URL-kodierte Daten
+        },
+        body: formData.toString()  // Die Daten als URL-kodierte Formulardaten senden
     })
     .then(response => {
         if (!response.ok) {
@@ -58,25 +89,11 @@ document.getElementById('edit-user-form').onsubmit = function (e) {
     })
     .then(data => {
         console.log('Benutzer erfolgreich aktualisiert:', data);
-        loadUsers();
+        loadUsers();  // Benutzerliste neu laden
         document.getElementById('edit-user-form-container').style.display = 'none';
     })
     .catch(error => alert('Fehler beim Aktualisieren des Benutzers: ' + error.message));
 };
-
-// Öffnet das Formular "Benutzer Bearbeiten" mit vorbefüllten Daten
-document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('edit-user-btn')) {
-        const userRow = event.target.closest('tr');
-        const userId = userRow.dataset.userId;
-        const username = userRow.children[1].textContent;
-        const rank = userRow.children[2].textContent;
-
-        document.getElementById('edit-username').value = username;
-        document.getElementById('edit-user-rank').value = rank;
-        document.getElementById('edit-user-form-container').style.display = 'block';
-    }
-});
 
 // Zeigt die "Projektübersicht" an und versteckt andere Abschnitte
 document.getElementById('overview-link').addEventListener('click', function () {
@@ -98,6 +115,7 @@ function loadProjects() {
     fetch('/projects')
         .then(response => response.json())
         .then(data => {
+            restoreDetailsButtons;
             console.log('Projekte geladen:', data);
             const tableBody = document.getElementById('project-body');
             tableBody.innerHTML = data.map(project => `
@@ -105,6 +123,8 @@ function loadProjects() {
                     <td>${project.projectname}</td>
                     <td class="project-details">${project.projectDetails}</td>
                     <td><button class="edit-project-btn">Bearbeiten</button></td>
+                    <td><button class="project-details-btn">Details</button></td>
+
                 </tr>
             `).join('');
         })
@@ -207,3 +227,4 @@ document.addEventListener('click', function (event) {
         window.location.href = `/taskDashboard.html?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}`;
     }
 });
+window.onload = restoreDetailsButtons;

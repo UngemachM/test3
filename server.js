@@ -343,12 +343,14 @@ app.get('/users', (req, res) => {
     });
 });
 
-// Route zum Aktualisieren eines Benutzers (PUT)
+
+// PUT-Route zum Aktualisieren eines Benutzers
 app.put('/users/:userId', (req, res) => {
     console.log("Benutzer wird aktualisiert");
 
-    const userId = req.params.userId;  // Benutzer-ID aus der URL extrahieren
-    const { username, rank } = req.query; // Den Benutzernamen und Rang aus der URL extrahieren
+    // Benutzerinformationen aus dem Request-Body extrahieren
+    const userId = req.params.userId;
+    const { username, rank } = req.body; // Daten aus dem Form-Body extrahieren
 
     console.log(`Aktualisiere Benutzer mit ID: ${userId}`);
     console.log(`Neuer Rang: ${rank}`);
@@ -374,6 +376,7 @@ app.put('/users/:userId', (req, res) => {
         res.json({ message: 'Benutzer erfolgreich aktualisiert' });
     });
 });
+
 
 // Endpoint zum Hinzufügen eines neuen Projekts
 app.post('/addProject', (req, res) => {

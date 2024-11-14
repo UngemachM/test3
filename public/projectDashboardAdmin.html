@@ -59,8 +59,12 @@
     <div id="edit-user-form-container" style="display: none;">
         <h3>Edit User</h3>
         <form id="edit-user-form">
+            
+            <label for="user-id">User ID:</label>
+            <input type="text" id="user-id" name="user-id" required readonly >
+
             <label for="edit-username">Username:</label>
-            <input type="text" id="edit-username" name="username" required readonly>
+            <input type="text" id="edit-username" name="username" required >
 
             <label for="edit-user-rank">Rank:</label>
             <select id="edit-user-rank" name="user-rank" required>
