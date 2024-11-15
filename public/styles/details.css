@@ -43,6 +43,11 @@ header h1 {
     text-align: center;
 }
 
+.form-group input[type="date"] {
+    margin-bottom: 5px;
+    /* Adds 10px margin to the right of the date input */
+}
+
 
 .container-tasks {
     width: 90%;
@@ -60,6 +65,7 @@ header h1 {
     color: #2b3a67;
     text-align: center;
 }
+
 .form-group {
     display: flex;
     flex-direction: column;
