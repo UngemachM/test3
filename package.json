@@ -8,7 +8,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
     "node": "^22.7.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.16"
   },
   "name": "htdocs",
   "version": "1.0.0",

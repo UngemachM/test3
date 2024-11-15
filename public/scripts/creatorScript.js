@@ -1,8 +1,8 @@
-document.getElementById('taskForm').addEventListener('submit', function(event) {
+document.getElementById('taskForm').addEventListener('submit', function (event) {
     event.preventDefault();  // Verhindert das Standard-Verhalten des Formulars
 
     // Werte aus den Dropdowns holen
-    const taskname = document.getElementById('taskname').value;
+    const taskName = document.getElementById('taskName').value;
     const prio = document.getElementById('prio').value;
     const project = document.getElementById('project').value;
     const owner = document.getElementById('owner').value;
@@ -12,7 +12,7 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
     const deadlineTime = document.getElementById('time').value;  // Uhrzeit holen
 
     // Sicherstellen, dass alle erforderlichen Felder ausgefüllt sind
-    if (!taskname || !prio || !project || !owner || !assigned || !description || !deadlineDate || !deadlineTime) {
+    if (!taskName || !prio || !project || !owner || !assigned || !description || !deadlineDate || !deadlineTime) {
         alert('Please fill in all required fields.');
         return;
     }
@@ -22,7 +22,7 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
 
     // Formulardaten in URLSearchParams umwandeln
     const formData = new URLSearchParams();
-    formData.append('taskname', taskname);
+    formData.append('taskName', taskName);
     formData.append('prio', prio);
     formData.append('project', project);
     formData.append('owner', owner);
@@ -36,19 +36,19 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formData.toString()
     })
-    .then(response => response.text())
-    .then(message => {
-        alert(message);  // Erfolgsnachricht
-    })
-    .catch(error => {
-        console.error('Error adding task:', error);
-    });
+        .then(response => response.text())
+        .then(message => {
+            alert(message);  // Erfolgsnachricht
+        })
+        .catch(error => {
+            console.error('Error adding task:', error);
+        });
 });
 
 
 
 document.addEventListener('DOMContentLoaded', () => {
-   // Funktion zum Laden von Benutzern
+    // Funktion zum Laden von Benutzern
     function loadUsers() {
         fetch('/users') // API-Endpunkt zum Abrufen von Benutzern
             .then(response => response.json())
@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 projects.forEach(project => {
                     const optionProject = document.createElement('option');
-                    optionProject.value = project.projectname;  // Angenommen, `project.id` ist der Projektbezeichner
-                    optionProject.textContent = project.projectname; // Angenommen, `project.projectname` ist der Projektname
+                    optionProject.value = project.projectName;  // Angenommen, `project.id` ist der Projektbezeichner
+                    optionProject.textContent = project.projectName; // Angenommen, `project.projectname` ist der Projektname
                     projectSelect.appendChild(optionProject);
                 });
             })
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-   // Benutzer und Projekte laden, wenn die Seite vollständig geladen ist
+    // Benutzer und Projekte laden, wenn die Seite vollständig geladen ist
     loadUsers();
     loadProjects();
 });
