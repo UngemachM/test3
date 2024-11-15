@@ -100,5 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
 });
 function goBack() {
-    window.history.back();  // Dies bringt den Benutzer zur vorherigen Seite im Verlauf zurück
+    const prevPage = document.referrer || window.history.back(); // Holt die URL der vorherigen Seite oder navigiert zurück
+    if (prevPage) {
+        // Fügt einen Cache-Busting-Parameter (`reload=true`) hinzu, um sicherzustellen, dass die vorherige Seite aktualisiert wird
+        window.location.href = prevPage + (prevPage.includes('?') ? '&' : '?') + 'reload=true';
+    } else {
+        // Fallback: Gehe zurück zur vorherigen Seite, wenn `document.referrer` nicht verfügbar ist
+        window.history.back();
+        setTimeout(() => {
+            location.reload(); // Erzwingt ein Neuladen der Seite
+        }, 100); // Verzögerung, um sicherzustellen, dass die Navigation abgeschlossen ist
+    }
 }
+

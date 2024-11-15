@@ -47,7 +47,33 @@ function loadTasks() {
                     taskCard.style.color = '#882222'; // Darker red text color for contrast
                     taskCard.style.fontWeight = '500'; // Medium weight for text emphasis
                     taskCard.style.transition = 'all 0.4s ease'; // Smooth transition for all style properties
+                    taskCard.style.marginBottom = '30px'; // Adds a little spacing below the card
+                    taskCard.style.overflow = 'hidden'; // Prevents text from overflowing
+                    taskCard.style.textOverflow = 'ellipsis'; // Adds "..." for truncated text
+                    taskCard.style.wordWrap = 'break-word'; // Ensures long words break into the next line
+                    taskCard.style.maxWidth = '100%'; // Ensures it doesn’t exceed its parent container
+
                 }
+
+                if (deadline && deadline >= new Date()) {
+                    taskCard.style.background = 'linear-gradient(145deg, #ddffdd, #bbffbb)'; // Soft, diagonal gradient for depth
+                    taskCard.style.border = '1px solid #88ff88'; // Light border for a cleaner outline
+                    taskCard.style.borderRadius = '12px'; // Smooth rounded corners for elegance
+                    taskCard.style.boxShadow = '0 8px 16px rgba(136, 255, 136, 0.4), 0 4px 8px rgba(0, 0, 0, 0.1)'; // Soft glow and shadow
+                    taskCard.style.padding = '15px'; // Extra padding for spacious design
+                    taskCard.style.color = '#228822'; // Darker green text color for contrast
+                    taskCard.style.fontWeight = '500'; // Medium weight for text emphasis
+                    taskCard.style.transition = 'all 0.4s ease'; // Smooth transition for all style properties
+                    taskCard.style.marginBottom = '30px'; // Adds a little spacing below the card
+                    taskCard.style.overflow = 'hidden'; // Prevents text from overflowing
+                    taskCard.style.textOverflow = 'ellipsis'; // Adds "..." for truncated text
+                    taskCard.style.wordWrap = 'break-word'; // Ensures long words break into the next line
+                    taskCard.style.maxWidth = '100%'; // Ensures it doesn’t exceed its parent container
+
+                }
+
+
+
 
                 taskCard.innerHTML = `
                 <h3>${task.taskname}</h3>
