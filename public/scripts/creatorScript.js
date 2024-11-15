@@ -2,7 +2,7 @@ document.getElementById('taskForm').addEventListener('submit', function (event) 
     event.preventDefault();  // Verhindert das Standard-Verhalten des Formulars
 
     // Werte aus den Dropdowns holen
-    const taskName = document.getElementById('taskName').value;
+    const taskname = document.getElementById('taskname').value;
     const prio = document.getElementById('prio').value;
     const project = document.getElementById('project').value;
     const owner = document.getElementById('owner').value;
@@ -12,7 +12,7 @@ document.getElementById('taskForm').addEventListener('submit', function (event) 
     const deadlineTime = document.getElementById('time').value;  // Uhrzeit holen
 
     // Sicherstellen, dass alle erforderlichen Felder ausgefüllt sind
-    if (!taskName || !prio || !project || !owner || !assigned || !description || !deadlineDate || !deadlineTime) {
+    if (!taskname || !prio || !project || !owner || !assigned || !description || !deadlineDate || !deadlineTime) {
         alert('Please fill in all required fields.');
         return;
     }
@@ -22,7 +22,7 @@ document.getElementById('taskForm').addEventListener('submit', function (event) 
 
     // Formulardaten in URLSearchParams umwandeln
     const formData = new URLSearchParams();
-    formData.append('taskName', taskName);
+    formData.append('taskname', taskname);
     formData.append('prio', prio);
     formData.append('project', project);
     formData.append('owner', owner);
