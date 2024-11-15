@@ -115,6 +115,11 @@ header h1 {
     background-color: #415e9c;
 }
 
+.form-group input[type="date"] {
+    margin-bottom: 5px;
+    /* Adds 10px margin to the right of the date input */
+}
+
 /* Footer */
 footer {
     background-color: #2b3a67;

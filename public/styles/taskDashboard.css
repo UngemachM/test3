@@ -205,3 +205,8 @@ footer {
     background-color: #415e9c;
     /* Helleres Blau */
 }
+
+.form-group input[type="date"] {
+    margin-bottom: 5px;
+    /* Adds 10px margin to the right of the date input */
+}
