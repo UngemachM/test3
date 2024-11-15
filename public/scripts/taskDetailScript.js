@@ -65,12 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Benutzer in Dropdown-Menüs einfügen
                 users.forEach(user => {
                     const optionOwner = document.createElement('option');
-                    optionOwner.value = user.id;
+                    optionOwner.value = user.username;
                     optionOwner.textContent = user.username;
                     ownerSelect.appendChild(optionOwner);
 
                     const optionAssigned = document.createElement('option');
-                    optionAssigned.value = user.id;
+                    optionAssigned.value = user.username;
                     optionAssigned.textContent = user.username;
                     assignedSelect.appendChild(optionAssigned);
                 });
