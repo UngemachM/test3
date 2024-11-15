@@ -253,7 +253,7 @@ app.get('/taskDetail', (req, res) => {
         } else if (userRank === 3) {
             res.render('taskDetailManager', { task }); // Render für Rang 2 Benutzer
         } else {
-            return res.status(403).send('Zugriff verweigert.'); // Anderen Rängen ggf. behandeln
+            return res.status(403).send('Access denied. Please log in to your account again.'); // Anderen Rängen ggf. behandeln
         }
     });
 });
