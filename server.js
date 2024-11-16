@@ -253,35 +253,81 @@ app.get('/taskDetail', (req, res) => {
         } else if (userRank === 3) {
             res.render('taskDetailManager', { task }); // Render für Rang 2 Benutzer
         } else {
-            return res.status(403).send('Access denied. Please log in to your account again.'); // Anderen Rängen ggf. behandeln
+            return res.redirect('/');
         }
     });
 });
-// Route zum Aktualisieren der Task-Details
-app.post('/updateTask', async (req, res) => {
+
+app.post('/updateTask', (req, res) => {
     const { taskname, prio, owner, assigned, description, deadline, comments, status } = req.body;
 
-    try {
-        // Update der Task in der Datenbank, einschließlich des Status, der Priorität, Besitzer, Zuweisung, Beschreibung und Deadline
-        const updateTaskQuery = 'UPDATE tasks SET prio = ?, owner = ?, assigned = ?, description = ?, deadline = ?, status = ? WHERE taskname = ?';
-        const updateTaskResult = await db.promise().query(updateTaskQuery, [prio, owner, assigned, description, deadline, status, taskname]);
-
-        // Wenn ein Kommentar übermittelt wird, diesen speichern
-        if (comments) {
-            const currentUser = req.session.username;
-
-            // Kommentar in die Datenbank einfügen
-            const insertCommentQuery = 'INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)';
-            await db.promise().query(insertCommentQuery, [comments, currentUser, taskname]);
-        }
-
-        // Erfolgsnachricht zurück an den Client
-        res.send('Task erfolgreich aktualisiert' + (comments ? ' und Kommentar gespeichert.' : '.'));
-    } catch (err) {
-        console.error('Fehler bei der Aktualisierung der Aufgabe:', err);
-        res.status(500).json({ error: err.message });
+    // Validierung: Taskname ist erforderlich
+    if (!taskname) {
+        return res.status(400).json({ error: 'Taskname is required.' });
     }
+
+    // Dynamisches SQL-Query erstellen
+    const fieldsToUpdate = [];
+    const values = [];
+
+    if (prio) {
+        fieldsToUpdate.push('prio = ?');
+        values.push(prio);
+    }
+    if (owner) {
+        fieldsToUpdate.push('owner = ?');
+        values.push(owner);
+    }
+    if (assigned) {
+        fieldsToUpdate.push('assigned = ?');
+        values.push(assigned);
+    }
+    if (description) {
+        fieldsToUpdate.push('description = ?');
+        values.push(description);
+    }
+    if (deadline) {
+        fieldsToUpdate.push('deadline = ?');
+        values.push(deadline);
+    }
+    if (status) {
+        fieldsToUpdate.push('status = ?');
+        values.push(status);
+    }
+
+    // Wenn keine Felder aktualisiert werden sollen
+    if (fieldsToUpdate.length === 0) {
+        return res.status(400).json({ error: 'No fields provided to update.' });
+    }
+
+    // Task-Name am Ende hinzufügen (WHERE-Bedingung)
+    const updateTaskQuery = `UPDATE tasks SET ${fieldsToUpdate.join(', ')} WHERE taskname = ?`;
+    values.push(taskname);
+
+    // Query ausführen
+    db.promise().query(updateTaskQuery, values)
+        .then(() => {
+            if (comments) {
+                const currentUser = req.session.username || 'Anonymous'; // Fallback auf "Anonymous", falls kein Benutzer eingeloggt ist
+                const insertCommentQuery = 'INSERT INTO comments (text, user, time, taskname) VALUES (?, ?, NOW(), ?)';
+
+                return db.promise().query(insertCommentQuery, [comments, currentUser, taskname]);
+            }
+            return null; // Kein Kommentar zu speichern
+        })
+        .then(() => {
+            // Erfolgsmeldung senden
+            res.send('Task erfolgreich aktualisiert' + (comments ? ' und Kommentar gespeichert.' : '.'));
+            
+        })
+        .catch(err => {
+            console.error('Fehler bei der Aktualisierung der Aufgabe:', err);
+            res.status(500).json({ error: 'Fehler bei der Aktualisierung der Aufgabe. Bitte versuchen Sie es später erneut.' });
+        });
+        
 });
+
+
 
 
 

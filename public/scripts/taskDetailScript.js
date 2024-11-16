@@ -23,27 +23,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateTask() {
-    // Erstelle ein FormData-Objekt mit dem Formular
     const form = document.getElementById('taskForm');
     const formData = new FormData(form);
 
-    // Konvertiere FormData zu URLSearchParams (damit es in der fetch-Abfrage funktioniert)
-    const params = new URLSearchParams(formData);
+    // Entferne leere Felder aus FormData
+    for (let [key, value] of formData.entries()) {
+        if (!value) { // Wenn das Feld leer ist
+            formData.delete(key); // Entferne es aus FormData
+        }
+    }
 
+    const params = new URLSearchParams();
+    for (let [key, value] of formData.entries()) {
+        params.append(key, value); // Form-Daten in URL-Parameter konvertieren
+    }
 
+    // XMLHTTPRequest verwenden
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/updateTask', true); // POST-Anfrage an den Server
 
-    fetch('/updateTask', {
-        method: 'POST',
-        body: params
-    })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-        })
-        .catch(error => {
-            console.error('Error updating task:', error);
-        });
+    // Content-Type setzen
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    // Ereignislistener für die Anfrage
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) { // Anfrage abgeschlossen
+            if (xhr.status === 200) {
+                const prevPage = document.referrer || window.history.back(); // Holt die URL der vorherigen Seite oder navigiert zurück
+                if (prevPage) {
+                    // Fügt einen Cache-Busting-Parameter (`reload=true`) hinzu, um sicherzustellen, dass die vorherige Seite aktualisiert wird
+                    window.location.href = prevPage + (prevPage.includes('?') ? '&' : '?') + 'reload=true';
+                } else {
+                    // Fallback: Gehe zurück zur vorherigen Seite, wenn `document.referrer` nicht verfügbar ist
+                    window.history.back();
+                    setTimeout(() => {
+                        location.reload(); // Erzwingt ein Neuladen der Seite
+                    }, 100); // Verzögerung, um sicherzustellen, dass die Navigation abgeschlossen ist
+                }
+            } else {
+                alert('Fehler beim Aktualisieren der Aufgabe: ' + xhr.statusText);
+            }
+        }
+    };
+
+    // Anfrage senden
+    xhr.send(params.toString());
 }
+
+
 
 
 // Lade die Kommentare, wenn die Seite geladen wird
