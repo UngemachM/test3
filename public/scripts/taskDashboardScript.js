@@ -91,9 +91,7 @@ function loadTasks() {
             console.error('Error loading tasks:', err); // Fehlerprotokollierung
         });
 }
-function goBack() {
-    window.history.back();  // Dies bringt den Benutzer zur vorherigen Seite im Verlauf zurück
-}
+
 
 
 window.onload = loadTasks; // Aufgaben laden, wenn die Seite geladen wird
@@ -132,3 +130,30 @@ function injectStyles() {
 
 // Call this function to inject the styles when the page loads
 injectStyles();
+
+
+// function goBack() {
+//     const historyLength = window.history.length;
+//     const currentPage = window.location.href;
+//     const prevPage = document.referrer;
+
+//     // Check if there is a referrer (previous page)
+//     if (prevPage) {
+//         // If we're coming from the same page (same URL), avoid reload loop
+//         if (currentPage === prevPage) {
+//             location.reload();
+//         } else {
+//             // Navigate back to the previous page and add a cache-busting parameter to refresh it
+//             window.location.href = prevPage + (prevPage.includes('?') ? '&' : '?') + 'reload=true';
+//         }
+//     } else {
+//         // If there is no referrer (direct navigation), we check history stack length
+//         if (historyLength > 1) {
+//             // If the user has more than 1 entry in history, safely navigate back
+//             window.history.back();
+//         } else {
+//             // If there is no history (history length is 1), force a page reload
+//             location.reload();
+//         }
+//     }
+// }
