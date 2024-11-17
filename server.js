@@ -584,11 +584,10 @@ function sendEmail(to, subject, text) {
         }
     });
 }
-
-// Deadlines prüfen und Emails senden
+// Deadlines prüfen und E-Mails senden
 function checkDeadlinesAndSendEmails() {
     const query = `
-        SELECT tasks.taskname, tasks.deadline, users.email 
+        SELECT  tasks.taskname, tasks.deadline, users.email 
         FROM tasks 
         JOIN users ON tasks.owner = users.username 
         WHERE tasks.deadline IS NOT NULL
@@ -596,35 +595,80 @@ function checkDeadlinesAndSendEmails() {
 
     db.query(query, (err, results) => {
         if (err) {
-            console.error('Database query error:', err);
+            console.error('Datenbankabfrage-Fehler:', err);
             return;
         }
 
         const now = new Date();
-        const oneDayInMs = 24 * 60 * 60 * 1000;
+        const oneDayInMs = 24 * 60 * 60 * 1000; // 24 Stunden in Millisekunden
 
         results.forEach(row => {
             const deadline = new Date(row.deadline);
             const timeDiff = deadline - now;
 
+            // Falls die Deadline innerhalb der nächsten 24 Stunden liegt
             if (timeDiff <= oneDayInMs && timeDiff > 0) {
-                // 24 Stunden vor Ablauf
-                sendEmail(
-                    row.email,
-                    'Aufgabe steht kurz vor Ablauf',
-                    `Hallo, die Aufgabe "${row.taskname}" hat eine Deadline am ${deadline}. Bitte bearbeite sie bald.`
-                );
-            } else if (timeDiff <= 0) {
-                // Bereits abgelaufen
-                sendEmail(
-                    row.email,
-                    'Deadline überschritten',
-                    `Hallo, die Deadline für die Aufgabe "${row.taskname}" ist bereits überschritten (${deadline}).`
-                );
+                // Überprüfen, ob eine E-Mail schon gesendet wurde (Status = 0)
+                db.query('SELECT emailsend FROM tasks WHERE taskname = ?', [row.taskname], (err, result) => {
+                    if (err) {
+                        console.error('Fehler bei der Überprüfung des E-Mail-Status:', err);
+                        return;
+                    }
+
+                    const emailSendStatus = result[0]?.emailsend;
+
+                    // Wenn noch keine E-Mail gesendet wurde
+                    if (emailSendStatus === 0) {
+                        // E-Mail senden
+                        sendEmail(
+                            row.email,
+                            'Aufgabe steht kurz vor Ablauf',
+                            `Hallo, die Aufgabe "${row.taskname}" hat eine Deadline am ${deadline}. Bitte bearbeite sie bald.`
+                        );
+
+                        // Status auf 1 setzen (E-Mail gesendet)
+                        db.query('UPDATE tasks SET emailsend = 1 WHERE taskname = ?', [row.taskname], (err) => {
+                            if (err) {
+                                console.error('Fehler beim Aktualisieren der Datenbank:', err);
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Falls die Deadline bereits überschritten ist
+            else if (timeDiff <= 0) {
+                // Überprüfen, ob eine E-Mail schon gesendet wurde (Status = 0 oder 1)
+                db.query('SELECT emailsend FROM tasks WHERE taskname = ?', [row.taskname], (err, result) => {
+                    if (err) {
+                        console.error('Fehler bei der Überprüfung des E-Mail-Status:', err);
+                        return;
+                    }
+
+                    const emailSendStatus = result[0]?.emailsend;
+
+                    // Wenn noch keine E-Mail oder bereits eine "24 Stunden"-E-Mail gesendet wurde
+                    if (emailSendStatus === 0 || emailSendStatus === 1) {
+                        // E-Mail senden
+                        sendEmail(
+                            row.email,
+                            'Deadline überschritten',
+                            `Hallo, die Deadline für die Aufgabe "${row.taskname}" ist bereits überschritten (${deadline}).`
+                        );
+
+                        // Status auf 2 setzen (abgelaufen)
+                        db.query('UPDATE tasks SET emailsend = 2 WHERE taskname = ?', [row.taskname], (err) => {
+                            if (err) {
+                                console.error('Fehler beim Aktualisieren der Datenbank:', err);
+                            }
+                        });
+                    }
+                });
             }
         });
     });
 }
+
 
 // Cron-ähnliche Funktionalität für regelmäßige Prüfungen (jede Stunde)
 const intervalInMs = config.email.intervalInMinutes * 60 * 1000; // Intervall aus der Config
