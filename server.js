@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const fs = require('fs');
 const session = require('express-session');
 const config = require("./config.json"); // Konfiguration aus der JSON-Datei einbinden
+const nodemailer = require('nodemailer');
 
 const app = express();
 const port = config.port || 3001; // Port aus der Konfiguration oder Standardport
@@ -259,9 +260,8 @@ app.get('/taskDetail', (req, res) => {
 });
 
 app.post('/updateTask', (req, res) => {
-    const { taskname, prio, owner, assigned, description, deadline, comments, status } = req.body;
-
-    // Validierung: Taskname ist erforderlich
+    const { taskname, prio, owner, assigned, description, deadline, time, comments, status } = req.body;
+    const combinedDeadline = `${deadline} ${time}`;    // Validierung: Taskname ist erforderlich
     if (!taskname) {
         return res.status(400).json({ error: 'Taskname is required.' });
     }
@@ -288,7 +288,7 @@ app.post('/updateTask', (req, res) => {
     }
     if (deadline) {
         fieldsToUpdate.push('deadline = ?');
-        values.push(deadline);
+        values.push(combinedDeadline);
     }
     if (status) {
         fieldsToUpdate.push('status = ?');
@@ -556,6 +556,79 @@ app.post('/projects/details', isAuthenticated, (req, res) => {
         res.send(results[0].name);
     });
 });
+
+
+// Nodemailer-Konfiguration
+const transporter = nodemailer.createTransport({
+    service: 'gmail', // Gmail oder anderer Service
+    auth: {
+        user: config.email.user, // Email-Adresse aus der Konfigurationsdatei
+        pass: config.email.pass  // Passwort oder App-Passwort
+    }
+});
+
+// Funktion zum Versenden von Emails
+function sendEmail(to, subject, text) {
+    const mailOptions = {
+        from: config.email.user,
+        to: to,
+        subject: subject,
+        text: text
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            console.error('Error sending email:', err);
+        } else {
+            console.log('Email sent:', info.response);
+        }
+    });
+}
+
+// Deadlines prüfen und Emails senden
+function checkDeadlinesAndSendEmails() {
+    const query = `
+        SELECT tasks.taskname, tasks.deadline, users.email 
+        FROM tasks 
+        JOIN users ON tasks.owner = users.username 
+        WHERE tasks.deadline IS NOT NULL
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            return;
+        }
+
+        const now = new Date();
+        const oneDayInMs = 24 * 60 * 60 * 1000;
+
+        results.forEach(row => {
+            const deadline = new Date(row.deadline);
+            const timeDiff = deadline - now;
+
+            if (timeDiff <= oneDayInMs && timeDiff > 0) {
+                // 24 Stunden vor Ablauf
+                sendEmail(
+                    row.email,
+                    'Aufgabe steht kurz vor Ablauf',
+                    `Hallo, die Aufgabe "${row.taskname}" hat eine Deadline am ${deadline}. Bitte bearbeite sie bald.`
+                );
+            } else if (timeDiff <= 0) {
+                // Bereits abgelaufen
+                sendEmail(
+                    row.email,
+                    'Deadline überschritten',
+                    `Hallo, die Deadline für die Aufgabe "${row.taskname}" ist bereits überschritten (${deadline}).`
+                );
+            }
+        });
+    });
+}
+
+// Cron-ähnliche Funktionalität für regelmäßige Prüfungen (jede Stunde)
+const intervalInMs = config.email.intervalInMinutes * 60 * 1000; // Intervall aus der Config
+setInterval(checkDeadlinesAndSendEmails, intervalInMs); 
 
 
 // Server starten

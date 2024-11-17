@@ -7,6 +7,16 @@
     },
     "sessionSecret": "geheimnisvollerSchlüssel",
     "sessionMaxAge": 600000,
-    "port": 3001
+    "port": 3001,
+    "email": {
+    "user": "moritzdaf4@gmail.com",
+    "pass": "saavedrjwrdmdmjv",
+    "subject": {
+      "deadlineNear": "Aufgabe steht kurz vor Ablauf",
+      "deadlineMissed": "Deadline überschritten"
+    },
+    "intervalInMinutes": 1
+  }
+    
   }
   
