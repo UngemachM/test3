@@ -39,8 +39,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`text`, `user`, `time`, `taskname`) VALUES
-('this task is overdue ;((', 'admin', '2024-11-16 00:38:18', 'Example overdue task'),
-('Good job Team!', 'admin', '2024-11-16 00:39:43', 'Example normal task');
+('this task is overdue ;((', 'developer', '2024-11-16 00:38:18', 'Example overdue task'),
+('Good job Team!', 'developer', '2024-11-16 00:39:43', 'Example normal task');
 
 -- --------------------------------------------------------
 
@@ -83,8 +83,8 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`taskname`, `prio`, `owner`, `assigned`, `description`, `status`, `projectName`, `deadline`) VALUES
-('Example normal task', 1, 'admin', 'admin', 'This is an example of a normal task that is currently being worked on and the deadline is still open :)', 4, 'Example Project', '2028-01-01 00:00:00'),
-('Example overdue task', 2, 'admin', 'admin', 'deadline expired! thats why it\'s red!', 3, 'Example Project', '2020-01-01 00:00:00');
+('Example normal task', 1, 'developer', 'developer', 'This is an example of a normal task that is currently being worked on and the deadline is still open :)', 4, 'Example Project', '2028-01-01 00:00:00'),
+('Example overdue task', 2, 'developer', 'developer', 'deadline expired! thats why it\'s red!', 3, 'Example Project', '2020-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
