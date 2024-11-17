@@ -10,7 +10,7 @@
     "port": 3001,
     "email": {
     "user": "moritzdaf4@gmail.com",
-    "pass": "saavedrjwrdmdmjv",
+    "pass": "---------------------------",
     "subject": {
       "deadlineNear": "Aufgabe steht kurz vor Ablauf",
       "deadlineMissed": "Deadline überschritten"
